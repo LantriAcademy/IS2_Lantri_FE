@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../assets/FundacionesLOGO.jpg';
 import '../styles/App.css';
-import NavigationBar from "../components/NavigationBar.js";
+import Menu from "../components/Menu.js";
 
 class App extends Component {
   render() {
@@ -11,13 +11,7 @@ class App extends Component {
         <img src={logo} className="App-logo"/>  
           <h1 className ="App-title">fUNdaciones</h1>
         </header>
-        <ul>
-          <NavigationBar name = "Inicio"/>
-          <NavigationBar name = "Fundaciones"></NavigationBar>
-          <NavigationBar name = "Proposito"></NavigationBar>
-          <NavigationBar name = "Quienes Somos"></NavigationBar>
-          <NavigationBar name = "Contactenos"></NavigationBar>
-        </ul>
+        <Menu />
       </div>
     );
   }
