@@ -1,0 +1,15 @@
+.horizontalMenu{
+	text-align: center;
+	float:left;
+	font-size: 30px;
+	color: white;	
+}
+
+.selected{
+	background-color: #37cd49;
+}
+
+
+.no-selected{
+	background-color: #000000;	 
+}
