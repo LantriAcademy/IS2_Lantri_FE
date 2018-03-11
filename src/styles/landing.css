@@ -1,0 +1,19 @@
+.banner{
+	background: url('../assets/img/Landing/FirstBannerR.jpg') no-repeat center top;
+    background-size: cover;
+	min-height: 580px;
+    position: relative;
+    margin-top: -60px;  
+}
+.text-dec{
+	font-size: 24px;
+	padding: 10px 20px;
+    margin: 15px 0;
+    color: #fff;
+}
+.intro-para{
+	font-family: 'Dosis', sans-serif !important;
+	font-size: 45px;
+	color: #fff;
+	margin-top: 30px;
+}
