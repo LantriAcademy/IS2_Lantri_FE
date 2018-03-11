@@ -1,15 +1,22 @@
 .horizontalMenu{
-	text-align: center;
-	float:left;
 	font-size: 30px;
-	color: white;	
+	color:white;	
+	display: inline-block;
 }
 
 .selected{
-	background-color: #37cd49;
+	background-color: #3372c9;
 }
 
 
 .no-selected{
 	background-color: #000000;	 
+}
+
+.no-selected:hover{
+	background-color: #4c4a4a;	 
+}
+
+ul{
+	border: 1px solid white;
 }
