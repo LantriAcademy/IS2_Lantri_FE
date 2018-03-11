@@ -17,6 +17,7 @@ class App extends Component {
             <NavigationMenu />
           </div>
           <div class="body"> 
+            <Route path = "/" component={Landing}/>
             <Route path = "/fundaciones" component={Fundaciones}/>
             <Route path = "/proposito" component={Proposito}/>
             <Route path = "/quienessomos" component={QuienesSomos}/>
