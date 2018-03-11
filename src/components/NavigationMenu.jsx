@@ -9,7 +9,7 @@ export default class NavigationMenu extends Component {
           <Navbar default>
             <Navbar.Header>
                 <Navbar.Brand>
-                    <Link to="/">Menu Principal</Link>
+                    <Link to="/">fUNdaciones</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
             </Navbar.Header>
