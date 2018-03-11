@@ -6,8 +6,10 @@ import Fundaciones from "./Fundaciones";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
+import Login from "./Login";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
+
 class App extends Component {
   render() {
     return (
@@ -17,11 +19,12 @@ class App extends Component {
             <NavigationMenu />
           </div>
           <div class="body"> 
-            <Route path = "/" component={Landing}/>
+            <Route exact path = "/" component={Landing}/>
             <Route path = "/fundaciones" component={Fundaciones}/>
             <Route path = "/proposito" component={Proposito}/>
             <Route path = "/quienessomos" component={QuienesSomos}/>
             <Route path = "/contactenos" component={Contactenos}/>
+            <Route path = "/login" component={Login}/>
             <Route path = "/signup" component={SignUp}/>
           </div>
         </div>
