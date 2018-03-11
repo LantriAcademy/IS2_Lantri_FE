@@ -11,7 +11,7 @@ export default class InitialBanner extends Component {
                             <h2 class="text-dec">fUndaciones</h2>
                             <div class="intro-para text-center">
                                 <p class="big-text">¡Animate!</p>
-                                <p class="small-text">Devuelve la sonrisa a los niños</p>
+                                <p class="small-text">Es hora de trabajar por los niños</p>
                             </div>
                         </div>
                     </Row>
