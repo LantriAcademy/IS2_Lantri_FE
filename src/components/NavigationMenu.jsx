@@ -6,10 +6,10 @@ import "../styles/navigationMenu.css"
 export default class NavigationMenu extends Component {
     render() {
       return ( 
-          <Navbar default>
+          <Navbar default fixedTop>
             <Navbar.Header>
                 <Navbar.Brand>
-                    <Link to="/">fUNdaciones</Link>
+                    <Link to="/">f<span>UN</span>daciones </Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
             </Navbar.Header>
@@ -20,6 +20,7 @@ export default class NavigationMenu extends Component {
                     <NavItem eventKey={3} componentClass={Link} to ="/proposito">Proposito</NavItem>
                     <NavItem eventKey={4} componentClass={Link} to ="/quienessomos">Quienes Somos</NavItem>
                     <NavItem eventKey={5} componentClass={Link} to ="/contactenos">Contactenos</NavItem>
+                    <NavItem eventKey={6} componentClass={Link} className="btn-login" to ="/login">Inicio Sesion</NavItem>
                 </Nav>
           </Navbar.Collapse>
           </Navbar>

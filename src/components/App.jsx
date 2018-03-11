@@ -14,7 +14,6 @@ class App extends Component {
       <Router>
         <div class="content">
           <div class="header">
-            <Route component={Landing}/>
             <NavigationMenu />
           </div>
           <div class="body"> 
