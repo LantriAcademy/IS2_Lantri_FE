@@ -20,7 +20,7 @@ export default class NavigationMenu extends Component {
                     <NavItem eventKey={3} componentClass={Link} href="/proposito" to ="/proposito">Proposito</NavItem>
                     <NavItem eventKey={4} componentClass={Link} href="/quienessomos" to ="/quienessomos">Quienes Somos</NavItem>
                     <NavItem eventKey={5} componentClass={Link} href="/contactenos" to ="/contactenos">Contactenos</NavItem>
-                    <NavItem eventKey={6} componentClass={Link} className="btn-login" href="/login" to ="/login">Inicio Sesion</NavItem>
+                    <NavItem eventKey={6} componentClass={Link} className="btn-login" href="/" to ="/">Inicio Sesion</NavItem>
                 </Nav>
           </Navbar.Collapse>
           </Navbar>

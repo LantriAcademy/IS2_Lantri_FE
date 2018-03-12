@@ -17,5 +17,10 @@
 .login {
   padding: 30px 0px;
   max-width: 380px;
+  position: relative;
   margin: auto;
+}
+
+.caja{
+    margin-top: -90px;
 }
