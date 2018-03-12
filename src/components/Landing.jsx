@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import { Grid, Row, Col, Image, Button} from "react-bootstrap";
-import "../../styles/landing.css"
+import "../styles/landing.css"
+import niños from '../assets/niños.jpg'
 
 export default class Landing extends Component {
     render() {
@@ -13,9 +14,9 @@ export default class Landing extends Component {
               <div className="container-fluid">
                 <form>
                   <h1 className="center">f<b>UN</b>daciones</h1>
-                  <h2>Ayudemos a los niños, es momento de pensar en ellos</h2>
                   <h2>Con tu apoyo podremos alcanzar los objetivos y hacer que los niños tengan 
                     un mejor hogar, sean mas felices y que puedan sonreir diariamente.</h2>
+                    <Image src = {niños} responsive />
                 </form>
               </div>
             </Col>

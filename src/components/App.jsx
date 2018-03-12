@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import '../styles/App.css';
-import Landing from "./Landing/Landing";
+import Landing from "./Landing";
 import Fundaciones from "./Fundaciones";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
-import InitialBanner from "../components/Landing/InitialBanner";
+import InitialBanner from "../components/InitialBanner";
 
 class App extends Component {
   render() {
