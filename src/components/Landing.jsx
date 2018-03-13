@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
-import { Grid, Row, Col, Image, Button} from "react-bootstrap";
+import { Grid, Row, Col, Image} from "react-bootstrap";
 import "../styles/landing.css"
 import niños from '../assets/niños.jpg'
 
