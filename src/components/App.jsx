@@ -17,7 +17,6 @@ class App extends Component {
       <Router>
         <div className="content">
           <div className="header">
-            <InitialBanner/>
             <NavigationMenu />
           </div>
           <div className="body"> 

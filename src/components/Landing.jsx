@@ -8,6 +8,7 @@ export default class Landing extends Component {
     render() {
       return (
         <div>
+        <InitialBanner/>
         <Grid >
           <Row className="show-grid">
             <Col sm={6} md={6} lg={6}>
