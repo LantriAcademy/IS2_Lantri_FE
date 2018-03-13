@@ -8,24 +8,28 @@ import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
-import InitialBanner from "../components/InitialBanner";
+import InitialBanner from "./InitialBanner";
+import Footer from "./Footer"
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div class="content">
-          <div class="header">
+        <div className="content">
+          <div className="header">
             <InitialBanner/>
             <NavigationMenu />
           </div>
-          <div class="body"> 
+          <div className="body"> 
             <Route exact path = "/" component={Landing}/>
             <Route path = "/fundaciones" component={Fundaciones}/>
             <Route path = "/proposito" component={Proposito}/>
             <Route path = "/quienessomos" component={QuienesSomos}/>
             <Route path = "/contactenos" component={Contactenos}/>
             <Route path = "/signup" component={SignUp}/>
+          </div>
+          <div className="footer">
+            <Footer />
           </div>
         </div>
       </Router>
