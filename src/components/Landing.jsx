@@ -3,12 +3,14 @@ import {Link} from "react-router-dom";
 import { Grid, Row, Col, Image} from "react-bootstrap";
 import "../styles/landing.css"
 import niños from '../assets/niños.jpg'
+import InitialBanner from "./InitialBanner";
 
 export default class Landing extends Component {
     render() {
       return (
         <div>
-        <Grid >
+                  <InitialBanner/>
+        <Grid className="afterBanner">
           <Row className="show-grid">
             <Col sm={6} md={6} lg={6}>
               <div className="container-fluid">

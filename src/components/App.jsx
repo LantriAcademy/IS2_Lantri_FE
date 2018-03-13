@@ -8,7 +8,6 @@ import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
-import InitialBanner from "./InitialBanner";
 import Footer from "./Footer"
 
 class App extends Component {
@@ -17,7 +16,6 @@ class App extends Component {
       <Router>
         <div className="content">
           <div className="header">
-            <InitialBanner/>
             <NavigationMenu />
           </div>
           <div className="body"> 
