@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import { Grid, Row, Col, Image } from "react-bootstrap";
-import "../styles/landing.css"
-import niños from '../assets/niños.jpg'
+import "../styles/landing.css";
 import InitialBanner from "./InitialBanner";
 import Slider from "./Slider";
 
 export default class Landing extends Component {
-    render() {
-      return (
-        <div>
-          <InitialBanner/>
-          <Slider />
+  render() {
+    return (
+      <div>
+        <InitialBanner />
+        <Slider />
         {/*<Grid className="afterBanner">
 export default class Landing extends Component {
   render() {
@@ -49,8 +46,7 @@ export default class Landing extends Component {
             </Col>
           </Row>
         </Grid>*/}
-        </div>
-      );
-    }
+      </div>
+    );
   }
 }
