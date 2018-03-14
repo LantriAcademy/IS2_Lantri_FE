@@ -1,43 +1,38 @@
 import React, { Component } from 'react';
-
+import {Modal, Button } from 'react-bootstrap';
 
 class LoginModal extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.handleHide = this.handleHide.bind(this);
-    //Se define esta propiedad para mantenerlo escondido
-    this.state = {
-      show = false
-    };
-  }
-  handleHide() {
-    this.setState({ show = false });
+
+  constructor(props) {
+    super(props);
   }
 
-  render() {
+  render(){
     return (
-      <div className="modal-container" style={{ height: 200 }}>
-        <Modal
-          show={this.state.show}
-          onHide={this.handleHide}
-          container={this}
-          aria-labelledby="contained-modal-title"
-        >
+      <div>
+        <Modal show={this.props.show} onHide={this.props.hide}>
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title">
-              Contained Modal
-            </Modal.Title>
+            <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Elit est explicabo ipsum eaque dolorem blanditiis doloribus sed id
-            ipsam, beatae, rem fuga id earum? Inventore et facilis obcaecati.
+            <h4>Text in a modal</h4>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleHide}>Close</Button>
+            <Button onClick={this.props.hide}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
-    );
+    )
   }
 }
 export default LoginModal;

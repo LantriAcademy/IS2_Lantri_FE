@@ -8,30 +8,34 @@ import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
-import InitialBanner from "./InitialBanner";
-import Footer from "./Footer"
+import Footer from "./Footer";
 
 class App extends Component {
+  
   render() {
     return (
-      <Router>
-        <div className="content">
-          <div className="header">
-            <NavigationMenu />
+      <div>
+        
+        <Router>
+          <div className="content">
+            <div className="header">
+              <NavigationMenu />
+            </div>
+            <div className="body"> 
+              
+              <Route exact path = "/" component={Landing}/>
+              <Route path = "/fundaciones" component={Fundaciones}/>
+              <Route path = "/proposito" component={Proposito}/>
+              <Route path = "/quienessomos" component={QuienesSomos}/>
+              <Route path = "/contactenos" component={Contactenos}/>
+              <Route path = "/signup" component={SignUp}/>
+            </div>
+            <div className="footer">
+              <Footer />
+            </div>
           </div>
-          <div className="body"> 
-            <Route exact path = "/" component={Landing}/>
-            <Route path = "/fundaciones" component={Fundaciones}/>
-            <Route path = "/proposito" component={Proposito}/>
-            <Route path = "/quienessomos" component={QuienesSomos}/>
-            <Route path = "/contactenos" component={Contactenos}/>
-            <Route path = "/signup" component={SignUp}/>
-          </div>
-          <div className="footer">
-            <Footer />
-          </div>
-        </div>
       </Router>
+      </div>
     );
   }
 }

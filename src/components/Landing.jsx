@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col, Image } from "react-bootstrap";
 import "../styles/landing.css"
 import niños from '../assets/niños.jpg'
+import InitialBanner from "./InitialBanner";
 
 export default class Landing extends Component {
   render() {
