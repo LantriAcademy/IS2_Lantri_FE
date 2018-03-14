@@ -24,7 +24,10 @@
     color: #82BF45 !important;
     outline: none;
 }
-
+.btn-login a:focus{
+    outline: none !important;
+    color: #82BF45 !important;
+}
 .btn-login a{
 	background-color: #82BF45;
 	border-radius: 25px;
