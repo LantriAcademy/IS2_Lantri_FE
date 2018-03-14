@@ -11,10 +11,15 @@ export default class NavigationMenu extends Component {
             show : false
         };
         this.handleClose = this.handleClose.bind(this);
+        this.callLogin = this.callLogin.bind(this);
     }
     
     handleClose() {
         this.setState({ show: false });
+    }
+
+    callLogin(e){
+        this.setState({show:true});
     }
 
     render() {
@@ -35,7 +40,7 @@ export default class NavigationMenu extends Component {
                             <NavItem eventKey={3} componentClass={Link} href="/proposito" to="/proposito">Proposito</NavItem>
                             <NavItem eventKey={4} componentClass={Link} href="/quienessomos" to="/quienessomos">Quienes Somos</NavItem>
                             <NavItem eventKey={5} componentClass={Link} href="/contactenos" to="/contactenos">Contactenos</NavItem>
-                            <NavItem eventKey={6} className="btn-login" onClick={() => {this.setState({show:true})}} >Inicio Sesion</NavItem>
+                            <NavItem eventKey={6} className="btn-login" onClick={(e) => this.callLogin(e)}>Inicio Sesion</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

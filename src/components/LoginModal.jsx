@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Modal, Col} from 'react-bootstrap';
+import { Modal} from 'react-bootstrap';
 import "../styles/LoginModal.css";
 
 class LoginModal extends React.Component {
