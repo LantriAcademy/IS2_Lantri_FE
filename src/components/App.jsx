@@ -8,14 +8,13 @@ import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
-import Footer from "./Footer";
+import Footer from "./Footer"
 
 class App extends Component {
   
   render() {
     return (
       <div>
-        
         <Router>
           <div className="content">
             <div className="header">

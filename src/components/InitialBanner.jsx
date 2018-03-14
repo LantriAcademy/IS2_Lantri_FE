@@ -9,10 +9,13 @@ export default class InitialBanner extends Component {
                 <div className="container">
                     <Row>
                         <div className="text-center">
-                            <h2 className="text-dec">fUndaciones</h2>
-                            <div className="intro-para text-center">
-                                <p className="big-text">¡Animate!</p>
-                                <p className="small-text">Es hora de trabajar por los niños</p>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <h1 className="text-dec">fUNdaciones</h1>
+                            <div className="text-dec">
+                                <h2 className="big-text">¡Animate!</h2>
+                                <h3 className="small-text">Es hora de trabajar por los niños</h3>
                             </div>
                         </div>
                     </Row>

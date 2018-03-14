@@ -4,7 +4,15 @@ import { Grid, Row, Col, Image } from "react-bootstrap";
 import "../styles/landing.css"
 import niños from '../assets/niños.jpg'
 import InitialBanner from "./InitialBanner";
+import Slider from "./Slider";
 
+export default class Landing extends Component {
+    render() {
+      return (
+        <div>
+          <InitialBanner/>
+          <Slider />
+        {/*<Grid className="afterBanner">
 export default class Landing extends Component {
   render() {
     return (
@@ -40,8 +48,9 @@ export default class Landing extends Component {
               </div>
             </Col>
           </Row>
-        </Grid>
-      </div>
-    );
+        </Grid>*/}
+        </div>
+      );
+    }
   }
 }

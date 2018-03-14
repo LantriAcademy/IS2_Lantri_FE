@@ -1,7 +1,12 @@
 .banner{
-	background: url('../assets/FirstBanner2.jpg') no-repeat center top;
+	background: url('../assets/FirstBanner6.jpg') no-repeat center top;
 	background-size: cover;
 	min-height: 350px;
     position: relative;
     margin-top: 20px;  
+}
+
+.text-dec {
+    font-size: 70px;
+    font-family: "Best Sans serif font";
 }
