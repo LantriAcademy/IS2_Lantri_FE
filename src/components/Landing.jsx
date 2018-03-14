@@ -13,7 +13,7 @@ export default class Landing extends Component {
         <Grid >
           <Row className="show-grid">
             <Col sm={6} md={6} lg={6}>
-              <div className="container-fluid">
+              <div className="container-fluid">   
                 <form>
                   <h1 className="center">f<b>UN</b>daciones</h1>
                   <h2>Con tu apoyo podremos alcanzar los objetivos y hacer que los niños tengan

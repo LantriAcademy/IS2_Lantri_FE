@@ -4,3 +4,13 @@
 .modal-container .modal, .modal-container .modal-backdrop {
 	position: absolute !important;
 }
+h1, h2, h3, h4{
+	font-weight: 700;
+    color: #4B4B4C;
+}
+.login {
+	padding: 20px;
+}
+.modal-sm{
+	width: 450px;
+}
