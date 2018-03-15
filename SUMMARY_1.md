@@ -1,6 +1,6 @@
-#Summary Front End Iteración 1
+# Summary Front End Iteración 1
 
-##Lista de features desarollados
+## Lista de features desarollados
 
 **Banner:** Imagen principal del landing
 
@@ -18,7 +18,7 @@
 
 **Component Tree:** Árbol de componentes de la aplicación
 
-##Integrantes que desarrollaron cada feature:
+## Integrantes que desarrollaron cada feature:
 
 **Banner:**   Juan David Garcia Niño - Wilson Andres Piravaguen Serrano
 
@@ -36,7 +36,7 @@
 
 **Component Tree:** Juan David Garcia Niño - Wilson Andres Piravaguen Serrano
 
-##Lista de features por desarollar
+## Lista de features por desarollar
 
 * Añadir scroll horizontal al thumbnail que se encuentra en el landing.
 
