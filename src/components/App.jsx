@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import '../styles/App.css';
+
 import Landing from "./Landing";
 import Fundaciones from "./Fundaciones";
+import Fundacion from "./Fundacion";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
@@ -20,20 +22,20 @@ class App extends Component {
             <div className="header">
               <NavigationMenu />
             </div>
-            <div className="body"> 
-              
+            <div className="body">   
               <Route exact path = "/" component={Landing}/>
-              <Route path = "/fundaciones" component={Fundaciones}/>
-              <Route path = "/proposito" component={Proposito}/>
-              <Route path = "/quienessomos" component={QuienesSomos}/>
-              <Route path = "/contactenos" component={Contactenos}/>
-              <Route path = "/signup" component={SignUp}/>
+              <Route exact path = "/fundaciones" component={Fundaciones}/>
+              <Route exact path = "/fundaciones/:id" component={Fundacion}/>
+              <Route exact path = "/proposito" component={Proposito}/>
+              <Route exact path = "/quienessomos" component={QuienesSomos}/>
+              <Route exact path = "/contactenos" component={Contactenos}/>
+              <Route exact path = "/signup" component={SignUp}/>
             </div>
             <div className="footer">
               <Footer />
             </div>
           </div>
-      </Router>
+        </Router>
       </div>
     );
   }

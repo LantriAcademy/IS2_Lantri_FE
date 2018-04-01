@@ -1,0 +1,12 @@
+.principal {
+  margin-top: 30px;
+}
+
+.list-group-item.active {
+  background-image: linear-gradient(to bottom,#5cb85c 0,#5cb85c 100%) !important;
+  border-color: #5cb85c !important;
+}
+
+.menu {
+  margin-top: 30px;
+}
