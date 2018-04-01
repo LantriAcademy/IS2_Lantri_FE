@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import fetch from 'node-fetch'
 import { Link } from "react-router-dom";
 import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
+import fundacion1 from '../assets/fundacion1.jpg';
 
-import fundacion1 from '../assets/fundacion1.jpg'
-
+import WebApiService from './Service/WebApiService';
 
 export default class Fundaciones extends Component {
   constructor(props){
@@ -12,16 +12,19 @@ export default class Fundaciones extends Component {
     this.state = {
       fundaciones : []
     }
+
   }
 
   componentWillMount(){
-    fetch('http://localhost:3000/foundations')
-    .then(res => res.json())
-    .then(res => 
+    var data = {
+      'direction': 'foundations',
+      'param' : ''
+    }
+    WebApiService.Get(data).then(res =>{
       this.setState({
-        fundaciones : res 
-      })
-    );
+        fundaciones: res
+      });
+    });
   }
     
   render() {

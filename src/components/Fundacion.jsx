@@ -3,6 +3,7 @@ import { Grid, Row, Col, ListGroup, ListGroupItem} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import fundacion1 from '../assets/fundacion1.jpg'
 import "../styles/Fundacion.css";
+import WebApiService from './Service/WebApiService';
 
 export default class Fundacion extends Component {
   constructor(props){
@@ -13,13 +14,15 @@ export default class Fundacion extends Component {
   }
 
   componentWillMount(){
-    fetch('http://localhost:3000/foundations/' + this.props.match.params.id)
-    .then(res => res.json())
-    .then(res => 
+    var data = {
+      'direction': 'foundations/',
+      'param' : this.props.match.params.id
+    }
+    WebApiService.Get(data).then(res =>{
       this.setState({
-        fundacion : res 
-      })
-    );
+        fundacion: res
+      });
+    });
   }
 
   render() {
