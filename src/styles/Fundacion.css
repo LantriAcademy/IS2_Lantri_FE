@@ -1,0 +1,21 @@
+.principal {
+  margin-top: 30px;
+}
+
+.list-group-item.active {
+  background-image: linear-gradient(to bottom,#5cb85c 0,#5cb85c 100%) !important;
+  border-color: #5cb85c !important;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  background-color: #82bf45;
+}
+
+
+a {
+  color: #1c1e1f;
+}
+
+.menu {
+  margin-top: 30px;
+}
