@@ -7,6 +7,15 @@
   border-color: #5cb85c !important;
 }
 
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  background-color: #82bf45;
+}
+
+
+a {
+  color: #1c1e1f;
+}
+
 .menu {
   margin-top: 30px;
 }

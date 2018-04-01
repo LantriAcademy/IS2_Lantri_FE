@@ -11,6 +11,7 @@ import Contactenos from "./Contactenos";
 import SignUp from "./SignUp";
 import NavigationMenu from "./NavigationMenu";
 import Footer from "./Footer"
+import CrearFundacion from "./CrearFundacion"
 
 class App extends Component {
   
@@ -25,6 +26,7 @@ class App extends Component {
             <div className="body">   
               <Route exact path = "/" component={Landing}/>
               <Route exact path = "/fundaciones" component={Fundaciones}/>
+              <Route exact path = "/crearFundacion" component={CrearFundacion}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/proposito" component={Proposito}/>
               <Route exact path = "/quienessomos" component={QuienesSomos}/>

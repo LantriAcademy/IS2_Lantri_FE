@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import fetch from 'node-fetch'
 import { Link } from "react-router-dom";
 import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
 import fundacion1 from '../assets/fundacion1.jpg';
@@ -50,7 +49,7 @@ export default class Fundaciones extends Component {
               {/*Filtros*/}
             </Col>
             <Col xs={10}>
-              <h1 class="text-center">Lista de fundaciones</h1>
+              <h1 className="text-center">Lista de fundaciones</h1>
               {todoFundaciones}
             </Col>
           </Row>
