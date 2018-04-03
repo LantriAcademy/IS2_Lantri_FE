@@ -1,9 +1,4 @@
-import React, { Component } from 'react';
-
-export default class WebApiService extends Component{
-    render(){
-        return "";
-    }
+export default class WebApiService {
     
     static baseUrl = "http://localhost:3000/";
 
