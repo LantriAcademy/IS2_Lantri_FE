@@ -40,17 +40,11 @@ const MyMapComponent = compose(
 )
 
 export default class SimpleMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {lat: 4.637894, lng: -74.084023},
-    };
-  }
-
+  
   render() {
     return (
       <MyMapComponent
-        defaultCenter={this.state.center}
+        defaultCenter={this.props.defaultCenter}
         onDragEnd={this.props.onDragEnd}
       />
     );

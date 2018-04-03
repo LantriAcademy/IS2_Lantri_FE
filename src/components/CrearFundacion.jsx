@@ -62,7 +62,7 @@ export default class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap onDragEnd={this.onDragEnd}/>
+            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
           <div className="form-group">
             <label>Imagen</label>

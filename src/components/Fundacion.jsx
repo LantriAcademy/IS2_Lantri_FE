@@ -3,6 +3,7 @@ import { Grid, Row, Col} from "react-bootstrap";
 import fundacion1 from '../assets/fundacion1.jpg'
 import "../styles/Fundacion.css";
 import WebApiService from './Service/WebApiService';
+import Map from './Map';
 
 export default class Fundacion extends Component {
   constructor(props){
@@ -44,6 +45,7 @@ export default class Fundacion extends Component {
               <div id="inicio" className="tab-pane fade in active">
                 <h1 className="text-center">Bienvenido a {this.state.fundacion.name}</h1>
                 <p className="text-center">{this.state.fundacion.direction}</p>
+                <Map defaultCenter={{lat: this.state.fundacion.latitude , lng: this.state.fundacion.longitude}}/>
               </div>
               <div id="niños" className="tab-pane fade">niños</div>
               <div id="comoAyudarnos" className="tab-pane fade">comoAyudarnos</div>
