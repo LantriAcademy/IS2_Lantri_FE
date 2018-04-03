@@ -7,11 +7,11 @@ export default class CrearFundacion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
-      direction: null,
-      latitude: null,
-      longitude: null,
-      file: null,
+      name: '',
+      direction: '',
+      latitude: '',
+      longitude: '',
+      file: '',
     };
 
     this.handleChange = this.handleChange.bind(this);

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Modal} from 'react-bootstrap';
+import WebApiService from './Service/WebApiService';
 import "../styles/LoginModal.css";
-import { FormErrors } from "./FormErrors.js"
+import { FormErrors } from "./Const/FormErrors.js"
 
 class LoginModal extends React.Component {
   constructor (props) {
@@ -15,7 +16,29 @@ class LoginModal extends React.Component {
       passwordValid: false,
       formValid: false
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  handleSubmit(event) {
+    
+    //alert('A password was submitted: ' + this.state.password);
+    //alert('A email was submitted: ' + this.state.email);
+   
+   /*var data = {
+     'direction': 'admins',
+     'param' : '',
+     'body' : { "admin": {"email": this.state.email, "password": this.state.password}},   
+   }*/
+
+   /*WebApiService.Post(data).then(res =>{
+     if (res.status === 201) {
+       alert("Usuario creado exitosamente")
+     }
+   });*/
+   
+   event.preventDefault();
+ }
+
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -61,7 +84,7 @@ class LoginModal extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form className="login">
+            <form className="login" onSubmit={this.handleSubmit}>
               <div className={"from-group"}>
                 <label>Correo Electronico</label>
                 <input type="email" className="form-control" name="email" 
