@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Modal} from 'react-bootstrap';
 import WebApiService from './Service/WebApiService';
 import "../styles/LoginModal.css";
-import { FormErrors } from "./Const/FormErrors.js"
+import { FormErrors } from "./Helpers/FormErrors.js"
 
 class LoginModal extends React.Component {
   constructor (props) {

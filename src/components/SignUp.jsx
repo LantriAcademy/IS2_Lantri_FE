@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/SignUp.css';
 import WebApiService from './Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel} from "react-bootstrap"
-import { FormErrors } from "./Const/FormErrors.js"
+import { FormErrors } from "./Helpers/FormErrors.js"
 
 class SignUp extends Component {
   
