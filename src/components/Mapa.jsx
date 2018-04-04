@@ -21,7 +21,7 @@ const MyMapComponent = compose(
 )
 
 
-export default class Map extends Component {
+export default class Mapa extends Component {
   
   render() {
     return (

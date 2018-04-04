@@ -3,29 +3,37 @@ import { Grid, Row, Col} from "react-bootstrap";
 import fundacion1 from '../assets/fundacion1.jpg'
 import "../styles/Fundacion.css";
 import WebApiService from './Service/WebApiService';
-import Map from './Map';
+import Mapa from './Mapa';
 
 export default class Fundacion extends Component {
   constructor(props){
     super(props)
     this.state = {
-      fundacion : {}
+      fundacion : {},
+      isLoading: true,
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     var data = {
       'direction': 'foundations/',
       'param' : this.props.match.params.id
     }
     WebApiService.Get(data).then(res =>{
       this.setState({
-        fundacion: res
+        fundacion: res,
+        isLoading: false
       });
     });
   }
 
   render() {
+    const {fundacion, isLoading} = this.state;
+
+    if (isLoading) {
+      return <p>Loading ...</p>;
+    }
+
     return (
     <div>
       <Grid>
@@ -43,9 +51,9 @@ export default class Fundacion extends Component {
           <Col sm={9}>
             <div className="tab-content">
               <div id="inicio" className="tab-pane fade in active">
-                <h1 className="text-center">Bienvenido a {this.state.fundacion.name}</h1>
-                <p className="text-center">{this.state.fundacion.direction}</p>
-                <Map defaultCenter={{lat: this.state.fundacion.latitude , lng: this.state.fundacion.longitude}}/>
+                <h1 className="text-center">Bienvenido a {fundacion.name}</h1>
+                <p className="text-center"><strong>Dirección: </strong>{fundacion.direction}</p>
+                <Mapa defaultCenter={{lat: parseFloat(fundacion.latitude) , lng: parseFloat(fundacion.longitude)}}/>
               </div>
               <div id="niños" className="tab-pane fade">niños</div>
               <div id="comoAyudarnos" className="tab-pane fade">comoAyudarnos</div>
