@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import WebApiService from '../Service/WebApiService';
-import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
+import WebApiService from '../Service/WebApiService';
 import SimpleMap from './SimpleMap';
 
-export default class CrearFundacion extends Component {
+export default class CrearEvento extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       direction: "",
-      file: "",
+      description: "",
+      dateTime: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
-    this.getFiles = this.getFiles.bind(this);
   }
 
   handleChange(state, e) {
@@ -24,23 +23,8 @@ export default class CrearFundacion extends Component {
 
   handleSubmit(event) {
     if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
-    var data = {
-      'direction': 'foundations',
-      'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude}},
-    }
-    WebApiService.Post(data).then(res =>{
-      if (res.status === 201) {
-        alert("Fundacion creada exitosamente")
-      } else {
-        alert("Error")
-      }
-    });
+    /*POST*/
     event.preventDefault();
-  }
-
-  getFiles(file){
-    this.setState({file: file});
   }
 
   onDragEnd(lat, lng){
@@ -52,7 +36,7 @@ export default class CrearFundacion extends Component {
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
-          <h1 className="title">Crear f<b>UN</b>dacion</h1>
+          <h1 className="title">Crear Evento</h1>
           <div className="form-group">
             <label>Nombre</label>
             <input onChange={this.handleChange.bind(this, 'name')} type="text" className="form-control" placeholder="Nombre" required/>
@@ -62,17 +46,20 @@ export default class CrearFundacion extends Component {
             <input onChange={this.handleChange.bind(this, 'direction')} type="text" className="form-control" placeholder="Dirección"/>
           </div>
           <div className="form-group">
+            <label>Descripción</label>
+            <textarea onChange={this.handleChange.bind(this, 'description')} type="text" className="form-control" placeholder="Descripción"/>
+          </div>
+          <div className="form-group">
+            <label>Fecha</label>
+            <input onChange={this.handleChange.bind(this, 'dateTime')} type="datetime-local" className="form-control" required/>
+          </div>
+          <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
             <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
-          <div className="form-group">
-            <label>Imagen</label>
-            <FileBase64 onDone={this.getFiles} />
-          </div>
-          <button type="submit" className="btn btn-success btn-block">Crear Fundación</button>
+          <button type="submit" className="btn btn-success btn-block">Crear Evento</button>
         </form>
       </div>
     );
   }
-
 }
