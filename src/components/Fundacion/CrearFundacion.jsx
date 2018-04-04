@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import WebApiService from './Service/WebApiService';
-import FileBase64 from './FileBase64';
-import '../styles/CrearFundacion.css';
+import WebApiService from '../Service/WebApiService';
+import FileBase64 from '../Helpers/FileBase64';
+import '../../styles/CrearFundacion.css';
 import SimpleMap from './SimpleMap';
 
 export default class CrearFundacion extends Component {

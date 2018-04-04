@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "../styles/landing.css";
+import "../../styles/landing.css";
 import InitialBanner from "./InitialBanner";
 import Slider from "./Slider";
 

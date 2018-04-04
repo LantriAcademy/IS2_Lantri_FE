@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
-import fundacion1 from '../assets/fundacion1.jpg';
-
-import WebApiService from './Service/WebApiService';
+import fundacion1 from '../../assets/fundacion1.jpg';
+import WebApiService from '../Service/WebApiService';
 
 export default class Fundaciones extends Component {
+
   constructor(props){
     super(props)
     this.state = {

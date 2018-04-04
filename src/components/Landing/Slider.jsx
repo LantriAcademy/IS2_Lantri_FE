@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
-import fundacion1 from '../assets/fundacion1.jpg'
-import fundacion2 from '../assets/fundacion2.jpg'
-import fundacion4 from '../assets/fundacion4.png'
-import "../styles/Slider.css"
+import fundacion1 from '../../assets/fundacion1.jpg'
+import fundacion2 from '../../assets/fundacion2.jpg'
+import fundacion4 from '../../assets/fundacion4.png'
+import "../../styles/Slider.css"
 
 export default class Slider extends Component {
     render() {
