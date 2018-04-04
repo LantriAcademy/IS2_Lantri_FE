@@ -12,6 +12,7 @@ import SignUp from "./Login-SignUp/SignUp";
 import NavigationMenu from "./Menu/NavigationMenu";
 import Footer from "./Landing/Footer"
 import CrearFundacion from "./Fundacion/CrearFundacion"
+import CrearEvento from "./Fundacion/CrearEvento"
 
 class App extends Component {
   
@@ -26,6 +27,7 @@ class App extends Component {
             <div className="body">   
               <Route exact path = "/" component={Landing}/>
               <Route exact path = "/fundaciones" component={Fundaciones}/>
+              <Route exact path = "/crearEvento" component={CrearEvento}/>
               <Route exact path = "/crearFundacion" component={CrearFundacion}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/proposito" component={Proposito}/>
