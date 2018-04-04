@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import '../styles/App.css';
 
-import Landing from "./Landing";
-import Fundaciones from "./Fundaciones";
-import Fundacion from "./Fundacion";
+import Landing from "./Landing/Landing";
+import Fundaciones from "./Fundacion/Fundaciones";
+import Fundacion from "./Fundacion/Fundacion";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
-import SignUp from "./SignUp";
-import NavigationMenu from "./NavigationMenu";
-import Footer from "./Footer"
-import CrearFundacion from "./CrearFundacion"
+import SignUp from "./Login-SignUp/SignUp";
+import NavigationMenu from "./Menu/NavigationMenu";
+import Footer from "./Landing/Footer"
+import CrearFundacion from "./Fundacion/CrearFundacion"
 
 class App extends Component {
   

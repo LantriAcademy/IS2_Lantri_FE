@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Modal} from 'react-bootstrap';
-import WebApiService from './Service/WebApiService';
-import "../styles/LoginModal.css";
-import { FormErrors } from "./Helpers/FormErrors.js"
+import WebApiService from '../Service/WebApiService';
+import "../../styles/LoginModal.css";
+import { FormErrors } from "../Helpers/FormErrors.js"
 
 class LoginModal extends React.Component {
   constructor (props) {

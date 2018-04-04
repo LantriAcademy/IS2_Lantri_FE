@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col} from "react-bootstrap";
-import fundacion1 from '../assets/fundacion1.jpg'
-import "../styles/Fundacion.css";
-import WebApiService from './Service/WebApiService';
+import fundacion1 from '../../assets/fundacion1.jpg'
+import "../../styles/Fundacion.css";
+import WebApiService from '../Service/WebApiService';
 
 export default class Fundacion extends Component {
   constructor(props){

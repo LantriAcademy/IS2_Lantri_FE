@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InitialBanner from "./InitialBanner";
+import InitialBanner from "./Landing/InitialBanner";
 
 export default class Proposito extends Component {
     render() {

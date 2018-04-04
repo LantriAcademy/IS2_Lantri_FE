@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../styles/SignUp.css';
-import WebApiService from './Service/WebApiService';
+import '../../styles/SignUp.css';
+import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel} from "react-bootstrap"
-import { FormErrors } from "./Helpers/FormErrors.js"
+import { FormErrors } from "../Helpers/FormErrors.js"
 
 class SignUp extends Component {
   
@@ -38,9 +38,9 @@ class SignUp extends Component {
      //alert('A phone was submitted: ' + this.state.phone);
     
     var data = {
-      'direction': 'admins',
+      'direction': 'directors',
       'param' : '',
-      'body' : { "admin": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.bio}},   
+      'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.bio}},   
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
