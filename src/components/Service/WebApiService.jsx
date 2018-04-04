@@ -13,7 +13,12 @@ export default class WebApiService extends Component{
         return response; 
     }
     static async Post(data){
-        
+        var response = await fetch(this.baseUrl + data.direction, { 
+            method: 'POST',
+            body:    JSON.stringify(data.body),
+            headers: { 'Content-Type': 'application/json' },
+        })
+        return response;
     }
 
 }
