@@ -21,16 +21,36 @@ const User = (state={}, action) =>{
         case "LOGOFF":
             state = {}
         break;
+        default:
+            return state;
     }
-    return state;  
+}
+const Testing = (state = [], action ) =>{
+    switch(action.type){
+        case "KEEP":
+            state[action.key] = action.value
+            return true;
+        case "DESTROY":
+            state[action.key] = null;
+            return true;
+        case "GET":
+            return state;
+        default:
+            return state;
+    }
 }
 
  
 const fUNdationReducer = combineReducers({
-    User
+    User,
+    Testing
 });
 const store = createStore(fUNdationReducer);
 
+store.dispatch({type: "KEEP", key:"Saludo", value:"Hola buen hombre, cómo está? "});
+const response = store.dispatch({type: "GET", key:"Saludo"});
+
+console.log(response);
 ReactDOM.render(
     <Provider store={store}>
         <App />
