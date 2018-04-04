@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
+import SimpleMap from './SimpleMap';
 
 export default class CrearFundacion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      direction: '',
-      latitude: '',
-      longitude: '',
-      file: '',
+      name: "",
+      direction: "",
+      file: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
     this.getFiles = this.getFiles.bind(this);
   }
 
@@ -24,27 +23,28 @@ export default class CrearFundacion extends Component {
   }
 
   handleSubmit(event) {
-    // alert('A name was submitted: ' + this.state.name);
-    // alert('A direction was submitted: ' + this.state.direction);
-    // alert('A image was submitted: ' + this.state.file.base64);
-
-    /*
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.latitude, "longitude": this.state.longitude}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude}},
     }
     WebApiService.Post(data).then(res =>{
-      if (res.status == "201") {
+      if (res.status === 201) {
         alert("Fundacion creada exitosamente")
+      } else {
+        alert("Error")
       }
     });
-    */
     event.preventDefault();
   }
 
   getFiles(file){
-    this.setState({ file: file });
+    this.setState({file: file});
+  }
+
+  onDragEnd(lat, lng){
+    this.latitude = lat;
+    this.longitude = lng;
   }
 
   render() {
@@ -61,12 +61,17 @@ export default class CrearFundacion extends Component {
             <input onChange={this.handleChange.bind(this, 'direction')} type="text" className="form-control" placeholder="Direccion"/>
           </div>
           <div className="form-group">
-            <label>Imagen</label>
-            <FileBase64 onDone={this.getFiles.bind(this)} />
+            <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
+            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
-          <button type="submit" className="btn btn-success">Crear</button>
+          <div className="form-group">
+            <label>Imagen</label>
+            <FileBase64 onDone={this.getFiles} />
+          </div>
+          <button type="submit" className="btn btn-success btn-block">Crear Fundación</button>
         </form>
       </div>
     );
   }
+
 }
