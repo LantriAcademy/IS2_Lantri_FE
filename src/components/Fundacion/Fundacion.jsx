@@ -10,11 +10,13 @@ export default class Fundacion extends Component {
     super(props)
     this.state = {
       fundacion : {},
-      isLoading: true,
+      isLoading: false,
     }
   }
 
   componentDidMount(){
+    this.setState({ isLoading: true });
+
     var data = {
       'direction': 'foundations/',
       'param' : this.props.match.params.id
