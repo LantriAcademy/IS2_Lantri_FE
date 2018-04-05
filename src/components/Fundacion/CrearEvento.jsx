@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
-import SimpleMap from './SimpleMap';
+import DraggableMap from './DraggableMap';
 
 export default class CrearEvento extends Component {
   constructor(props) {
@@ -23,7 +23,18 @@ export default class CrearEvento extends Component {
 
   handleSubmit(event) {
     if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
-    /*POST*/
+    var data = {
+      'direction': 'events',
+      'param' : '',
+      'body' : {"event": {"foundation_id": 1, "startDate": this.state.dateTime, "name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude, "description": this.state.description}},
+    }
+    WebApiService.Post(data).then(res =>{
+      if (res.status === 201) {
+        alert("Evento creado exitosamente")
+      } else {
+        alert("Error")
+      }
+    });
     event.preventDefault();
   }
 
@@ -55,7 +66,7 @@ export default class CrearEvento extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
           <button type="submit" className="btn btn-success btn-block">Crear Evento</button>
         </form>

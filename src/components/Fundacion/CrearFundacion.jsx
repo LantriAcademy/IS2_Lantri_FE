@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
-import SimpleMap from './SimpleMap';
+import DraggableMap from './DraggableMap';
 
 export default class CrearFundacion extends Component {
   constructor(props) {
@@ -63,7 +63,7 @@ export default class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
           <div className="form-group">
             <label>Imagen</label>

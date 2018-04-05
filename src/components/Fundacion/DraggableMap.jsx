@@ -39,7 +39,7 @@ const MyMapComponent = compose(
   </GoogleMap>
 )
 
-export default class SimpleMap extends Component {
+export default class DraggableMap extends Component {
   
   render() {
     return (

@@ -1,5 +1,5 @@
 .navbar-default .navbar-brand {
-    color: #82BF45 !important;
+    color: #56b156 !important;
 }
 .navbar-default {
     background-color: #ffffff;
@@ -16,28 +16,28 @@
 }
 .navbar-default .navbar-nav > li > a:focus, 
 .navbar-default .navbar-nav > li > a:hover{
-	color: #82BF45;
+	color: #56b156;
 }
 
 .navbar-nav .active a{
     background: none !important;
-    color: #82BF45 !important;
+    color: #56b156 !important;
     outline: none;
 }
 .btn-login a:focus{
     outline: none !important;
-    color: #82BF45 !important;
+    color: #56b156 !important;
 }
 .btn-login a{
-	background-color: #82BF45;
+	background-color: #56b156;
 	border-radius: 25px;
 	color: #ffffff !important;
-	border: 1px solid #82BF45;
+	border: 1px solid #56b156;
 }
 .btn-login a:hover{
-	border: 1px solid #82BF45;
+	border: 1px solid #56b156;
 	background-color: #fff; 
-	color: #82BF45 !important;
+	color: #56b156 !important;
 }
 .navbar-default 
 .navbar-brand {
