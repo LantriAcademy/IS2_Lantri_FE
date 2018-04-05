@@ -15,7 +15,7 @@ export default class CrearFundacion extends Component {
       formErrors: {name: "", direction: ""},
       nameValid: false,
       directionValid: false,
-      formValid: false
+      formValid: false,
       lat: 4.637894,
       lng: -74.084023
     };
