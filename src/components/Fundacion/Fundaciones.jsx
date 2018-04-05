@@ -5,10 +5,20 @@ import fundacion1 from '../../assets/fundacion1.jpg';
 import WebApiService from '../Service/WebApiService';
 import '../../styles/Fundaciones.css';
 
-export default class Fundaciones extends Component {
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    user : state
+  }
+}
+
+class Fundaciones extends Component {
 
   constructor(props){
+
     super(props)
+    console.log(this.props);
     this.state = {
       fundaciones : [],
       active: 1,
@@ -64,6 +74,7 @@ export default class Fundaciones extends Component {
         );
       }
     )
+    
 
     let items = [];
     for (let number = 1; number <= pages; number++) {
@@ -89,3 +100,4 @@ export default class Fundaciones extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(Fundaciones);
