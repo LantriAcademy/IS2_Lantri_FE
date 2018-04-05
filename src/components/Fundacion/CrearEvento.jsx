@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
-import SimpleMap from './SimpleMap';
-import { FormErrors } from "../Helpers/FormErrors.js"
+import DraggableMap from './DraggableMap';
 
 export default class CrearEvento extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -13,80 +11,37 @@ export default class CrearEvento extends Component {
       direction: "",
       description: "",
       dateTime: "",
-      formErrors: {name: "", direction: "", description: '', dateTime: ''},
-      nameValid: false,
-      directionValid: false,
-      descriptionValid: false,
-      dateTimeValid: false,
-      formValid: false
+      lat: 4.637894,
+      lng: -74.084023
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  handleUserInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState({[name]: value},
-                  () => { this.validateField(name, value) });
+  handleChange(state, e) {
+    this.setState({[state]: e.target.value});
   }
 
   handleSubmit(event) {
-    //console.log(this.state.name)
-    //console.log(this.state.direction)
-    //console.log(this.state.description)
-    //console.log(this.state.dateTime)
-    
-    if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
-    /*POST*/
+    var data = {
+      'direction': 'events',
+      'param' : '',
+      'body' : {"event": {"foundation_id": 1, "startDate": this.state.dateTime, "name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "description": this.state.description}},
+    }
+    WebApiService.Post(data).then(res =>{
+      if (res.status === 201) {
+        alert("Evento creado exitosamente")
+      } else {
+        alert("Error")
+      }
+    });
     event.preventDefault();
   }
 
   onDragEnd(lat, lng){
-    this.latitude = lat;
-    this.longitude = lng;
+    this.setState({lat: lat, lng: lng});
   }
-
-  validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
-    let nameValid = this.state.nameValid;
-    let directionValid = this.state.directionValid;
-    let descriptionValid = this.state.descriptionValid;
-    let dateTimeValid = this.state.dateTimeValid;
-  
-    switch(fieldName) {
-      case 'name':
-        nameValid = value.length >= 1;
-        fieldValidationErrors.name = nameValid ? '': ' es obligatorio.';
-        break;
-      case 'direction':
-        directionValid = value.length >= 1;
-        fieldValidationErrors.direction = directionValid ? '': ' es obligatoria.';
-        break;
-      case 'description':
-        descriptionValid = value.length >= 1;
-        fieldValidationErrors.description = descriptionValid ? '': ' es obligatoria.';
-        break;
-      case 'dateTime':
-        dateTimeValid = value.length >= 1;
-        fieldValidationErrors.dateTime = dateTimeValid ? '': ' es obligatoria.';
-        break;
-      default:
-        break;
-    }
-    this.setState({formErrors: fieldValidationErrors,
-                    nameValid: nameValid,
-                    directionValid: directionValid,
-                    descriptionValid: descriptionValid,
-                    dateTimeValid: dateTimeValid
-                  }, this.validateForm);
-  }
-
-  validateForm() {
-    this.setState({formValid: this.state.nameValid && this.state.directionValid && this.state.descriptionValid && 
-                    this.state.dateTimeValid});
-  }  
 
   render() {
     return (
@@ -95,40 +50,25 @@ export default class CrearEvento extends Component {
           <h1 className="title">Crear Evento</h1>
           <div className="form-group">
             <label>Nombre</label>
-            <input type="text" className="form-control" name = "name"
-            placeholder="Nombre" 
-            value = {this.state.name}
-            onChange={this.handleUserInput}/>
+            <input onChange={this.handleChange.bind(this, 'name')} type="text" className="form-control" placeholder="Nombre" required/>
           </div>
           <div className="form-group">
             <label>Dirección</label>
-            <input  type="text" className="form-control" name = "direction"
-            placeholder="Dirección"
-            value = {this.state.direction}
-            onChange={this.handleUserInput}/>
+            <input onChange={this.handleChange.bind(this, 'direction')} type="text" className="form-control" placeholder="Dirección"/>
           </div>
           <div className="form-group">
             <label>Descripción</label>
-            <textarea type="text" className="form-control" name = "description"
-            placeholder="Descripción"
-            value = {this.state.description}
-            onChange={this.handleUserInput}/>
+            <textarea onChange={this.handleChange.bind(this, 'description')} type="text" className="form-control" placeholder="Descripción"/>
           </div>
           <div className="form-group">
             <label>Fecha</label>
-            <input type="datetime-local" className="form-control" name = "dateTime"
-            value = {this.state.dateTime}
-            onChange={this.handleUserInput}/>
+            <input onChange={this.handleChange.bind(this, 'dateTime')} type="datetime-local" className="form-control" required/>
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
-          <div>
-              <br/>
-              <FormErrors formErrors={this.state.formErrors} />
-          </div> 
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Evento</button>
+          <button type="submit" className="btn btn-success btn-block">Crear Evento</button>
         </form>
       </div>
     );

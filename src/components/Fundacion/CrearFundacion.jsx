@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
-import SimpleMap from './SimpleMap';
 import { FormErrors } from "../Helpers/FormErrors.js"
+import DraggableMap from './DraggableMap';
 
 export default class CrearFundacion extends Component {
   constructor(props) {
@@ -16,6 +16,8 @@ export default class CrearFundacion extends Component {
       nameValid: false,
       directionValid: false,
       formValid: false
+      lat: 4.637894,
+      lng: -74.084023
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,14 +34,11 @@ export default class CrearFundacion extends Component {
 
 
   handleSubmit(event) {
-    //console.log(this.state.name)
-    //console.log(this.state.direction)
 
-    if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng}},
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
@@ -56,8 +55,7 @@ export default class CrearFundacion extends Component {
   }
 
   onDragEnd(lat, lng){
-    this.latitude = lat;
-    this.longitude = lng;
+    this.setState({lat: lat, lng: lng});
   }
 
   validateField(fieldName, value) {
@@ -108,7 +106,7 @@ export default class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
           <div className="form-group">
             <label>Imagen</label>

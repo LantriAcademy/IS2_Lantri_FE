@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Row, Col, Thumbnail, Button, Pagination} from "react-bootstrap";
+import { Col, Thumbnail, Button, Pagination} from "react-bootstrap";
 import fundacion1 from '../../assets/fundacion1.jpg';
 import WebApiService from '../Service/WebApiService';
-import '../../styles/Fundaciones.css';
 
-import {connect} from 'react-redux';
-
-const mapStateToProps = state => {
-  return {
-    user : state
-  }
-}
-
-class Fundaciones extends Component {
-
+export default class ListaBeneficiados extends Component {
   constructor(props){
-
     super(props)
-    console.log(this.props);
     this.state = {
-      fundaciones : [],
+      beneficiados : [],
       active: 1,
       pages: null,
       change: true,
@@ -28,11 +16,11 @@ class Fundaciones extends Component {
 
     this.handleClick = this.handleClick.bind(this);
   }
-    
-  componentWillMount() {
+
+  componentDidMount() {
     var data = {
-      'direction': '/foundation/size',
-      'param' : '',
+      'direction': '/foundation/benefited/size/',
+      'param' : this.props.fundacion_id,
     }
     WebApiService.Get(data).then(res =>{
       this.setState({
@@ -46,35 +34,34 @@ class Fundaciones extends Component {
   }
 
   render() {
-    const {fundaciones, change, active, pages} = this.state;
+    const {beneficiados, change, active, pages} = this.state;
 
     if (change) {
       var data = {
-        'direction': 'foundations/page/',
+        'direction': '/foundation/benefiteds/page/' + this.props.fundacion_id + '/',
         'param' : this.state.active,
       }
       WebApiService.Get(data).then(res =>{
         this.setState({
-          fundaciones: res,
+          beneficiados: res,
           change: false
         });
       });
     }
 
-    const todoFundaciones = fundaciones.map((fundacion, index) => {
-      var route = "/fundaciones/" + fundacion.id;
+    const todoBeneficiados = beneficiados.map((beneficiado, index) => {
+      var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
         return(
-          <Col key={index} xs={6} md={4}>
+          <Col key={index} xs={6} md={6}>
             <Thumbnail src={fundacion1} alt="242x200">
-              <h3>{fundacion.name}</h3>
-              <p>{fundacion.direction}</p>
+              <h3>{beneficiado.name}</h3>
+              <p>{beneficiado.preferences}</p>
               <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
             </Thumbnail>
           </Col>
         );
       }
     )
-    
 
     let items = [];
     for (let number = 1; number <= pages; number++) {
@@ -85,21 +72,14 @@ class Fundaciones extends Component {
 
     return (
       <div>
-        <Grid className="slide-f">
-          <Row>
-            <h1 className="text-center">Lista de fundaciones</h1>
-            <div>
-              {todoFundaciones}
-            </div>
-          </Row>
-          <Row>
-            <div className="text-center">
-              <Pagination bsSize="large">{items}</Pagination>
-            </div>
-          </Row>
-        </Grid>
+        <h1 className="text-center">Lista de beneficiados</h1>
+        <div className="row">
+          {todoBeneficiados}
+        </div>
+        <div className="text-center row">
+          <Pagination bsSize="large">{items}</Pagination>
+        </div>
       </div>
     );
   }
 }
-export default connect(mapStateToProps)(Fundaciones);
