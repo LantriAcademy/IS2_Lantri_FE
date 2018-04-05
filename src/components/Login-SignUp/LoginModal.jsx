@@ -5,6 +5,28 @@ import WebApiService from '../Service/WebApiService';
 import "../../styles/LoginModal.css";
 import { FormErrors } from "../Helpers/FormErrors.js"
 
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    user : state
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    login : (token, id, foundationId, type) => dispatch({
+      type : 'LOGIN', token: token, id: id, foundationId: foundationId, type:type
+    }),
+    logoff: () =>({
+      type: 'LOGOFF'
+    }),
+    isLogged: () =>dispatch({
+      type: "isLogged"
+    })
+   }
+}
+
+
 class LoginModal extends React.Component {
   constructor (props) {
     super(props);
@@ -41,14 +63,15 @@ class LoginModal extends React.Component {
      }
 
      WebApiService.Post(data).then(res =>{
-      console.log(res)
       if (res.status === 201) {
-        //alert("Usuario creado exitosamente")
+        res.json().then( result =>{
+          this.props.login(result.authentication_token, result.id, "", this.state.director);
+          this.props.history.push("/");
+        });
       }else{
-        //alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+        alert("Revisa tu contraseña e intentalo de nuevo!");
       }
     });
-   
    event.preventDefault();
   }
 
@@ -141,4 +164,4 @@ class LoginModal extends React.Component {
     )
   }
 }
-export default LoginModal;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);

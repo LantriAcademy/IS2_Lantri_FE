@@ -1,18 +1,23 @@
-export default function reducer( state = {token: "", id: "", foundationId: ""} , action){
+export default function reducer( state = {token: "", id: "", foundationId: "", type: ""} , action){
     switch(action.type){
         case "LOGIN":
             state = {
                 token : action.token,
                 id: action.id,
-                foundationId: action.foundationId
+                foundationId: action.foundationId,
+                type: action.type
             }
             return state; 
-        break;
         case "LOGOFF":
             state = {}
             return true;
-        break;
+        case "isLogged":
+            if(state.token != null){
+                return true;
+            }
+            return false;
         default:
             return state;
+       
     }
 }
