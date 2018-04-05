@@ -35,7 +35,7 @@ const MyMapComponent = compose(
     defaultZoom={13}
     defaultCenter={props.defaultCenter}
   >
-    <Marker onDragEnd={props.onDragEnd(props.lat, props.lng)} ref={props.onMarkerMounted} onPositionChanged={props.onPositionChanged} draggable position={props.defaultCenter} />
+    <Marker onDragEnd={props.onDragEnd.bind(this, props.lat, props.lng)} ref={props.onMarkerMounted} onPositionChanged={props.onPositionChanged} draggable position={props.defaultCenter} />
   </GoogleMap>
 )
 

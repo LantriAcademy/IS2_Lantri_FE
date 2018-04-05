@@ -11,6 +11,8 @@ export default class CrearFundacion extends Component {
       name: "",
       direction: "",
       file: "",
+      lat: 4.637894,
+      lng: -74.084023
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,11 +25,10 @@ export default class CrearFundacion extends Component {
   }
 
   handleSubmit(event) {
-    if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng}},
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
@@ -44,8 +45,7 @@ export default class CrearFundacion extends Component {
   }
 
   onDragEnd(lat, lng){
-    this.latitude = lat;
-    this.longitude = lng;
+    this.setState({lat: lat, lng: lng});
   }
 
   render() {
@@ -63,7 +63,7 @@ export default class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <DraggableMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
           <div className="form-group">
             <label>Imagen</label>
