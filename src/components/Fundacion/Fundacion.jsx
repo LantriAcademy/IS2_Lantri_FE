@@ -5,10 +5,18 @@ import "../../styles/Fundacion.css";
 import WebApiService from '../Service/WebApiService';
 import Inicio from './Inicio'
 import ListaBeneficiados from './ListaBeneficiados'
+import {connect} from 'react-redux';
 
-export default class Fundacion extends Component {
+const mapStateToProps = state => {
+  return {
+    user : state
+  }
+}
+class Fundacion extends Component {
+  
   constructor(props){
     super(props)
+    
     this.state = {
       fundacion : {},
       isLoading: false,
@@ -70,3 +78,4 @@ export default class Fundacion extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(Fundacion)
