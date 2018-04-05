@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import '../styles/App.css';
-import Landing from "./Landing";
-import Fundaciones from "./Fundaciones";
+
+import Landing from "./Landing/Landing";
+import Fundaciones from "./Fundacion/Fundaciones";
+import Fundacion from "./Fundacion/Fundacion";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
 import Contactenos from "./Contactenos";
-import SignUp from "./SignUp";
-import NavigationMenu from "./NavigationMenu";
-import Footer from "./Footer"
+import SignUp from "./Login-SignUp/SignUp";
+import NavigationMenu from "./Menu/NavigationMenu";
+import Footer from "./Landing/Footer"
+import CrearFundacion from "./Fundacion/CrearFundacion"
+import CrearEvento from "./Fundacion/CrearEvento"
 
 class App extends Component {
   
@@ -20,20 +24,22 @@ class App extends Component {
             <div className="header">
               <NavigationMenu />
             </div>
-            <div className="body"> 
-              
+            <div className="body">   
               <Route exact path = "/" component={Landing}/>
-              <Route path = "/fundaciones" component={Fundaciones}/>
-              <Route path = "/proposito" component={Proposito}/>
-              <Route path = "/quienessomos" component={QuienesSomos}/>
-              <Route path = "/contactenos" component={Contactenos}/>
-              <Route path = "/signup" component={SignUp}/>
+              <Route exact path = "/fundaciones" component={Fundaciones}/>
+              <Route exact path = "/crearEvento" component={CrearEvento}/>
+              <Route exact path = "/crearFundacion" component={CrearFundacion}/>
+              <Route exact path = "/fundaciones/:id" component={Fundacion}/>
+              <Route exact path = "/proposito" component={Proposito}/>
+              <Route exact path = "/quienessomos" component={QuienesSomos}/>
+              <Route exact path = "/contactenos" component={Contactenos}/>
+              <Route exact path = "/signup" component={SignUp}/>
             </div>
             <div className="footer">
               <Footer />
             </div>
           </div>
-      </Router>
+        </Router>
       </div>
     );
   }

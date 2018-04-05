@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row } from "react-bootstrap";
-import "../styles/Banner.css"
+import "../../styles/Banner.css"
 
 export default class InitialBanner extends Component {
     render() {

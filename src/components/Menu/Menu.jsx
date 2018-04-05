@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Item from "../components/Item.js";
+import Item from "./Item";
 
 var menuItems = [
   {name: 'Inicio', selected: true},
