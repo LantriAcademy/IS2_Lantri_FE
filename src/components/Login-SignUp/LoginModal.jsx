@@ -27,16 +27,16 @@ class LoginModal extends React.Component {
     //alert('A type was submitted: ' + this.state.type);
    
     var data = {//Director
-      'direction': 'directors',
+      'direction': 'signin_director',
       'param' : '',
-      'body' : { "director": {"email": this.state.email, "password": this.state.password}},   
+      'body' : {"email": this.state.email, "password": this.state.password},   
     }
 
      if(!this.state.director){ //Contribuyente
         data = {
-        'direction': 'contributors',
+        'direction': 'signin_contributor',
         'param' : '',
-        'body' : { "contributor": {"email": this.state.email, "password": this.state.password}},   
+        'body' : {"email": this.state.email, "password": this.state.password},   
       }
      }
    
