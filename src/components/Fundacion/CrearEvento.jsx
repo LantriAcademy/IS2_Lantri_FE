@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import WebApiService from '../Service/WebApiService';
-import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
+import WebApiService from '../Service/WebApiService';
 import SimpleMap from './SimpleMap';
 import { FormErrors } from "../Helpers/FormErrors.js"
 
-export default class CrearFundacion extends Component {
+export default class CrearEvento extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       direction: "",
-      file: "",
-      formErrors: {name: "", direction: ""},
+      description: "",
+      dateTime: "",
+      formErrors: {name: "", direction: "", description: '', dateTime: ''},
       nameValid: false,
       directionValid: false,
+      descriptionValid: false,
+      dateTimeValid: false,
       formValid: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
-    this.getFiles = this.getFiles.bind(this);
   }
 
   handleUserInput = (e) => {
@@ -30,29 +32,15 @@ export default class CrearFundacion extends Component {
                   () => { this.validateField(name, value) });
   }
 
-
   handleSubmit(event) {
     //console.log(this.state.name)
     //console.log(this.state.direction)
-
+    //console.log(this.state.description)
+    //console.log(this.state.dateTime)
+    
     if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
-    var data = {
-      'direction': 'foundations',
-      'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.latitude, "longitude": this.longitude}},
-    }
-    WebApiService.Post(data).then(res =>{
-      if (res.status === 201) {
-        alert("Fundacion creada exitosamente")
-      } else {
-        alert("Error")
-      }
-    });
+    /*POST*/
     event.preventDefault();
-  }
-
-  getFiles(file){
-    this.setState({file: file});
   }
 
   onDragEnd(lat, lng){
@@ -64,6 +52,8 @@ export default class CrearFundacion extends Component {
     let fieldValidationErrors = this.state.formErrors;
     let nameValid = this.state.nameValid;
     let directionValid = this.state.directionValid;
+    let descriptionValid = this.state.descriptionValid;
+    let dateTimeValid = this.state.dateTimeValid;
   
     switch(fieldName) {
       case 'name':
@@ -74,24 +64,35 @@ export default class CrearFundacion extends Component {
         directionValid = value.length >= 1;
         fieldValidationErrors.direction = directionValid ? '': ' es obligatoria.';
         break;
+      case 'description':
+        descriptionValid = value.length >= 1;
+        fieldValidationErrors.description = descriptionValid ? '': ' es obligatoria.';
+        break;
+      case 'dateTime':
+        dateTimeValid = value.length >= 1;
+        fieldValidationErrors.dateTime = dateTimeValid ? '': ' es obligatoria.';
+        break;
       default:
         break;
     }
     this.setState({formErrors: fieldValidationErrors,
                     nameValid: nameValid,
                     directionValid: directionValid,
+                    descriptionValid: descriptionValid,
+                    dateTimeValid: dateTimeValid
                   }, this.validateForm);
   }
 
   validateForm() {
-    this.setState({formValid: this.state.nameValid && this.state.directionValid});
+    this.setState({formValid: this.state.nameValid && this.state.directionValid && this.state.descriptionValid && 
+                    this.state.dateTimeValid});
   }  
 
   render() {
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
-          <h1 className="title">Crear f<b>UN</b>dacion</h1>
+          <h1 className="title">Crear Evento</h1>
           <div className="form-group">
             <label>Nombre</label>
             <input type="text" className="form-control" name = "name"
@@ -107,21 +108,29 @@ export default class CrearFundacion extends Component {
             onChange={this.handleUserInput}/>
           </div>
           <div className="form-group">
-            <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <label>Descripción</label>
+            <textarea type="text" className="form-control" name = "description"
+            placeholder="Descripción"
+            value = {this.state.description}
+            onChange={this.handleUserInput}/>
           </div>
           <div className="form-group">
-            <label>Imagen</label>
-            <FileBase64 onDone={this.getFiles} />
+            <label>Fecha</label>
+            <input type="datetime-local" className="form-control" name = "dateTime"
+            value = {this.state.dateTime}
+            onChange={this.handleUserInput}/>
+          </div>
+          <div className="form-group">
+            <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
+            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
           </div>
           <div>
               <br/>
               <FormErrors formErrors={this.state.formErrors} />
           </div> 
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Evento</button>
         </form>
       </div>
     );
   }
-
 }

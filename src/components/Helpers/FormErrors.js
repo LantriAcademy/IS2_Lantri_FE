@@ -24,6 +24,15 @@ export const FormErrors = ({formErrors}) =>
           case "password":
             fieldShow="La contraseña"
             break;
+          case "direction":
+            fieldShow="La dirección"
+            break;
+          case "description":
+            fieldShow="La descripción"
+            break;
+          case "dateTime":
+            fieldShow="La fecha"
+            break; 
           default:
             break;
         }

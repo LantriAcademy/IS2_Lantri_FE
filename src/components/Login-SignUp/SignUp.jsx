@@ -27,19 +27,11 @@ class SignUp extends Component {
       passwordValid: false,
       formValid: false
     }
-    //this.handleSelectedChange = this.handleSelectedChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
 
-     //alert('A bio was submitted: ' + this.state.biodes);
-     //alert('A user was submitted: ' + this.state.user);
-     //alert('A password was submitted: ' + this.state.password);
-     //alert('A name was submitted: ' + this.state.name);
-     //alert('A lastname was submitted: ' + this.state.lastname);
-     //alert('A email was submitted: ' + this.state.email);
-     //alert('A phone was submitted: ' + this.state.phone);
     
      var data = {//Director
       'direction': 'directors',
