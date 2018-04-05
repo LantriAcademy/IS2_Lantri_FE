@@ -53,7 +53,7 @@ class CrearFundacion extends Component {
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id}},
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {

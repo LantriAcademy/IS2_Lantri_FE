@@ -14,8 +14,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    login: (token, id, foundationId, userType) => dispatch({
-      type: 'LOGIN', token: token, id: id, foundationId: foundationId, userType: userType
+    login: (token, id, foundationId, userType, email) => dispatch({
+      type: 'LOGIN', token: token, id: id, foundationId: foundationId, userType: userType, email: email
     }),
     logoff: () => ({
       type: 'LOGOFF'
@@ -62,7 +62,8 @@ class LoginModal extends React.Component {
     WebApiService.Post(data).then(res => {
       if (res.status === 201) {
         res.json().then(result => {
-          this.props.login(result.authentication_token, result.id, "", this.state.director);
+          console.log(result);
+          this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);
           this.props.hide();
         });
       } else {

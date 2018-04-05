@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Col, Thumbnail, Button, Pagination} from "react-bootstrap";
-import fundacion1 from '../../assets/fundacion1.jpg';
+import fundacion1 from '../../assets/fundacion2.jpg';
 import WebApiService from '../Service/WebApiService';
 
 export default class ListaBeneficiados extends Component {

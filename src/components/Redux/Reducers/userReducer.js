@@ -1,10 +1,11 @@
-export default function reducer( state = {token: "", id: "", foundationId: "", userType: ""} , action){
+export default function reducer( state = {token: "", id: "", foundationId: "", email: "", userType: ""} , action){
     switch(action.type){
         case "LOGIN":
             state = {
                 token : action.token,
                 id: action.id,
                 foundationId: action.foundationId,
+                email: action.email,
                 userType: action.userType
             }
             return state; 

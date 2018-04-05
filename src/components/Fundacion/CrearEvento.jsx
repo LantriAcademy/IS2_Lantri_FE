@@ -3,9 +3,18 @@ import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
 import DraggableMap from './DraggableMap';
 
-export default class CrearEvento extends Component {
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    user : state.user
+  }
+}
+
+class CrearEvento extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.user);
     this.state = {
       name: "",
       direction: "",
@@ -27,9 +36,15 @@ export default class CrearEvento extends Component {
     var data = {
       'direction': 'events',
       'param' : '',
-      'body' : {"event": {"foundation_id": 1, "startDate": this.state.dateTime, "name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "description": this.state.description}},
+      'body' : {"event": {"foundation_id": this.props.user.foundationId, "startDate": this.state.dateTime, "name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "description": this.state.description}},
+      'type' : 1,
+      'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
     WebApiService.Post(data).then(res =>{
+      console.log(res);
+       res.json().then(result => {
+          console.log(result);
+        });
       if (res.status === 201) {
         alert("Evento creado exitosamente")
       } else {
@@ -74,3 +89,4 @@ export default class CrearEvento extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(CrearEvento)
