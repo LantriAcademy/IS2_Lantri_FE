@@ -13,6 +13,8 @@ export default function reducer( state = {token: "", id: "", foundationId: "", u
             return state;
         case "GET":
             return state;
+        case "FoundationID":
+            return {...state, foundationId: action.foundationId};
         default:
             return state;
     }

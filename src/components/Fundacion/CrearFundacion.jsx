@@ -4,7 +4,22 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import SimpleMap from './SimpleMap';
 
-export default class CrearFundacion extends Component {
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    user : state.user
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      foundation: (foundationId) => dispatch({
+          type: 'FoundationID', foundationId :foundationId
+      })
+  }
+}
+
+class CrearFundacion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,9 +46,12 @@ export default class CrearFundacion extends Component {
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
-        alert("Fundacion creada exitosamente")
+        res.json().then((result) =>{
+          this.props.foundation(result.id);
+          window.location = "/fundaciones"
+        });
       } else {
-        alert("Error")
+        alert("Error al crear intentalo de nuevo");
       }
     });
     event.preventDefault();
@@ -76,3 +94,4 @@ export default class CrearFundacion extends Component {
   }
 
 }
+export default connect(mapStateToProps, mapDispatchToProps)(CrearFundacion)
