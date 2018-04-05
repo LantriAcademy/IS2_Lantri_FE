@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Modal} from 'react-bootstrap';
+import {FormGroup, ControlLabel, Modal, ToggleButtonGroup, ToggleButton , ButtonToolbar} from 'react-bootstrap';
 import WebApiService from '../Service/WebApiService';
 import "../../styles/LoginModal.css";
 import { FormErrors } from "../Helpers/FormErrors.js"
@@ -11,6 +11,7 @@ class LoginModal extends React.Component {
     this.state = {
       email: '',
       password: '',
+      director: true, //0 = Director o 1 = Contribuyente
       formErrors: {email: '', password: ''},
       emailValid: false,
       passwordValid: false,
@@ -23,22 +24,39 @@ class LoginModal extends React.Component {
     
     //alert('A password was submitted: ' + this.state.password);
     //alert('A email was submitted: ' + this.state.email);
+    //alert('A type was submitted: ' + this.state.type);
    
-   /*var data = {
-     'direction': 'admins',
-     'param' : '',
-     'body' : { "admin": {"email": this.state.email, "password": this.state.password}},   
-   }*/
+    var data = {//Director
+      'direction': 'signin_director',
+      'param' : '',
+      'body' : {"email": this.state.email, "password": this.state.password},   
+    }
 
-   /*WebApiService.Post(data).then(res =>{
-     if (res.status === 201) {
-       alert("Usuario creado exitosamente")
+     if(!this.state.director){ //Contribuyente
+        data = {
+        'direction': 'signin_contributor',
+        'param' : '',
+        'body' : {"email": this.state.email, "password": this.state.password},   
+      }
      }
-   });*/
+
+     WebApiService.Post(data).then(res =>{
+      console.log(res)
+      if (res.status === 201) {
+        //alert("Usuario creado exitosamente")
+      }else{
+        //alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+      }
+    });
    
    event.preventDefault();
- }
+  }
 
+  handleSelectedChange(e) {
+    this.setState({
+      director: e,
+    });
+  }
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -85,22 +103,31 @@ class LoginModal extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <form className="login" onSubmit={this.handleSubmit}>
-              <div className={"from-group"}>
-                <label>Correo Electronico</label>
+              <FormGroup>
+                <ControlLabel>Correo Electronico</ControlLabel>
                 <input type="email" className="form-control" name="email" 
                       aria-describedby="emailHelp" 
                       placeholder="Correo Electronico"
                       value={this.state.email}
                       onChange={this.handleUserInput} />
-              </div>
-              <div className={"from-group"}>
+              </FormGroup>
+              <FormGroup>
               <br/>
-                <label>Contraseña</label>
+                <ControlLabel>Contraseña</ControlLabel>
                 <input type="password" className="form-control" name="password" 
                       placeholder="Contraseña"                      
                       value={this.state.password}
                       onChange={this.handleUserInput} />
-              </div>
+              </FormGroup>
+              <ControlLabel>Tipo de usuario</ControlLabel>
+              <ButtonToolbar>
+              <ToggleButtonGroup
+                type="radio" name = "director"
+                defaultValue={true}>
+                <ToggleButton onClick={this.handleSelectedChange.bind(this, true)}  value = {true}>Director de fundación</ToggleButton>
+                <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
+              </ToggleButtonGroup>
+              </ButtonToolbar>
               <div>
               <br/>
                 <FormErrors formErrors={this.state.formErrors} />

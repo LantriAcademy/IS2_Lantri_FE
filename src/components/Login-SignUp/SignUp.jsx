@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
-import{FormControl, FormGroup, ControlLabel} from "react-bootstrap"
+import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
 
 class SignUp extends Component {
-  
+
   constructor (props) {
     super(props);
     this.state = {
-      bio: '',
+      biodes: '',
       user: '',
       password: '',
       name: '',
       lastname: '',
       email: '',
       phone: '',
+      text : 'Biografia (opcional)',
+      director: true, //0 = Director o 1 = Contribuyente
       formErrors: {name: '', lastname: '', phone: '', user: '', email: '', password: ''},
       nameValid: false,
       lastnameValid: false,
@@ -25,11 +27,13 @@ class SignUp extends Component {
       passwordValid: false,
       formValid: false
     }
+    //this.handleSelectedChange = this.handleSelectedChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
-     //alert('A bio was submitted: ' + this.state.bio);
+
+     //alert('A bio was submitted: ' + this.state.biodes);
      //alert('A user was submitted: ' + this.state.user);
      //alert('A password was submitted: ' + this.state.password);
      //alert('A name was submitted: ' + this.state.name);
@@ -37,16 +41,26 @@ class SignUp extends Component {
      //alert('A email was submitted: ' + this.state.email);
      //alert('A phone was submitted: ' + this.state.phone);
     
-    var data = {
+     var data = {//Director
       'direction': 'directors',
       'param' : '',
-      'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.bio}},   
+      'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.biodes}},   
     }
+
+     if(!this.state.director){ //Contribuyente
+        data = {
+        'direction': 'contributors',
+        'param' : '',
+        'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}},   
+      }
+     }
+
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
         alert("Usuario creado exitosamente")
+        this.props.history.push("/")
       }else{
-        alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ en el nombre y apellido")
+        alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
       }
     });
     
@@ -58,6 +72,20 @@ class SignUp extends Component {
     const value = e.target.value;
     this.setState({[name]: value},
                   () => { this.validateField(name, value) });
+  }
+
+  handleSelectedChange(e) {
+    var texto = ''
+    if(e){ //Director
+      texto = "Biografia (opcional)"
+    }else{ //Contribuyente
+      texto = "Descripcion (opcional)"
+    }
+    this.setState({
+      director: e,
+      text: texto
+    });
+
   }
 
   validateField(fieldName, value) {
@@ -118,6 +146,16 @@ class SignUp extends Component {
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
             <h1 className="title">Registrate en f<b>UN</b>daciones</h1>
+            <ControlLabel>Tipo de usuario</ControlLabel>
+            <ButtonToolbar>
+            <ToggleButtonGroup
+              type="radio" name = "director"
+              defaultValue={true}>
+              <ToggleButton onClick={this.handleSelectedChange.bind(this, true)}  value = {true}>Director de fundación</ToggleButton>
+              <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
+            </ToggleButtonGroup>
+            </ButtonToolbar>
+            <br/>
             <FormGroup>
               <ControlLabel>Nombre</ControlLabel>
               <input type="name" className="form-control" name="name" 
@@ -139,11 +177,12 @@ class SignUp extends Component {
                     value={this.state.phone}
                     onChange={this.handleUserInput} />
             </FormGroup>
-            <FormGroup>
-              <ControlLabel>Biografia (opcional)</ControlLabel>
-              <input type="name" className="form-control" name="bio" placeholder = "Cuentanos mas sobre ti" 
-                    value={this.state.bio}
-                    onChange={this.handleUserInput}/>
+
+            <FormGroup controlId="formControlsTextarea">
+              <ControlLabel >{this.state.text} </ControlLabel>
+              <FormControl componentClass="textarea" name= "biodes" placeholder="Cuentanos mas sobre ti"
+                    value={this.state.biodes}
+                    onChange={this.handleUserInput} />
             </FormGroup>
             <FormGroup>
               <ControlLabel>Usuario</ControlLabel>
@@ -166,13 +205,6 @@ class SignUp extends Component {
                       value={this.state.password}
                       onChange={this.handleUserInput} />
              </FormGroup>
-            <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Tipo de usuario</ControlLabel>
-              <FormControl componentClass="select" placeholder="select">
-                <option value="usuario">Padrino</option>
-                <option value="fundacion">Fundacion</option>
-              </FormControl>
-            </FormGroup>
             <div>
               <br/>
                 <FormErrors formErrors={this.state.formErrors} />
