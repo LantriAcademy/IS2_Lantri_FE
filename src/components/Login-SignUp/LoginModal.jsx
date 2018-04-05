@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import {FormControl, FormGroup, ControlLabel, Modal, ToggleButtonGroup, ToggleButton , ButtonToolbar} from 'react-bootstrap';
+import {FormGroup, ControlLabel, Modal, ToggleButtonGroup, ToggleButton , ButtonToolbar} from 'react-bootstrap';
 import WebApiService from '../Service/WebApiService';
 import "../../styles/LoginModal.css";
 import { FormErrors } from "../Helpers/FormErrors.js"
@@ -39,6 +39,15 @@ class LoginModal extends React.Component {
         'body' : {"email": this.state.email, "password": this.state.password},   
       }
      }
+
+     WebApiService.Post(data).then(res =>{
+      console.log(res)
+      if (res.status === 201) {
+        //alert("Usuario creado exitosamente")
+      }else{
+        //alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+      }
+    });
    
    event.preventDefault();
   }
