@@ -18,11 +18,13 @@ class Fundacion extends Component {
     
     this.state = {
       fundacion : {},
-      isLoading: true,
+      isLoading: false,
     }
   }
 
   componentDidMount(){
+    this.setState({ isLoading: true });
+
     var data = {
       'direction': 'foundations/',
       'param' : this.props.match.params.id

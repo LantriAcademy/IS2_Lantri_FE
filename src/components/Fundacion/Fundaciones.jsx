@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
+import { Grid, Row, Col, Thumbnail, Button, Pagination} from "react-bootstrap";
 import fundacion1 from '../../assets/fundacion1.jpg';
 import WebApiService from '../Service/WebApiService';
+import '../../styles/Fundaciones.css';
 
 import {connect} from 'react-redux';
 
@@ -19,25 +20,48 @@ class Fundaciones extends Component {
     super(props)
     console.log(this.props);
     this.state = {
-      fundaciones : []
+      fundaciones : [],
+      active: 1,
+      pages: null,
+      change: true,
     }
 
+    this.handleClick = this.handleClick.bind(this);
   }
-
-  componentWillMount(){
+    
+  componentWillMount() {
     var data = {
-      'direction': 'foundations',
-      'param' : ''
+      'direction': '/foundation/size',
+      'param' : '',
     }
     WebApiService.Get(data).then(res =>{
       this.setState({
-        fundaciones: res
+        pages: Math.ceil(res/6),
       });
     });
   }
-    
+
+  handleClick(i) {
+    this.setState({active : i, change: true});
+  }
+
   render() {
-    const todoFundaciones = this.state.fundaciones.map((fundacion, index) => {
+    const {fundaciones, change, active, pages} = this.state;
+
+    if (change) {
+      var data = {
+        'direction': 'foundations/page/',
+        'param' : this.state.active,
+      }
+      WebApiService.Get(data).then(res =>{
+        this.setState({
+          fundaciones: res,
+          change: false
+        });
+      });
+    }
+
+    const todoFundaciones = fundaciones.map((fundacion, index) => {
       var route = "/fundaciones/" + fundacion.id;
         return(
           <Col key={index} xs={6} md={4}>
@@ -52,17 +76,24 @@ class Fundaciones extends Component {
     )
     
 
+    let items = [];
+    for (let number = 1; number <= pages; number++) {
+      items.push(
+        <Pagination.Item onClick={this.handleClick.bind(this, number)} key={number} active={number === active}>{number}</Pagination.Item>
+      );
+    }
+
     return (
       <div>
         <Grid className="slide-f">
           <Row>
-            <Col xs={2}>
-              {/*Filtros*/}
-            </Col>
-            <Col xs={10}>
-              <h1 className="text-center">Lista de fundaciones</h1>
+            <h1 className="text-center">Lista de fundaciones</h1>
+            <div>
               {todoFundaciones}
-            </Col>
+            </div>
+            <div>
+              <Pagination bsSize="large">{items}</Pagination>
+            </div>
           </Row>
         </Grid>
       </div>
