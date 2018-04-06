@@ -4,11 +4,11 @@
 
 .list-group-item.active {
   background-image: linear-gradient(to bottom,#5cb85c 0,#5cb85c 100%) !important;
-  border-color: #5cb85c !important;
+  border-color: #56b156 !important;
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-  background-color: #82bf45;
+  background-color: #56b156;
 }
 
 
@@ -18,4 +18,8 @@ a {
 
 .menu {
   margin-top: 30px;
+}
+
+a:focus, a:hover {
+  color: #136113;
 }

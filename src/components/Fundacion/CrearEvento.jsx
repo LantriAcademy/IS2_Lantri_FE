@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
-import SimpleMap from './SimpleMap';
+import DraggableMap from './DraggableMap';
 
-export default class CrearEvento extends Component {
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    user : state.user
+  }
+}
+
+class CrearEvento extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.user);
     this.state = {
       name: "",
       direction: "",
       description: "",
       dateTime: "",
+      lat: 4.637894,
+      lng: -74.084023
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,14 +33,29 @@ export default class CrearEvento extends Component {
   }
 
   handleSubmit(event) {
-    if (!(this.latitude && this.longitude)) {this.latitude = 4.637894; this.longitude = -74.084023;}
-    /*POST*/
+    var data = {
+      'direction': 'events',
+      'param' : '',
+      'body' : {"event": {"foundation_id": this.props.user.foundationId, "startDate": this.state.dateTime, "name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "description": this.state.description}},
+      'type' : 1,
+      'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
+    }
+    WebApiService.Post(data).then(res =>{
+      console.log(res);
+       res.json().then(result => {
+          console.log(result);
+        });
+      if (res.status === 201) {
+        alert("Evento creado exitosamente")
+      } else {
+        alert("Error")
+      }
+    });
     event.preventDefault();
   }
 
   onDragEnd(lat, lng){
-    this.latitude = lat;
-    this.longitude = lng;
+    this.setState({lat: lat, lng: lng});
   }
 
   render() {
@@ -55,7 +81,7 @@ export default class CrearEvento extends Component {
           </div>
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
-            <SimpleMap defaultCenter={{lat: 4.637894, lng: -74.084023}} onDragEnd={this.onDragEnd}/>
+            <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
           <button type="submit" className="btn btn-success btn-block">Crear Evento</button>
         </form>
@@ -63,3 +89,4 @@ export default class CrearEvento extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(CrearEvento)
