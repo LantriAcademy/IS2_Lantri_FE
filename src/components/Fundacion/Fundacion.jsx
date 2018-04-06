@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col} from "react-bootstrap";
+import { Button, Grid, Row, Col} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import fundacion1 from '../../assets/fundacion1.jpg'
 import "../../styles/Fundacion.css";
 import WebApiService from '../Service/WebApiService';
@@ -57,6 +58,11 @@ class Fundacion extends Component {
               <li><a data-toggle="tab" href="#comoAyudarnos">Como Ayudarnos</a></li>
               <li><a data-toggle="tab" href="#quienesSomos">Quienes Somos</a></li>
               <li><a data-toggle="tab" href="#conctactenos">Conctactenos</a></li>
+              {(this.props.user.foundationId != "" && this.props.user.foundationId != null)  &&
+                <div className="text-center">
+                  <Button className="btn btn-success btn-block" componentClass={Link} href="/crearEvento" to="/crearEvento">Crear Evento</Button>
+                </div>
+              }
             </ul>
           </Col>
           <Col sm={9}>
