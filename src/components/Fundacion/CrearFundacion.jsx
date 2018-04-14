@@ -59,7 +59,7 @@ class CrearFundacion extends Component {
       if (res.status === 201) {
         res.json().then((result) =>{
           this.props.foundation(result.id);
-          window.location = "/fundaciones"
+          this.props.history.push("/");
         });
       } else {
         alert("Error al crear intentalo de nuevo");
