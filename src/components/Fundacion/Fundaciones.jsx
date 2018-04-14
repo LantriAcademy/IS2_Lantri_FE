@@ -12,7 +12,7 @@ const mapStateToProps = state => {
     user : state.user
   }
 }
-const mapDispatchToProps = dispatch => {
+/* const mapDispatchToProps = dispatch => {
     return {
         logoff: () => dispatch({
             type: 'LOGOFF'
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => {
             type: "GET"
         })
     }
-}
+} */
 
 class Fundaciones extends Component {
 
@@ -99,7 +99,7 @@ class Fundaciones extends Component {
         <Grid className="slide-f">
           <Row>
             <h1 className="text-center">Lista de fundaciones</h1>
-            {(this.props.user.token != "" && this.props.user.foundationId == null)  &&
+            {(this.props.user.token !== "" && this.props.user.foundationId == null)  &&
             <Button className="btn btn-success btn-circle btn-xl btn-plus" componentClass={Link} href="/crearFundacion" to="/crearFundacion">+</Button>}
             <div>
               {todoFundaciones}
