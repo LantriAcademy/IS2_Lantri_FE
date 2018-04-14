@@ -4,8 +4,9 @@ import { FormGroup, ControlLabel, Modal, ToggleButtonGroup, ToggleButton, Button
 import WebApiService from '../Service/WebApiService';
 import "../../styles/LoginModal.css";
 import { FormErrors } from "../Helpers/FormErrors.js"
-
 import { connect } from 'react-redux';
+import { GoogleLogin } from 'react-google-login';
+import config from '../../config.json';
 
 const mapStateToProps = state => {
   return {
@@ -14,8 +15,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    login: (token, id, foundationId, userType) => dispatch({
-      type: 'LOGIN', token: token, id: id, foundationId: foundationId, userType: userType
+    login: (token, id, foundationId, userType, email) => dispatch({
+      type: 'LOGIN', token: token, id: id, foundationId: foundationId, userType: userType, email: email
     }),
     logoff: () => ({
       type: 'LOGOFF'
@@ -62,7 +63,8 @@ class LoginModal extends React.Component {
     WebApiService.Post(data).then(res => {
       if (res.status === 201) {
         res.json().then(result => {
-          this.props.login(result.authentication_token, result.id, "", this.state.director);
+          console.log(result);
+          this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);
           this.props.hide();
         });
       } else {
@@ -113,6 +115,14 @@ class LoginModal extends React.Component {
     this.setState({ formValid: this.state.emailValid && this.state.passwordValid });
   }
 
+  googleResponse = (response) => {
+    console.log(response)
+  }
+
+  onFailure = (error) => {
+    console.log(error)
+  }
+
   render() {
     return (
       <div>
@@ -154,6 +164,17 @@ class LoginModal extends React.Component {
                 <FormErrors formErrors={this.state.formErrors} />
               </div>
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
+              <div>
+                <GoogleLogin
+                  clientId={config.GOOGLE_CLIENT_ID}
+                  buttonText="Login"
+                  onSuccess={this.googleResponse}
+                  onFailure={this.onFailure}
+                  className="btnGoogle"
+                > 
+                  <span>Sign In with Google</span>                                                               
+                </GoogleLogin>
+              </div>
               <p>¿No tienes cuenta?  <Link to="/signup" onClick={this.props.hide}>Registrarse</Link></p>
             </form>
           </Modal.Body>
