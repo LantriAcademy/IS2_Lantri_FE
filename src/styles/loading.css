@@ -1,5 +1,5 @@
 .bg_load {
-	z-index: 100;
+	z-index: 1040;
     position: fixed;
 	left: 0px;
 	top: 0px;
@@ -9,7 +9,7 @@
 }
 .wrapper {
 	/* Size and position */
-	z-index: 100;
+	z-index: 1040;
 	font-size: 25px; /* 1em */
     width: 8em;
 	height: 8em;

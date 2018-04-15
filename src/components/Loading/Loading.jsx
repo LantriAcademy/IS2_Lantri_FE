@@ -11,6 +11,8 @@ const mapStateToProps = state => {
 class Loading extends Component {
   constructor(props) {
     super(props);
+    console.log("Loading controller");
+    console.log(props);
 
   }
   render() {
@@ -21,13 +23,14 @@ class Loading extends Component {
             <div class="bg_load"></div>
             <div class="wrapper">
               <div class="inner">
-                <span>L</span>
-                <span>o</span>
+                <span>C</span>
                 <span>a</span>
-                <span>d</span>
-                <span>i</span>
-                <span>n</span>
+                <span>r</span>
                 <span>g</span>
+                <span>a</span>
+                <span>n</span>
+                <span>d</span>
+                <span>o</span>
               </div>
             </div>
           </div>
