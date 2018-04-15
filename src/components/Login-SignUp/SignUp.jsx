@@ -89,6 +89,13 @@ class SignUp extends Component {
   }
 
   validateField(fieldName, value) {
+    let formErrorsName = this.state.formErrorsName;
+    let formErrorsLastname = this.state.formErrorsLastname;
+    let formErrorsPhone = this.state.formErrorsPhone;
+    let formErrorsUser = this.state.formErrorsUser;
+    let formErrorsEmail = this.state.formErrorsEmail;
+    let formErrorsPassword = this.state.formErrorsPassword;
+    let formErrorsPassword2 = this.state.formErrorsPassword2;
     let nameValid = this.state.nameValid;
     let lastnameValid = this.state.lastnameValid;
     let phoneValid = this.state.phoneValid;
@@ -100,31 +107,31 @@ class SignUp extends Component {
     switch(fieldName) {
       case 'name':
         nameValid = value.length >= 1;
-        this.state.formErrorsName.name = nameValid ? '': ' es obligatorio';
+        formErrorsName.name = nameValid ? '': ' es obligatorio';
         break;
       case 'lastname':
         lastnameValid = value.length >= 1;
-        this.state.formErrorsLastname.lastname = lastnameValid ? '': ' es obligatorio';
+        formErrorsLastname.lastname = lastnameValid ? '': ' es obligatorio';
         break;
       case 'phone':
         phoneValid = value.length === 7 || value.length === 10;
-        this.state.formErrorsPhone.phone = phoneValid ? '': ' no es valido';
+        formErrorsPhone.phone = phoneValid ? '': ' no es valido';
         break;
       case 'user':
         userValid = value.length >= 1;
-        this.state.formErrorsUser.user = userValid ? '': ' es obligatorio';
+        formErrorsUser.user = userValid ? '': ' es obligatorio';
         break;
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        this.state.formErrorsEmail.email = emailValid ? '' : ' no es valido';
+        formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        this.state.formErrorsPassword.password = passwordValid ? '': ' debe tener almenos 6 caracteres';
+        formErrorsPassword.password = passwordValid ? '': ' debe tener almenos 6 caracteres';
         break;
       case 'password2':
         password2Valid = value === this.state.password;
-        this.state.formErrorsPassword2.password2 = password2Valid ? '': ' no son iguales';
+        formErrorsPassword2.password2 = password2Valid ? '': ' no son iguales';
         break;
       default:
         break;

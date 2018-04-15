@@ -90,17 +90,19 @@ class LoginModal extends React.Component {
   }
 
   validateField(fieldName, value) {
+    let formErrorsEmail = this.state.formErrorsEmail;
+    let formErrorsPassword = this.state.formErrorsPassword;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
 
     switch (fieldName) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        this.state.formErrorsEmail.email = emailValid ? '' : ' no es valido';
+        formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        this.state.formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
+        formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
         break;
       default:
         break;

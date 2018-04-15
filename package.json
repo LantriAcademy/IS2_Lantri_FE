@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "boostrap": "^2.0.0",
+    "mgr-pdf-viewer-react": "^1.0.0",
     "node-fetch": "^2.1.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
