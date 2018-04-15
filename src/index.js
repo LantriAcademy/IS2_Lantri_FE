@@ -11,9 +11,12 @@ import { Provider } from 'react-redux'
 /* console.log(store);
 console.log(persistor); */
 
+import Loading from './components/Loading/Loading'
+
 ReactDOM.render(
     <Provider store={Store.store}>
         <PersistGate loading={null} persistor={Store.persistor}>
+            <Loading />
             <App />
         </PersistGate>
     </Provider>
