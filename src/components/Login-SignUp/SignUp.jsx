@@ -4,6 +4,24 @@ import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
 
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    loading : state.loading
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      ShowLoader: () => dispatch({
+          type: 'SHOW'
+      }),
+      HideLoader: () => dispatch({
+          type: 'HIDE'
+      })
+  }
+}
+
 class SignUp extends Component {
 
   constructor (props) {
@@ -31,9 +49,8 @@ class SignUp extends Component {
   }
 
   handleSubmit(event) {
-
-    
-     var data = {//Director
+    this.props.ShowLoader();
+    var data = {//Director
       'direction': 'directors',
       'param' : '',
       'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.biodes}},   
@@ -46,8 +63,10 @@ class SignUp extends Component {
         'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}},   
       }
      }
-
+    
+    
     WebApiService.Post(data).then(res =>{
+      this.props.HideLoader();
       if (res.status === 201) {
         alert("Usuario creado exitosamente")
         this.props.history.push("/")
@@ -208,4 +227,4 @@ class SignUp extends Component {
     }
   }
   
-  export default SignUp;
+  export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
