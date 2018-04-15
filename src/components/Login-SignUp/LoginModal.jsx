@@ -33,6 +33,8 @@ class LoginModal extends React.Component {
       password: '',
       director: true, //0 = Director o 1 = Contribuyente
       formErrors: { email: '', password: '' },
+      formErrorsEmail: {email: ''},
+      formErrorsPassword: {user: ''},
       emailValid: false,
       passwordValid: false,
       formValid: false
@@ -88,24 +90,22 @@ class LoginModal extends React.Component {
   }
 
   validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
 
     switch (fieldName) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' no es valido';
+        this.state.formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
+        this.state.formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
         break;
       default:
         break;
     }
     this.setState({
-      formErrors: fieldValidationErrors,
       emailValid: emailValid,
       passwordValid: passwordValid
     }, this.validateForm);
@@ -142,14 +142,19 @@ class LoginModal extends React.Component {
                   value={this.state.email}
                   onChange={this.handleUserInput} />
               </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsEmail} />
+              </div>
               <FormGroup>
-                <br />
                 <ControlLabel>Contraseña</ControlLabel>
                 <input type="password" className="form-control" name="password"
                   placeholder="Contraseña"
                   value={this.state.password}
                   onChange={this.handleUserInput} />
               </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsPassword} />
+              </div>
               <ControlLabel>Tipo de usuario</ControlLabel>
               <ButtonToolbar>
                 <ToggleButtonGroup
@@ -159,10 +164,7 @@ class LoginModal extends React.Component {
                   <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
                 </ToggleButtonGroup>
               </ButtonToolbar>
-              <div>
-                <br />
-                <FormErrors formErrors={this.state.formErrors} />
-              </div>
+              <br/>
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
               <div>
                 <GoogleLogin
