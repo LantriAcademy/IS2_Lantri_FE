@@ -18,6 +18,9 @@ const mapDispatchToProps = dispatch => {
       }),
       HideLoader: () => dispatch({
           type: 'HIDE'
+      }),
+      ShowAlert: (message, typeAlert) =>dispatch({
+          type : 'SHOWALERT', message: message, typeAlert: typeAlert
       })
   }
 }
@@ -68,10 +71,10 @@ class SignUp extends Component {
     WebApiService.Post(data).then(res =>{
       this.props.HideLoader();
       if (res.status === 201) {
-        alert("Usuario creado exitosamente")
-        this.props.history.push("/")
+        this.props.history.push("/");
+        this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
       }else{
-        alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+        this.props.ShowAlert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido", "danger");
       }
     });
     
@@ -219,7 +222,7 @@ class SignUp extends Component {
             <div>
               <br/>
                 <FormErrors formErrors={this.state.formErrors} />
-            </div> 
+            </div>
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
           </form>
         </div>
