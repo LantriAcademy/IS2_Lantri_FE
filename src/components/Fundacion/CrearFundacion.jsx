@@ -79,7 +79,6 @@ class CrearFundacion extends Component {
   validateField(fieldName, value) {
     let formErrorsName = this.state.formErrorsName;
     let formErrorsDirection = this.state.formErrorsDirection;
-    let fieldValidationErrors = this.state.formErrors;
     let nameValid = this.state.nameValid;
     let directionValid = this.state.directionValid;
   

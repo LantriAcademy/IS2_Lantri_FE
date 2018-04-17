@@ -15,17 +15,14 @@ const mapStateToProps = state => {
 class CrearEvento extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.user);
     this.state = {
-      name: null,
-      direction: null,
-      description: null,
-      dateTime: null,
+      name: '',
+      direction: '',
+      description: '',
+      dateTime: '',
       formErrorsName: {name: ''},
       formErrorsDirection: {direction: ''},
       formErrorsDateTime: {dateTime: ''},
-      nameValid: false,
-      directionValid: false,
       nameValid: false,
       directionValid: false,
       dateTimeValid: false,
@@ -136,7 +133,7 @@ class CrearEvento extends Component {
           <div className="form-group">
             <label>Fecha</label>
             <input name = "dateTime" type="datetime-local" className="form-control" 
-            value={this.state.description}
+            value={this.state.dateTime}
             onChange={this.handleUserInput} />
           </div>
           <FormErrors formErrors={this.state.formErrorsDateTime} />
