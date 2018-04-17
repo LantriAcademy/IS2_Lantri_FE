@@ -13,6 +13,7 @@ import NavigationMenu from "./Menu/NavigationMenu";
 import Footer from "./Landing/Footer"
 import CrearFundacion from "./Fundacion/CrearFundacion"
 import CrearEvento from "./Fundacion/CrearEvento"
+import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
 import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
               <Route exact path = "/fundaciones" component={Fundaciones}/>
               <Route exact path = "/crearEvento" component={CrearEvento}/>
               <Route exact path = "/crearFundacion" component={CrearFundacion}/>
+              <Route exact path = "/crearBeneficiado" component={CrearBeneficiado}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/fundaciones/:id/:kid" component={PerfilBeneficiado}/>
               <Route exact path = "/proposito" component={Proposito}/>

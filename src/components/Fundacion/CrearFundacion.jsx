@@ -114,6 +114,7 @@ class CrearFundacion extends Component {
   }  
 
   render() {
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210"/> : "");
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
@@ -139,12 +140,14 @@ class CrearFundacion extends Component {
           <div className="form-group">
             <label>Imagen</label>
             <FileBase64 onDone={this.getFiles} />
+            <div className="preview text-center">
+              {preview}
+            </div>
           </div>
           <div>
-              <br/>
-              <FormErrors formErrors={this.state.formErrors} />
+            <FormErrors formErrors={this.state.formErrors} />
           </div> 
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
+          <button type="submit" className="btn btn-success btn-block" disabled={!this.state.formValid}>Crear Fundación</button>
         </form>
       </div>
     );
