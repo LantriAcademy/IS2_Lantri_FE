@@ -126,10 +126,24 @@ class LoginModal extends React.Component {
     var data = {
       'direction': '/signin_contributor/google',
       'param' : '',
-      'body' : response.accessToken,
+      'body' : response
     }
-    WebApiService.Post(data).then(res =>{
-      console.log(res);
+    WebApiService.Post(data).then(res => {
+      console.log(res)
+      if (res.status === 201) {
+        res.json().then(result => {
+          console.log(result);
+          this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);
+          this.props.hide();
+        });
+      } else {
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Revisa tu contraseña e intentalo de nuevo!',
+          'error'
+        )
+      }
     });
   }
 

@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import Mapa from './Mapa';
 import "../../styles/Evento.css";
 import { Button} from "react-bootstrap";
+import {connect} from 'react-redux';
 
-export default class Evento extends Component {
+const mapStateToProps = state => {
+  return {
+    user : state.user
+  }
+}
+
+class Evento extends Component {
   constructor(props){
     super(props)
   }
@@ -36,3 +43,5 @@ export default class Evento extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(Evento)

@@ -64,6 +64,7 @@ class Fundacion extends Component {
               {(this.props.user.foundationId != "" && this.props.user.foundationId == this.props.match.params.id)  &&
                 <div className="text-center">
                   <Button className="btn btn-success btn-block" componentClass={Link} href="/crearEvento" to="/crearEvento">Crear Evento</Button>
+                  <Button className="btn btn-success btn-block" componentClass={Link} href="/crearBeneficiado" to="/crearBeneficiado">Crear Beneficiado</Button>
                 </div>
               }
             </ul>
