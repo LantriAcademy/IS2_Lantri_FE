@@ -4,7 +4,7 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
-
+import swal from 'sweetalert2'
 import {connect} from 'react-redux';
 
 const mapStateToProps = state => {
@@ -61,8 +61,18 @@ class CrearFundacion extends Component {
           this.props.foundation(result.id);
           this.props.history.push("/");
         });
+        swal(
+          'Exito',
+          'Fundación creada exitosamente',
+          'success'
+        )
       } else {
-        alert("Error al crear intentalo de nuevo");
+        //alert("Error al crear intentalo de nuevo");
+        swal(
+          'Error',
+          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
+          'error'
+        )
       }
     });
     event.preventDefault();

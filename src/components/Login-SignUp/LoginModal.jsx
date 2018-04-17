@@ -7,6 +7,7 @@ import { FormErrors } from "../Helpers/FormErrors.js"
 import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import config from '../../config.json';
+import swal from 'sweetalert2'
 
 const mapStateToProps = state => {
   return {
@@ -68,7 +69,12 @@ class LoginModal extends React.Component {
           this.props.hide();
         });
       } else {
-        alert("Revisa tu contraseña e intentalo de nuevo!");
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Revisa tu contraseña e intentalo de nuevo!',
+          'error'
+        )
       }
     });
     event.preventDefault();
@@ -117,6 +123,14 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     console.log(response)
+    var data = {
+      'direction': '/signin_contributor/google',
+      'param' : '',
+      'body' : response.accessToken,
+    }
+    WebApiService.Post(data).then(res =>{
+      console.log(res);
+    });
   }
 
   onFailure = (error) => {

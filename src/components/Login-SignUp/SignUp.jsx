@@ -3,6 +3,7 @@ import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
+import swal from 'sweetalert2'
 
 class SignUp extends Component {
 
@@ -49,10 +50,20 @@ class SignUp extends Component {
 
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
-        alert("Usuario creado exitosamente")
+        //alert("Usuario creado exitosamente")
+        swal(
+          'Exito',
+          'Usuario creado exitosamente',
+          'success'
+        )
         this.props.history.push("/")
       }else{
-        alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+        //alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+        swal(
+          'Error',
+          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido',
+          'error'
+        )
       }
     });
     
