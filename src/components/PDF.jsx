@@ -7,7 +7,8 @@ export default class PDF extends Component {
     return (
         <PDFViewer document={{
             //file: PDFSample
-            url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf'
+            //url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf'
+            url: 'https://proyectoback-lfcastrop.c9users.io/events_pdf'
             //base64: ''
         }} />);
   }

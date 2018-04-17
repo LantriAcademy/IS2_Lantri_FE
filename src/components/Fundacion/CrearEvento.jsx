@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
+import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
 
 import {connect} from 'react-redux';
@@ -16,10 +17,19 @@ class CrearEvento extends Component {
     super(props);
     console.log(this.props.user);
     this.state = {
-      name: "",
-      direction: "",
-      description: "",
-      dateTime: "",
+      name: null,
+      direction: null,
+      description: null,
+      dateTime: null,
+      formErrorsName: {name: ''},
+      formErrorsDirection: {direction: ''},
+      formErrorsDateTime: {dateTime: ''},
+      nameValid: false,
+      directionValid: false,
+      nameValid: false,
+      directionValid: false,
+      dateTimeValid: false,
+      formValid:false,
       lat: 4.637894,
       lng: -74.084023
     };
@@ -28,9 +38,13 @@ class CrearEvento extends Component {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  handleChange(state, e) {
-    this.setState({[state]: e.target.value});
+  handleUserInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value},
+                  () => { this.validateField(name, value) });
   }
+
 
   handleSubmit(event) {
     var data = {
@@ -54,6 +68,40 @@ class CrearEvento extends Component {
     event.preventDefault();
   }
 
+  validateField(fieldName, value) {
+    let formErrorsName = this.state.formErrorsName;
+    let formErrorsDirection = this.state.formErrorsDirection;
+    let formErrorsDateTime = this.state.formErrorsDateTime;
+    let nameValid = this.state.nameValid;
+    let directionValid = this.state.directionValid;
+    let dateTimeValid = this.state.dateTimeValid;
+  
+    switch(fieldName) {
+      case 'name':
+        nameValid = value.length >= 3;
+        formErrorsName.name = nameValid ? '': ' es obligatorio.';
+        break;
+      case 'direction':
+        directionValid = value.length >= 3;
+        formErrorsDirection.direction = directionValid ? '': ' es obligatoria.';
+        break;
+      case 'dateTime':
+        dateTimeValid = value.length >= 3;
+        formErrorsDateTime.dateTime = dateTimeValid ? '': ' es obligatoria.';
+        break;
+      default:
+        break;
+    }
+    this.setState({ nameValid: nameValid,
+                    directionValid: directionValid,
+                    dateTimeValid: dateTimeValid,
+                  }, this.validateForm);
+  }
+
+  validateForm() {
+    this.setState({formValid: this.state.nameValid && this.state.directionValid && this.state.dateTimeValid});
+  }  
+
   onDragEnd(lat, lng){
     this.setState({lat: lat, lng: lng});
   }
@@ -65,25 +113,38 @@ class CrearEvento extends Component {
           <h1 className="title">Crear Evento</h1>
           <div className="form-group">
             <label>Nombre</label>
-            <input onChange={this.handleChange.bind(this, 'name')} type="text" className="form-control" placeholder="Nombre" required/>
+            <input type="text" className="form-control" name = "name"
+            placeholder="Nombre" 
+            value = {this.state.name}
+            onChange={this.handleUserInput}/>
           </div>
+          <FormErrors formErrors={this.state.formErrorsName} />
           <div className="form-group">
             <label>Dirección</label>
-            <input onChange={this.handleChange.bind(this, 'direction')} type="text" className="form-control" placeholder="Dirección"/>
+            <input  type="text" className="form-control" name = "direction"
+            placeholder="Dirección"
+            value = {this.state.direction}
+            onChange={this.handleUserInput}/>
           </div>
+          <FormErrors formErrors={this.state.formErrorsDirection} />
           <div className="form-group">
             <label>Descripción</label>
-            <textarea onChange={this.handleChange.bind(this, 'description')} type="text" className="form-control" placeholder="Descripción"/>
+            <textarea name= "description" type="text" className="form-control" placeholder="Descripción"
+            value={this.state.description}
+            onChange={this.handleUserInput} />
           </div>
           <div className="form-group">
             <label>Fecha</label>
-            <input onChange={this.handleChange.bind(this, 'dateTime')} type="datetime-local" className="form-control" required/>
+            <input name = "dateTime" type="datetime-local" className="form-control" 
+            value={this.state.description}
+            onChange={this.handleUserInput} />
           </div>
+          <FormErrors formErrors={this.state.formErrorsDateTime} />
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
             <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
-          <button type="submit" className="btn btn-success btn-block">Crear Evento</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Evento</button>
         </form>
       </div>
     );
