@@ -4,6 +4,7 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
+//import ImageUpload from '../Helpers/ImageUpload'
 
 import {connect} from 'react-redux';
 
@@ -26,7 +27,8 @@ class CrearFundacion extends Component {
     this.state = {
       name: "",
       direction: "",
-      file: "",
+      file: null,
+      //selectedFile: null,
       formErrorsName: {name: ''},
       formErrorsDirection: {direction: ''},
       nameValid: false,
@@ -34,11 +36,18 @@ class CrearFundacion extends Component {
       lat: 4.637894,
       lng: -74.084023
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.getFiles = this.getFiles.bind(this);
   }
+
+  fileSelectedHandler= event => {
+    console.log(event.target.files[0]);
+    this.setState({
+        selectedFile: event.target.files[0]
+    });
+}
+
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -50,11 +59,15 @@ class CrearFundacion extends Component {
 
   handleSubmit(event) {
 
+    console.log(this.state.file.base64);
+
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, 
+      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}},
     }
+
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
         res.json().then((result) =>{
@@ -130,6 +143,8 @@ class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <label>Imagen</label>
+            {/*<ImageUpload/>
+            <input type = "file" onChange={this.fileSelectedHandler}/>*/}
             <FileBase64 onDone={this.getFiles} />
           </div>
           <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
