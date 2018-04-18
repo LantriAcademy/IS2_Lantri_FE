@@ -12,6 +12,6 @@
 
 .todo  {
   overflow-y: auto;
-  max-height: 100vh;
+  max-height: 80vh;
   padding-right: 20px;
 }

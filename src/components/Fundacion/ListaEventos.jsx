@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import "../../styles/ListaEventos.css";
-import { Button, Grid, Row, Col} from "react-bootstrap";
+import { Row, Col} from "react-bootstrap";
 import Evento from './Evento';
 
 export default class ListaEventos extends Component {
@@ -36,7 +36,7 @@ export default class ListaEventos extends Component {
           <div key={index}>
             <a onClick={this.handleClick.bind(this, index)} className={"list-group-item list-group-item-action flex-column align-items-start " + (active === index ? "active" : "")}>
               <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1"><strong>{event.id}</strong></h5>
+                <h5 className="mb-1"><strong>{event.name}</strong></h5>
               </div>
               <p className="mb-1">{event.description}</p>
             </a>
@@ -46,7 +46,7 @@ export default class ListaEventos extends Component {
     );
 
     const evento = events.map((event, index) => {
-      if (index == active) {
+      if (index === active) {
           return (
             <Evento event={event}/>
           );

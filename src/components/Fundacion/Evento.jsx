@@ -18,7 +18,7 @@ class Evento extends Component {
   render() {
     return (
       <div className="todo">
-        <h1 className="text-center">{this.props.event.id}</h1>
+        <h1 className="text-center">{this.props.event.name}</h1>
         <div className="panel panel-success">
           <div className="panel-heading">
             <h3 className="panel-title">Descripción</h3>

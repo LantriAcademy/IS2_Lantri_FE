@@ -54,6 +54,8 @@ class CrearFundacion extends Component {
       'direction': 'foundations',
       'param' : '',
       'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id}},
+      'type' : 1,
+      'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
@@ -114,7 +116,7 @@ class CrearFundacion extends Component {
   }  
 
   render() {
-    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210"/> : "");
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="Preview"/> : "");
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>

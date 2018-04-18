@@ -123,11 +123,21 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     console.log(response)
-    var data = {
-      'direction': '/signin_contributor/google',
-      'param' : '',
-      'body' : response
+    
+    var data = {//Director
+      'direction': '/signin_director/google',
+      'param': '',
+      'body': response,
     }
+
+    if (!this.state.director) { //Contribuyente
+      data = {
+        'direction': '/signin_contributor/google',
+        'param': '',
+        'body': response
+      }
+    }
+    
     WebApiService.Post(data).then(res => {
       console.log(res)
       if (res.status === 201) {
@@ -140,7 +150,7 @@ class LoginModal extends React.Component {
         //alert("Revisa tu contraseña e intentalo de nuevo!");
         swal(
           'Error',
-          'Revisa tu contraseña e intentalo de nuevo!',
+          'Something went wrong',
           'error'
         )
       }
