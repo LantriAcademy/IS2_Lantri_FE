@@ -64,7 +64,7 @@ class CrearBeneficiado extends Component {
   }
 
   render() {
-    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210"/> : "");
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="preview"/> : "");
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
