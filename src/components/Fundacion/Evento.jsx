@@ -38,7 +38,6 @@ class Evento extends Component {
   openPDF(urlPdf){
     console.log("la URL del evento es: " + urlPdf);
 
-    <PDFViewer url= {urlPdf}/>
     window.open("/pdf", "_blank");
     /*{routes.map(({path,component: C})=>(
       <Route path = {path}
@@ -112,7 +111,7 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
-        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-block">Mostrar invitación</Button>
+        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block">Mostrar invitación</Button>
         <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
       </div>
     );
