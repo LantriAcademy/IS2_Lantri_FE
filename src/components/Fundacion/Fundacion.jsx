@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import fundacion1 from '../../assets/fundacion1.jpg'
 import "../../styles/Fundacion.css";
 import WebApiService from '../Service/WebApiService';
 import Inicio from './Inicio'
@@ -53,7 +52,7 @@ class Fundacion extends Component {
       <Grid>
         <Row className="show-grid principal">
           <Col sm={3}>
-            <img src={fundacion1} alt="Logo" height="220" width="260"/>
+            <img src={WebApiService.baseUrl + fundacion.avatar.url} alt="Logo" height="220" width="260"/>
             <ul className="nav nav-pills  nav-stacked menu">
               <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
               <li><a data-toggle="tab" href="#beneficiados">Beneficiados</a></li>
@@ -61,7 +60,7 @@ class Fundacion extends Component {
               <li><a data-toggle="tab" href="#comoAyudarnos">Como Ayudarnos</a></li>
               <li><a data-toggle="tab" href="#quienesSomos">Quienes Somos</a></li>
               <li><a data-toggle="tab" href="#conctactenos">Conctactenos</a></li>
-              {(this.props.user.foundationId !== "" && this.props.user.foundationId === this.props.match.params.id)  &&
+              {(this.props.user.foundationId != "" && this.props.user.foundationId == this.props.match.params.id)  &&
                 <div className="text-center">
                   <Button className="btn btn-success btn-block" componentClass={Link} href="/crearEvento" to="/crearEvento">Crear Evento</Button>
                   <Button className="btn btn-success btn-block" componentClass={Link} href="/crearBeneficiado" to="/crearBeneficiado">Crear Beneficiado</Button>

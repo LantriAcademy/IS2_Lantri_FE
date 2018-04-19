@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Grid, Row, Col, Thumbnail, Button, Pagination} from "react-bootstrap";
-import fundacion1 from '../../assets/fundacion1.jpg';
 import WebApiService from '../Service/WebApiService';
 import '../../styles/Fundaciones.css';
 
@@ -76,7 +75,7 @@ class Fundaciones extends Component {
       var route = "/fundaciones/" + fundacion.id;
         return(
           <Col key={index} xs={6} md={4}>
-            <Thumbnail src={fundacion1} alt="242x200">
+            <Thumbnail src={WebApiService.baseUrl + fundacion.avatar.url} alt="242x200">
               <h3>{fundacion.name}</h3>
               <p>{fundacion.direction}</p>
               <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
