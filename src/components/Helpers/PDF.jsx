@@ -3,7 +3,7 @@
 import PDF from 'react-pdf-js';
 import PDFSample from '../../assets/PDFSample.pdf'
  
-export default class MyPdfViewer extends React.Component {
+export default class PDF extends React.Component {
   state = {};
  
   onDocumentComplete = (pages) => {
@@ -49,7 +49,7 @@ export default class MyPdfViewer extends React.Component {
     return (
       <div>
         <PDF
-          file ='https://proyectoback-lfcastrop.c9users.io/events_pdf'
+          file = {this.props.url}
           onDocumentComplete={this.onDocumentComplete}
           onPageComplete={this.onPageComplete}
           page={this.state.page}
@@ -62,17 +62,20 @@ export default class MyPdfViewer extends React.Component {
 */
 
 //MGR-PDF-VIEWER
+
 import React, { Component } from 'react';
 import PDFSample from '../../assets/PDFSample.pdf'
 import PDFViewer from 'mgr-pdf-viewer-react'
+import WebApiService from '../Service/WebApiService';
 
 export default class PDF extends Component {
+
     render() {
     return (
         <PDFViewer document={{
             //file: PDFSample
-            url: "https://proyectoback-lfcastrop.c9users.io/events_pdf"
-            //url: this.props.url
+            //url: "http://localhost:3000/events_pdf/1"
+            url: this.props.url
         }} />
     );
 
