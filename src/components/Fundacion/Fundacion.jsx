@@ -11,7 +11,18 @@ import ListaEventos from './ListaEventos'
 
 const mapStateToProps = state => {
   return {
-    user : state.user
+    user : state.user,
+    loading : state.loading
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      ShowLoader: () => dispatch({
+          type: 'SHOW'
+      }),
+      HideLoader: () => dispatch({
+          type: 'HIDE'
+      }),
   }
 }
 class Fundacion extends Component {
@@ -21,33 +32,26 @@ class Fundacion extends Component {
     
     this.state = {
       fundacion : {},
-      isLoading: false,
     }
   }
 
   componentWillMount(){
-    this.setState({ isLoading: true });
+    this.props.ShowLoader();
 
     var data = {
       'direction': 'foundations/',
       'param' : this.props.match.params.id
     }
     WebApiService.Get(data).then(res =>{
+      this.props.HideLoader();
       this.setState({
         fundacion: res,
-        isLoading: false
       });
     });
   }
 
   render() {
-    const {fundacion, isLoading} = this.state;
-
-    if (isLoading) {
-      return <p className="text-center">Loading ...</p>;
-      ///*LOADING HERE*/
-    }
-
+    const fundacion = this.state;
     return (
     <div>
       <Grid>
