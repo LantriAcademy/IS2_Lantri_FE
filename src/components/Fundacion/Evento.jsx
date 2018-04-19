@@ -115,7 +115,8 @@ class Evento extends Component {
         </div>
         {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
         <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
-        <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
+        {(this.props.user.userType === false)  &&
+          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
       </div>
     );
   }
