@@ -67,8 +67,24 @@ import React, { Component } from 'react';
 import PDFSample from '../../assets/PDFSample.pdf'
 import PDFViewer from 'mgr-pdf-viewer-react'
 import WebApiService from '../Service/WebApiService';
+import { connect } from 'react-redux';
 
-export default class PDF extends Component {
+const mapStateToProps = state => {
+  return {
+    loading: state.loading
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    ShowLoader: () => dispatch({
+      type: 'SHOW'
+    }),
+    HideLoader: () => dispatch({
+      type: 'HIDE'
+    }),
+  }
+}
+class PDF extends Component {
     constructor(props){
       super(props);
       const urlParams = new URLSearchParams(this.props.location.search)
@@ -76,6 +92,8 @@ export default class PDF extends Component {
       this.state = {
         url: key
       }
+      this.props.ShowLoader();
+      setTimeout(() => {this.props.HideLoader()},  1000);
     }
     render() {
     return (
@@ -88,3 +106,4 @@ export default class PDF extends Component {
 
   }
 }
+export default connect(mapStateToProps, mapDispatchToProps)(PDF)
