@@ -4,6 +4,27 @@ import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
 
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    loading : state.loading
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      ShowLoader: () => dispatch({
+          type: 'SHOW'
+      }),
+      HideLoader: () => dispatch({
+          type: 'HIDE'
+      }),
+      ShowAlert: (message, typeAlert) =>dispatch({
+          type : 'SHOWALERT', message: message, typeAlert: typeAlert
+      })
+  }
+}
+
 class SignUp extends Component {
 
   constructor (props) {
@@ -31,9 +52,8 @@ class SignUp extends Component {
   }
 
   handleSubmit(event) {
-
-    
-     var data = {//Director
+    this.props.ShowLoader();
+    var data = {//Director
       'direction': 'directors',
       'param' : '',
       'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.biodes}},   
@@ -46,13 +66,15 @@ class SignUp extends Component {
         'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}},   
       }
      }
-
+    
+    
     WebApiService.Post(data).then(res =>{
+      this.props.HideLoader();
       if (res.status === 201) {
-        alert("Usuario creado exitosamente")
-        this.props.history.push("/")
+        this.props.history.push("/");
+        this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
       }else{
-        alert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido")
+        this.props.ShowAlert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido", "danger");
       }
     });
     
@@ -200,7 +222,7 @@ class SignUp extends Component {
             <div>
               <br/>
                 <FormErrors formErrors={this.state.formErrors} />
-            </div> 
+            </div>
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
           </form>
         </div>
@@ -208,4 +230,4 @@ class SignUp extends Component {
     }
   }
   
-  export default SignUp;
+  export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

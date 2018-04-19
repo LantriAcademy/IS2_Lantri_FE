@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
+import React, { Component } from 'react'
+import { Link } from "react-router-dom"
+import { Navbar, Nav, NavItem } from "react-bootstrap"
 import "../../styles/navigationMenu.css"
-import LoginModal from "../Login-SignUp/LoginModal";
-import {connect} from 'react-redux';
+import LoginModal from "../Login-SignUp/LoginModal"
+import {connect} from 'react-redux'
 
 const mapDispatchToProps = dispatch => {
     return {
