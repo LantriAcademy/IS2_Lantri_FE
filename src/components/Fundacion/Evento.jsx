@@ -32,23 +32,21 @@ class Evento extends Component {
     }
     
     WebApiService.Post(data).then(res =>{
-      console.log(res);
-       res.json().then(result => {
-          console.log(result);
-        });
-      if (res.status === 201) {
-        swal(
-          'Exito',
-          'Beneficiado creado exitosamente',
-          'success'
-        )
-      } else {
-        swal(
-          'Error',
-          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
-          'error'
-        )
-      }
+      res.json().then(result => {
+        if (res.status === 201) {
+          swal(
+            'Exito',
+            'Te has suscrito al evento',
+            'success'
+          )
+        } else {
+          swal(
+            'Error',
+            result.Error,
+            'error'
+          )
+        }
+      });
     });
     
   }
