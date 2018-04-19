@@ -34,7 +34,6 @@ class Fundacion extends Component {
       isLoading: true
     }
   }
-
   componentWillMount() {
     this.props.ShowLoader();
 
@@ -43,11 +42,11 @@ class Fundacion extends Component {
       'param': this.props.match.params.id
     }
     WebApiService.Get(data).then(res => {
-      this.setState({ isLoading: false });
-      this.props.HideLoader();
       this.setState({
         fundacion: res,
       });
+      this.props.HideLoader();
+      this.setState({ isLoading: false });
     });
   }
 
@@ -55,13 +54,12 @@ class Fundacion extends Component {
     if (this.state.isLoading) {
       return <div></div>
     } else {
-      const fundacion = this.state;
       return (
         <div>
           <Grid>
             <Row className="show-grid principal">
               <Col sm={3}>
-                <img src={WebApiService.baseUrl + fundacion.avatar.url} alt="Logo" height="220" width="260" />
+                <img src={WebApiService.baseUrl + this.state.fundacion.avatar.url} alt="Logo" height="220" width="260" />
                 <ul className="nav nav-pills  nav-stacked menu">
                   <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
                   <li><a data-toggle="tab" href="#beneficiados">Beneficiados</a></li>
@@ -80,7 +78,7 @@ class Fundacion extends Component {
               <Col sm={9}>
                 <div className="tab-content">
                   <div id="inicio" className="tab-pane fade in active">
-                    <Inicio fundacion={fundacion} />
+                    <Inicio fundacion={this.state.fundacion} />
                   </div>
                   <div id="beneficiados" className="tab-pane fade">
                     <ListaBeneficiados fundacion_id={this.props.match.params.id} />
