@@ -79,11 +79,12 @@ class CrearBeneficiado extends Component {
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
     WebApiService.Post(data).then(res =>{
-      console.log(res);
+      //console.log(res);
        res.json().then(result => {
-          console.log(result);
+          //console.log(result);
         });
       if (res.status === 201) {
+        this.props.history.push("/fundaciones/"+this.props.user.foundationId);
         swal(
           'Exito',
           'Beneficiado creado exitosamente',
