@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Col, Thumbnail, Button, Pagination} from "react-bootstrap";
-import fundacion1 from '../../assets/fundacion2.jpg';
 import WebApiService from '../Service/WebApiService';
 
 export default class ListaBeneficiados extends Component {
@@ -53,7 +52,7 @@ export default class ListaBeneficiados extends Component {
       var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
         return(
           <Col key={index} xs={6} md={6}>
-            <Thumbnail src={fundacion1} alt="242x200">
+            <Thumbnail src={WebApiService.baseUrl + beneficiado.avatar.url} alt="242x200">
               <h3>{beneficiado.name}</h3>
               <p>{beneficiado.preferences}</p>
               <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>

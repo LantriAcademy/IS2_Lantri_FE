@@ -27,7 +27,7 @@ class CrearFundacion extends Component {
     this.state = {
       name: "",
       direction: "",
-      file: null,
+      file: "",
       //selectedFile: null,
       formErrorsName: {name: ''},
       formErrorsDirection: {direction: ''},

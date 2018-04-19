@@ -37,7 +37,7 @@ class CrearBeneficiado extends Component {
     var data = {
       'direction': 'benefiteds',
       'param' : '',
-      'body' : {"benefited": {"foundation_id": this.props.user.foundationId, "name": this.state.name, "age": this.state.age, "preferences": this.state.preferences}},
+      'body' : {"benefited": {"foundation_id": this.props.user.foundationId, "name": this.state.name, "age": this.state.age, "preferences": this.state.preferences, "avatar": this.state.file.base64}},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
