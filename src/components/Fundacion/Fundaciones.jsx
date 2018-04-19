@@ -98,7 +98,7 @@ class Fundaciones extends Component {
         <Grid className="slide-f">
           <Row>
             <h1 className="text-center">Lista de fundaciones</h1>
-            {(this.props.user.token !== undefined && this.props.user.token != "" && this.props.user.foundationId == null)  &&
+            {(this.props.user.token !== undefined && this.props.user.userType == true && this.props.user.token != "" && this.props.user.foundationId == null)  &&
             <Button className="btn btn-success btn-circle btn-xl btn-plus" componentClass={Link} href="/crearFundacion" to="/crearFundacion">+</Button>}
             <div>
               {todoFundaciones}
