@@ -100,4 +100,4 @@ class Fundacion extends Component {
     }
   }
 }
-export default connect(mapStateToProps)(Fundacion)
+export default connect(mapStateToProps,mapDispatchToProps)(Fundacion)
