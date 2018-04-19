@@ -3,6 +3,7 @@ import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
+import swal from 'sweetalert2'
 
 import {connect} from 'react-redux';
 
@@ -33,19 +34,27 @@ class SignUp extends Component {
       biodes: '',
       user: '',
       password: '',
+      password2: '',
       name: '',
       lastname: '',
       email: '',
       phone: '',
       text : 'Biografia (opcional)',
       director: true, //0 = Director o 1 = Contribuyente
-      formErrors: {name: '', lastname: '', phone: '', user: '', email: '', password: ''},
+      formErrorsName: {name: ''},
+      formErrorsLastname: {lastname: ''},
+      formErrorsPhone: {phone: ''},
+      formErrorsUser: {user: ''},
+      formErrorsEmail: {email: ''},
+      formErrorsPassword: {password: ''},
+      formErrorsPassword2: {password2: ''},
       nameValid: false,
       lastnameValid: false,
       phoneValid: false,
       userValid: false,
       emailValid: false,
       passwordValid: false,
+      password2Valid: false,
       formValid: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,45 +112,56 @@ class SignUp extends Component {
   }
 
   validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
+    let formErrorsName = this.state.formErrorsName;
+    let formErrorsLastname = this.state.formErrorsLastname;
+    let formErrorsPhone = this.state.formErrorsPhone;
+    let formErrorsUser = this.state.formErrorsUser;
+    let formErrorsEmail = this.state.formErrorsEmail;
+    let formErrorsPassword = this.state.formErrorsPassword;
+    let formErrorsPassword2 = this.state.formErrorsPassword2;
     let nameValid = this.state.nameValid;
     let lastnameValid = this.state.lastnameValid;
     let phoneValid = this.state.phoneValid;
     let userValid = this.state.userValid;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
+    let password2Valid = this.state.password2Valid;
   
     switch(fieldName) {
       case 'name':
         nameValid = value.length >= 1;
-        fieldValidationErrors.name = nameValid ? '': ' es obligatorio';
+        formErrorsName.name = nameValid ? '': ' es obligatorio';
         break;
       case 'lastname':
         lastnameValid = value.length >= 1;
-        fieldValidationErrors.lastname = lastnameValid ? '': ' es obligatorio';
+        formErrorsLastname.lastname = lastnameValid ? '': ' es obligatorio';
         break;
       case 'phone':
         phoneValid = value.length === 7 || value.length === 10;
-        fieldValidationErrors.phone = phoneValid ? '': ' no es valido';
+        formErrorsPhone.phone = phoneValid ? '': ' no es valido';
         break;
       case 'user':
         userValid = value.length >= 1;
-        fieldValidationErrors.user = userValid ? '': ' es obligatorio';
+        formErrorsUser.user = userValid ? '': ' es obligatorio';
         break;
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' no es valido';
+        formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '': ' debe tener almenos 6 caracteres';
+        formErrorsPassword.password = passwordValid ? '': ' debe tener almenos 6 caracteres';
+        break;
+      case 'password2':
+        password2Valid = value === this.state.password;
+        formErrorsPassword2.password2 = password2Valid ? '': ' no son iguales';
         break;
       default:
         break;
     }
-    this.setState({formErrors: fieldValidationErrors,
-                    emailValid: emailValid,
+    this.setState({ emailValid: emailValid,
                     passwordValid: passwordValid,
+                    password2Valid: password2Valid,
                     nameValid: nameValid,
                     lastnameValid: lastnameValid,
                     phoneValid: phoneValid,
@@ -151,9 +171,8 @@ class SignUp extends Component {
   
   validateForm() {
     this.setState({formValid: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid && 
-                    this.state.userValid &&this.state.emailValid && this.state.passwordValid});
+                    this.state.userValid &&this.state.emailValid && this.state.passwordValid && this.state.password2Valid});
   }   
-  
   
   render() {
       return (
@@ -177,6 +196,9 @@ class SignUp extends Component {
                     value={this.state.name}
                     onChange={this.handleUserInput} />
             </FormGroup>
+            <div>
+                <FormErrors formErrors={this.state.formErrorsName} />
+            </div> 
             <FormGroup>
               <ControlLabel>Apellidos</ControlLabel>
               <input type="name" className="form-control" name="lastname" 
@@ -184,6 +206,9 @@ class SignUp extends Component {
                     value={this.state.lastname}
                     onChange={this.handleUserInput} />
             </FormGroup>
+            <div>
+                <FormErrors formErrors={this.state.formErrorsLastname} />
+            </div> 
             <FormGroup>
               <ControlLabel>Número de teléfono</ControlLabel>
               <input type="name" className="form-control" name="phone" 
@@ -191,7 +216,9 @@ class SignUp extends Component {
                     value={this.state.phone}
                     onChange={this.handleUserInput} />
             </FormGroup>
-
+            <div>
+                <FormErrors formErrors={this.state.formErrorsPhone} />
+            </div> 
             <FormGroup controlId="formControlsTextarea">
               <ControlLabel >{this.state.text} </ControlLabel>
               <FormControl componentClass="textarea" name= "biodes" placeholder="Cuentanos mas sobre ti"
@@ -205,6 +232,9 @@ class SignUp extends Component {
                     value={this.state.user}
                     onChange={this.handleUserInput} />
             </FormGroup>
+            <div>
+                <FormErrors formErrors={this.state.formErrorsUser} />
+            </div> 
             <FormGroup>
               <ControlLabel>Correo Electrónico</ControlLabel>
               <input type="email" className="form-control" name="email" 
@@ -212,6 +242,9 @@ class SignUp extends Component {
                       value={this.state.email}
                       onChange={this.handleUserInput} />
             </FormGroup>
+            <div>
+                <FormErrors formErrors={this.state.formErrorsEmail} />
+            </div> 
             <FormGroup>
               <ControlLabel>Contraseña</ControlLabel>
               <input type="password" className="form-control" name="password" 
@@ -219,10 +252,19 @@ class SignUp extends Component {
                       value={this.state.password}
                       onChange={this.handleUserInput} />
              </FormGroup>
+             <div>
+                <FormErrors formErrors={this.state.formErrorsPassword} />
+            </div> 
+             <FormGroup>
+              <ControlLabel>Confirme su contraseña</ControlLabel>
+              <input type="password" className="form-control" name="password2" 
+                      placeholder="Contraseña"                      
+                      value={this.state.password2}
+                      onChange={this.handleUserInput} />
+             </FormGroup>
             <div>
-              <br/>
-                <FormErrors formErrors={this.state.formErrors} />
-            </div>
+                <FormErrors formErrors={this.state.formErrorsPassword2} />
+            </div> 
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
           </form>
         </div>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "boostrap": "^2.0.0",
+    "mgr-pdf-viewer-react": "^1.0.0",
     "node-fetch": "^2.1.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
@@ -18,7 +19,8 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sweetalert2": "^7.18.0"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",

@@ -3,18 +3,21 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import '../styles/App.css'
 
 import Landing from "./Landing/Landing";
-import Fundaciones from "./Fundacion/Fundaciones"
-import Fundacion from "./Fundacion/Fundacion"
-import QuienesSomos from "./QuienesSomos"
-import Proposito from "./Proposito"
-import Contactenos from "./Contactenos"
-import SignUp from "./Login-SignUp/SignUp"
-import NavigationMenu from "./Menu/NavigationMenu"
+import Fundaciones from "./Fundacion/Fundaciones";
+import Fundacion from "./Fundacion/Fundacion";
+import QuienesSomos from "./QuienesSomos";
+import Proposito from "./Proposito";
+import PDF from "./PDF";
+import Contactenos from "./Contactenos";
+import SignUp from "./Login-SignUp/SignUp";
+import NavigationMenu from "./Menu/NavigationMenu";
 import Footer from "./Landing/Footer"
 import CrearFundacion from "./Fundacion/CrearFundacion"
 import CrearEvento from "./Fundacion/CrearEvento"
-import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado"
 import Alert from "./Alert/Alert"
+import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
+import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
+
 class App extends Component {
   
   render() {
@@ -29,8 +32,10 @@ class App extends Component {
               <Alert />   
               <Route exact path = "/" component={Landing}/>
               <Route exact path = "/fundaciones" component={Fundaciones}/>
+              <Route exact path = "/pdf" component={PDF}/>
               <Route exact path = "/crearEvento" component={CrearEvento}/>
               <Route exact path = "/crearFundacion" component={CrearFundacion}/>
+              <Route exact path = "/crearBeneficiado" component={CrearBeneficiado}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/fundaciones/:id/:kid" component={PerfilBeneficiado}/>
               <Route exact path = "/proposito" component={Proposito}/>

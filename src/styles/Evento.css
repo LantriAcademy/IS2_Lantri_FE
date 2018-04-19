@@ -1,0 +1,17 @@
+.panel-success>.panel-heading {
+  background-image: linear-gradient(to bottom,#56b156 0,#56b156 100%);
+}
+
+.panel-title {
+  color: white;
+}
+
+.suscribirse {
+  margin-top: 10px;
+}
+
+.todo  {
+  overflow-y: auto;
+  max-height: 80vh;
+  padding-right: 20px;
+}

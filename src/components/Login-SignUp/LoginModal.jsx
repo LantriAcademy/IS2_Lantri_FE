@@ -7,6 +7,7 @@ import { FormErrors } from "../Helpers/FormErrors.js"
 import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import config from '../../config.json';
+import swal from 'sweetalert2'
 
 const mapStateToProps = state => {
   return {
@@ -33,6 +34,8 @@ class LoginModal extends React.Component {
       password: '',
       director: true, //0 = Director o 1 = Contribuyente
       formErrors: { email: '', password: '' },
+      formErrorsEmail: {email: ''},
+      formErrorsPassword: {user: ''},
       emailValid: false,
       passwordValid: false,
       formValid: false
@@ -61,6 +64,7 @@ class LoginModal extends React.Component {
     }
 
     WebApiService.Post(data).then(res => {
+      console.log(res);
       if (res.status === 201) {
         res.json().then(result => {
           console.log(result);
@@ -68,7 +72,12 @@ class LoginModal extends React.Component {
           this.props.hide();
         });
       } else {
-        alert("Revisa tu contraseña e intentalo de nuevo!");
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Revisa tu contraseña e intentalo de nuevo!',
+          'error'
+        )
       }
     });
     event.preventDefault();
@@ -88,24 +97,24 @@ class LoginModal extends React.Component {
   }
 
   validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
+    let formErrorsEmail = this.state.formErrorsEmail;
+    let formErrorsPassword = this.state.formErrorsPassword;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
 
     switch (fieldName) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' no es valido';
+        formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
+        formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
         break;
       default:
         break;
     }
     this.setState({
-      formErrors: fieldValidationErrors,
       emailValid: emailValid,
       passwordValid: passwordValid
     }, this.validateForm);
@@ -117,6 +126,42 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     console.log(response)
+    
+    var data = {//Director
+      'direction': '/signin_director/google',
+      'param': '',
+      'body': response,
+    }
+
+    if (!this.state.director) { //Contribuyente
+      data = {
+        'direction': '/signin_contributor/google',
+        'param': '',
+        'body': response
+      }
+    }
+    
+    WebApiService.Post(data).then(res => {
+      console.log(res)
+      if (res.status === 201) {
+        res.json().then(result => {
+          console.log(result);
+          if (!this.state.director) { //Contribuyente
+            this.props.login(result.authentication_token, result.contributor_id, result.foundation_id, this.state.director, result.email);
+          }else {
+            this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);  
+          }
+          this.props.hide();
+        });
+      } else {
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Something went wrong',
+          'error'
+        )
+      }
+    });
   }
 
   onFailure = (error) => {
@@ -142,14 +187,19 @@ class LoginModal extends React.Component {
                   value={this.state.email}
                   onChange={this.handleUserInput} />
               </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsEmail} />
+              </div>
               <FormGroup>
-                <br />
                 <ControlLabel>Contraseña</ControlLabel>
                 <input type="password" className="form-control" name="password"
                   placeholder="Contraseña"
                   value={this.state.password}
                   onChange={this.handleUserInput} />
               </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsPassword} />
+              </div>
               <ControlLabel>Tipo de usuario</ControlLabel>
               <ButtonToolbar>
                 <ToggleButtonGroup
@@ -159,10 +209,7 @@ class LoginModal extends React.Component {
                   <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
                 </ToggleButtonGroup>
               </ButtonToolbar>
-              <div>
-                <br />
-                <FormErrors formErrors={this.state.formErrors} />
-              </div>
+              <br/>
               <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
               <div>
                 <GoogleLogin

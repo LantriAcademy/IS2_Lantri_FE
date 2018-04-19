@@ -7,6 +7,7 @@ import WebApiService from '../Service/WebApiService';
 import Inicio from './Inicio'
 import ListaBeneficiados from './ListaBeneficiados'
 import {connect} from 'react-redux';
+import ListaEventos from './ListaEventos'
 
 const mapStateToProps = state => {
   return {
@@ -44,6 +45,7 @@ class Fundacion extends Component {
 
     if (isLoading) {
       return <p className="text-center">Loading ...</p>;
+      ///*LOADING HERE*/
     }
 
     return (
@@ -55,12 +57,14 @@ class Fundacion extends Component {
             <ul className="nav nav-pills  nav-stacked menu">
               <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
               <li><a data-toggle="tab" href="#beneficiados">Beneficiados</a></li>
+              <li><a data-toggle="tab" href="#eventos">Eventos</a></li>
               <li><a data-toggle="tab" href="#comoAyudarnos">Como Ayudarnos</a></li>
               <li><a data-toggle="tab" href="#quienesSomos">Quienes Somos</a></li>
               <li><a data-toggle="tab" href="#conctactenos">Conctactenos</a></li>
-              {(this.props.user.foundationId != "" && this.props.user.foundationId == this.props.match.params.id)  &&
+              {(this.props.user.foundationId !== "" && this.props.user.foundationId === this.props.match.params.id)  &&
                 <div className="text-center">
                   <Button className="btn btn-success btn-block" componentClass={Link} href="/crearEvento" to="/crearEvento">Crear Evento</Button>
+                  <Button className="btn btn-success btn-block" componentClass={Link} href="/crearBeneficiado" to="/crearBeneficiado">Crear Beneficiado</Button>
                 </div>
               }
             </ul>
@@ -72,6 +76,9 @@ class Fundacion extends Component {
               </div>
               <div id="beneficiados" className="tab-pane fade">
                 <ListaBeneficiados fundacion_id={this.props.match.params.id}/>
+              </div>
+              <div id="eventos" className="tab-pane fade">
+                <ListaEventos fundacion_id={this.props.match.params.id}/>
               </div>
               <div id="comoAyudarnos" className="tab-pane fade">comoAyudarnos</div>
               <div id="quienesSomos" className="tab-pane fade">quienesSomos</div>

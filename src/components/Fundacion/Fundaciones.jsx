@@ -27,6 +27,7 @@ class Fundaciones extends Component {
 
   constructor(props){
     super(props)
+    //console.log(this.props);
     this.state = {
       fundaciones : [],
       active: 1,
