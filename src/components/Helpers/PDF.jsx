@@ -69,13 +69,20 @@ import PDFViewer from 'mgr-pdf-viewer-react'
 import WebApiService from '../Service/WebApiService';
 
 export default class PDF extends Component {
-
+    constructor(props){
+      super(props);
+      const urlParams = new URLSearchParams(this.props.location.search)
+      const key = urlParams.get('url');
+      this.state = {
+        url: key
+      }
+    }
     render() {
     return (
         <PDFViewer document={{
             //file: PDFSample
             //url: "http://localhost:3000/events_pdf/1"
-            url: this.props.url
+            url: this.state.url
         }} />
     );
 

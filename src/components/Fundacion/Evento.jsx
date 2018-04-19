@@ -27,7 +27,7 @@ class Evento extends Component {
   
   componentWillMount() {
     var data = {
-      'direction': '/events_pdf/',
+      'direction': 'events_pdf/',
       'param' : this.props.event.id,
     }
     WebApiService.GetURL(data).then(res =>{
@@ -39,15 +39,15 @@ class Evento extends Component {
 
   openPDF(urlPdf){
     console.log("la URL del evento es: " + urlPdf);
-
-/*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
-  <div>Popped out content!</div>
-</PopoutWindow>*/
-    /*{routes.map(({path,component: C})=>(
-      <Route path = {path}
-      component={(props) => <C url = "localhost:3000/events_pdf/1" />}
-      />
-    ))}*/
+    window.open('/pdf?url='+urlPdf, '_blank');
+  /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
+    <div>Popped out content!</div>
+  </PopoutWindow>*/
+      /*{routes.map(({path,component: C})=>(
+        <Route path = {path}
+        component={(props) => <C url = "localhost:3000/events_pdf/1" />}
+        />
+      ))}*/
   }
 
   handleSubmit() {
