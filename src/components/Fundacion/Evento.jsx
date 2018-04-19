@@ -47,9 +47,9 @@ class Evento extends Component {
   }
 
   handleSubmit() {
-    console.log("OK")
-    console.log(this.props.user.id)
-    console.log(this.props.event.id)
+    //console.log("OK")
+    //console.log(this.props.user.id)
+    //console.log(this.props.event.id)
     var data = {
       'direction': '/contributor_events',
       'param' : '',
@@ -95,7 +95,7 @@ class Evento extends Component {
             <h3 className="panel-title">Fecha</h3>
           </div>
           <div className="panel-body">
-           <p>{this.props.event.startDate}</p>
+           <p>{new Date(this.props.event.startDate).toUTCString()}</p>
           </div>
         </div>
         <div className="panel panel-success">
