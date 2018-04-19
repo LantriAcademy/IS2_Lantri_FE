@@ -4,6 +4,7 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
+//import ImageUpload from '../Helpers/ImageUpload'
 import swal from 'sweetalert2'
 import {connect} from 'react-redux';
 
@@ -27,18 +28,26 @@ class CrearFundacion extends Component {
       name: "",
       direction: "",
       file: "",
-      formErrors: {name: "", direction: ""},
+      //selectedFile: null,
+      formErrorsName: {name: ''},
+      formErrorsDirection: {direction: ''},
       nameValid: false,
       directionValid: false,
-      formValid: false,
       lat: 4.637894,
       lng: -74.084023
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.getFiles = this.getFiles.bind(this);
   }
+
+  fileSelectedHandler= event => {
+    console.log(event.target.files[0]);
+    this.setState({
+        selectedFile: event.target.files[0]
+    });
+}
+
 
   handleUserInput = (e) => {
     const name = e.target.name;
@@ -50,13 +59,17 @@ class CrearFundacion extends Component {
 
   handleSubmit(event) {
 
+    console.log(this.state.file.base64);
+
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, 
+      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
+
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
         res.json().then((result) =>{
@@ -89,24 +102,24 @@ class CrearFundacion extends Component {
   }
 
   validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
+    let formErrorsName = this.state.formErrorsName;
+    let formErrorsDirection = this.state.formErrorsDirection;
     let nameValid = this.state.nameValid;
     let directionValid = this.state.directionValid;
   
     switch(fieldName) {
       case 'name':
-        nameValid = value.length >= 1;
-        fieldValidationErrors.name = nameValid ? '': ' es obligatorio.';
+        nameValid = value.length >= 2;
+        formErrorsName.name = nameValid ? '': ' es obligatorio.';
         break;
       case 'direction':
-        directionValid = value.length >= 1;
-        fieldValidationErrors.direction = directionValid ? '': ' es obligatoria.';
+        directionValid = value.length >= 4;
+        formErrorsDirection.direction = directionValid ? '': ' no es valida.';
         break;
       default:
         break;
     }
-    this.setState({formErrors: fieldValidationErrors,
-                    nameValid: nameValid,
+    this.setState({ nameValid: nameValid,
                     directionValid: directionValid,
                   }, this.validateForm);
   }
@@ -128,6 +141,7 @@ class CrearFundacion extends Component {
             value = {this.state.name}
             onChange={this.handleUserInput}/>
           </div>
+          <FormErrors formErrors={this.state.formErrorsName} />
           <div className="form-group">
             <label>Dirección</label>
             <input  type="text" className="form-control" name = "direction"
@@ -135,21 +149,21 @@ class CrearFundacion extends Component {
             value = {this.state.direction}
             onChange={this.handleUserInput}/>
           </div>
+          <FormErrors formErrors={this.state.formErrorsDirection} />
           <div className="form-group">
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
             <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
           <div className="form-group">
             <label>Imagen</label>
+            {/*<ImageUpload/>
+            <input type = "file" onChange={this.fileSelectedHandler}/>*/}
             <FileBase64 onDone={this.getFiles} />
             <div className="preview text-center">
               {preview}
             </div>
           </div>
-          <div>
-            <FormErrors formErrors={this.state.formErrors} />
-          </div> 
-          <button type="submit" className="btn btn-success btn-block" disabled={!this.state.formValid}>Crear Fundación</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
         </form>
       </div>
     );

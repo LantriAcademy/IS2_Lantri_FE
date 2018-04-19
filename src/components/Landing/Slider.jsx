@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Thumbnail, Button} from "react-bootstrap";
 import "../../styles/Slider.css"
 import WebApiService from '../Service/WebApiService';
-import fundacion1 from '../../assets/fundacion1.jpg'
 import { Link } from "react-router-dom";
 
 export default class Slider extends Component {
@@ -30,7 +29,7 @@ export default class Slider extends Component {
       var route = "/fundaciones/" + fundacion.id;
           return(
             <Col key={index} xs={6} md={4}>
-              <Thumbnail src={fundacion1} alt="242x200">
+              <Thumbnail src={WebApiService.baseUrl + fundacion.avatar.url} alt="242x200">
                 <h3>{fundacion.name}</h3>
                 <p>{fundacion.direction}</p>
                 <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>

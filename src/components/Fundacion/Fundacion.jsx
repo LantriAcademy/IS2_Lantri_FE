@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import fundacion1 from '../../assets/fundacion1.jpg'
 import "../../styles/Fundacion.css";
 import WebApiService from '../Service/WebApiService';
 import Inicio from './Inicio'
@@ -11,7 +10,18 @@ import ListaEventos from './ListaEventos'
 
 const mapStateToProps = state => {
   return {
-    user : state.user
+    user : state.user,
+    loading : state.loading
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      ShowLoader: () => dispatch({
+          type: 'SHOW'
+      }),
+      HideLoader: () => dispatch({
+          type: 'HIDE'
+      }),
   }
 }
 class Fundacion extends Component {
@@ -21,39 +31,32 @@ class Fundacion extends Component {
     
     this.state = {
       fundacion : {},
-      isLoading: false,
     }
   }
 
   componentWillMount(){
-    this.setState({ isLoading: true });
+    this.props.ShowLoader();
 
     var data = {
       'direction': 'foundations/',
       'param' : this.props.match.params.id
     }
     WebApiService.Get(data).then(res =>{
+      this.props.HideLoader();
       this.setState({
         fundacion: res,
-        isLoading: false
       });
     });
   }
 
   render() {
-    const {fundacion, isLoading} = this.state;
-
-    if (isLoading) {
-      return <p className="text-center">Loading ...</p>;
-      ///*LOADING HERE*/
-    }
-
+    const fundacion = this.state;
     return (
     <div>
       <Grid>
         <Row className="show-grid principal">
           <Col sm={3}>
-            <img src={fundacion1} alt="Logo" height="220" width="260"/>
+            <img src={WebApiService.baseUrl + fundacion.avatar.url} alt="Logo" height="220" width="260"/>
             <ul className="nav nav-pills  nav-stacked menu">
               <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
               <li><a data-toggle="tab" href="#beneficiados">Beneficiados</a></li>
