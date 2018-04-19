@@ -7,6 +7,7 @@ import { FormErrors } from "../Helpers/FormErrors.js"
 import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import config from '../../config.json';
+import swal from 'sweetalert2'
 
 const mapStateToProps = state => {
   return {
@@ -63,6 +64,7 @@ class LoginModal extends React.Component {
     }
 
     WebApiService.Post(data).then(res => {
+      console.log(res);
       if (res.status === 201) {
         res.json().then(result => {
           console.log(result);
@@ -70,7 +72,12 @@ class LoginModal extends React.Component {
           this.props.hide();
         });
       } else {
-        alert("Revisa tu contraseña e intentalo de nuevo!");
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Revisa tu contraseña e intentalo de nuevo!',
+          'error'
+        )
       }
     });
     event.preventDefault();
@@ -119,6 +126,42 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     console.log(response)
+    
+    var data = {//Director
+      'direction': '/signin_director/google',
+      'param': '',
+      'body': response,
+    }
+
+    if (!this.state.director) { //Contribuyente
+      data = {
+        'direction': '/signin_contributor/google',
+        'param': '',
+        'body': response
+      }
+    }
+    
+    WebApiService.Post(data).then(res => {
+      console.log(res)
+      if (res.status === 201) {
+        res.json().then(result => {
+          console.log(result);
+          if (!this.state.director) { //Contribuyente
+            this.props.login(result.authentication_token, result.contributor_id, result.foundation_id, this.state.director, result.email);
+          }else {
+            this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);  
+          }
+          this.props.hide();
+        });
+      } else {
+        //alert("Revisa tu contraseña e intentalo de nuevo!");
+        swal(
+          'Error',
+          'Something went wrong',
+          'error'
+        )
+      }
+    });
   }
 
   onFailure = (error) => {

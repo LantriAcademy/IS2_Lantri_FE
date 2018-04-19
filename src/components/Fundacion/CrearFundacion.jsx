@@ -5,7 +5,7 @@ import '../../styles/CrearFundacion.css';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
 //import ImageUpload from '../Helpers/ImageUpload'
-
+import swal from 'sweetalert2'
 import {connect} from 'react-redux';
 
 const mapStateToProps = state => {
@@ -66,6 +66,8 @@ class CrearFundacion extends Component {
       'param' : '',
       'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, 
       "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}},
+      'type' : 1,
+      'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
 
     WebApiService.Post(data).then(res =>{
@@ -74,8 +76,18 @@ class CrearFundacion extends Component {
           this.props.foundation(result.id);
           this.props.history.push("/");
         });
+        swal(
+          'Exito',
+          'Fundación creada exitosamente',
+          'success'
+        )
       } else {
-        alert("Error al crear intentalo de nuevo");
+        //alert("Error al crear intentalo de nuevo");
+        swal(
+          'Error',
+          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
+          'error'
+        )
       }
     });
     event.preventDefault();
@@ -117,6 +129,7 @@ class CrearFundacion extends Component {
   }  
 
   render() {
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="Preview"/> : "");
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
@@ -146,6 +159,9 @@ class CrearFundacion extends Component {
             {/*<ImageUpload/>
             <input type = "file" onChange={this.fileSelectedHandler}/>*/}
             <FileBase64 onDone={this.getFiles} />
+            <div className="preview text-center">
+              {preview}
+            </div>
           </div>
           <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
         </form>

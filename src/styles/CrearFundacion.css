@@ -21,3 +21,11 @@
   position: relative;
   margin: auto;
 }
+
+.preview {
+  margin-bottom: 10px;
+}
+
+textarea {
+  height: 150px !important;
+}

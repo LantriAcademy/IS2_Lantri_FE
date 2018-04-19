@@ -3,7 +3,7 @@ import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
-
+import swal from 'sweetalert2'
 import {connect} from 'react-redux';
 
 const mapStateToProps = state => {
@@ -57,9 +57,19 @@ class CrearEvento extends Component {
           console.log(result);
         });
       if (res.status === 201) {
-        alert("Evento creado exitosamente")
+        //alert("Evento creado exitosamente")
+        swal(
+          'Exito',
+          'Evento creado exitosamente',
+          'success'
+        )
       } else {
-        alert("Error")
+        //alert("Error")
+        swal(
+          'Error',
+          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
+          'error'
+        )
       }
     });
     event.preventDefault();

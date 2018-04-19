@@ -3,6 +3,7 @@ import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
+import swal from 'sweetalert2'
 
 import {connect} from 'react-redux';
 

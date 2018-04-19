@@ -14,8 +14,10 @@ import NavigationMenu from "./Menu/NavigationMenu";
 import Footer from "./Landing/Footer"
 import CrearFundacion from "./Fundacion/CrearFundacion"
 import CrearEvento from "./Fundacion/CrearEvento"
-import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado"
 import Alert from "./Alert/Alert"
+import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
+import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
+
 class App extends Component {
   
   render() {
@@ -33,6 +35,7 @@ class App extends Component {
               <Route exact path = "/pdf" component={PDF}/>
               <Route exact path = "/crearEvento" component={CrearEvento}/>
               <Route exact path = "/crearFundacion" component={CrearFundacion}/>
+              <Route exact path = "/crearBeneficiado" component={CrearBeneficiado}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/fundaciones/:id/:kid" component={PerfilBeneficiado}/>
               <Route exact path = "/proposito" component={Proposito}/>
