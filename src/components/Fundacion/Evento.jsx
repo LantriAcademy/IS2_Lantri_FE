@@ -5,6 +5,7 @@ import WebApiService from '../Service/WebApiService';
 import { Button} from "react-bootstrap";
 import {connect} from 'react-redux';
 import swal from 'sweetalert2'
+import PDFViewer from '../Helpers/PDF';
 
 const mapStateToProps = state => {
   return {
@@ -14,11 +15,37 @@ const mapStateToProps = state => {
 
 class Evento extends Component {
   constructor(props){
-    super(props)
-    
+    super(props) 
+    this.state = {
+      pdfUrl : "1"
+    };
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
+  componentWillMount() {
+    var data = {
+      'direction': '/foundation/events/',
+      'param' : this.props.event.id,
+    }
+    WebApiService.GetURL(data).then(res =>{
+      this.setState({
+        pdfUrl: res,
+      });
+    });
+  }
+
+  openPDF(urlPdf){
+    console.log("la URL del evento es: " + urlPdf);
+
+    window.open("/pdf", "_blank");
+    /*{routes.map(({path,component: C})=>(
+      <Route path = {path}
+      component={(props) => <C url = "localhost:3000/events_pdf/1" />}
+      />
+    ))}*/
+  }
+
   handleSubmit() {
     console.log("OK")
     console.log(this.props.user.id)
@@ -82,6 +109,7 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
+        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block">Mostrar invitación</Button>
         <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
       </div>
     );

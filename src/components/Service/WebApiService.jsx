@@ -7,6 +7,10 @@ export default class WebApiService {
         response = response.json();
         return response; 
     }
+    static async GetURL(data) {
+        var url =  this.baseUrl + data.direction + data.param;
+        return url; 
+    }
     static async Post(data){
        if(data.type === 1){
            var response = await fetch(this.baseUrl + data.direction, { 

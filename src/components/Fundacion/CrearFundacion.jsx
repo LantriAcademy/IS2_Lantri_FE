@@ -156,8 +156,6 @@ class CrearFundacion extends Component {
           </div>
           <div className="form-group">
             <label>Imagen</label>
-            {/*<ImageUpload/>
-            <input type = "file" onChange={this.fileSelectedHandler}/>*/}
             <FileBase64 onDone={this.getFiles} />
             <div className="preview text-center">
               {preview}
