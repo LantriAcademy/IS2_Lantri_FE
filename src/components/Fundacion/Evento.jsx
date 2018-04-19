@@ -5,6 +5,7 @@ import WebApiService from '../Service/WebApiService';
 import { Button} from "react-bootstrap";
 import {connect} from 'react-redux';
 import swal from 'sweetalert2'
+import PDFViewer from '../Helpers/PDF';
 
 const mapStateToProps = state => {
   return {
@@ -45,7 +46,7 @@ class Evento extends Component {
       } else {
         swal(
           'Error',
-          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
+          'Hubo un problema con la solicitud',
           'error'
         )
       }
@@ -84,6 +85,7 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
+        <PDFViewer url= "localhost:3000/events_pdf/1" />
         <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
       </div>
     );

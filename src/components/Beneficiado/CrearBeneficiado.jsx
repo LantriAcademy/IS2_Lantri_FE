@@ -3,7 +3,9 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import WebApiService from '../Service/WebApiService';
 import swal from 'sweetalert2'
+import{FormControl} from "react-bootstrap"
 import {connect} from 'react-redux';
+import { FormErrors } from "../Helpers/FormErrors.js"
 
 const mapStateToProps = state => {
   return {
@@ -18,17 +20,52 @@ class CrearBeneficiado extends Component {
       name: "",
       age: "",
       preferences: "",
-      file: ""
+      file: "",
+      formErrorsName: {name: ''},
+      formErrorsAge: {age: ''},
+      nameValid: false,
+      ageValid: false,
+      formValid: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getFiles = this.getFiles.bind(this);
   }
 
-  handleChange(state, e) {
-    this.setState({[state]: e.target.value});
+  handleUserInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value},
+                  () => { this.validateField(name, value) });
   }
 
+  validateField(fieldName, value) {
+    let formErrorsName = this.state.formErrorsName;
+    let formErrorsAge = this.state.formErrorsAge;
+    let nameValid = this.state.nameValid;
+    let ageValid = this.state.ageValid;
+
+  
+    switch(fieldName) {
+      case 'name':
+        nameValid = value.length >= 1;
+        formErrorsName.name = nameValid ? '': ' es obligatorio';
+        break;
+      case 'age':
+      ageValid = value.length >= 1;
+        formErrorsAge.age = ageValid ? '': ' es obligatoria';
+        break;
+      default:
+        break;
+    }
+    this.setState({ nameValid: nameValid,
+                    ageValid: ageValid,
+                  }, this.validateForm);
+  }
+  
+  validateForm() {
+    this.setState({formValid: this.state.nameValid && this.state.ageValid});
+  }   
   getFiles(file){
     this.setState({file: file});
   }
@@ -37,7 +74,7 @@ class CrearBeneficiado extends Component {
     var data = {
       'direction': 'benefiteds',
       'param' : '',
-      'body' : {"benefited": {"foundation_id": this.props.user.foundationId, "name": this.state.name, "age": this.state.age, "preferences": this.state.preferences}},
+      'body' : {"benefited": {"foundation_id": this.props.user.foundationId, "name": this.state.name, "age": this.state.age, "preferences": this.state.preferences, "avatar": this.state.file.base64}},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
@@ -71,15 +108,29 @@ class CrearBeneficiado extends Component {
           <h1 className="title">Crear Beneficiado</h1>
           <div className="form-group">
             <label>Nombre</label>
-            <input onChange={this.handleChange.bind(this, 'name')} type="text" className="form-control" placeholder="Nombre" required/>
+              <input type="name" className="form-control" name="name" 
+                    placeholder="Nombre"
+                    value={this.state.name}
+                    onChange={this.handleUserInput} />
           </div>
+          <div>
+                <FormErrors formErrors={this.state.formErrorsName} />
+          </div> 
           <div className="form-group">
             <label>Edad</label>
-            <input onChange={this.handleChange.bind(this, 'age')} type="number " className="form-control" placeholder="Edad"/>
+            <input type="number" className="form-control" name="age" 
+                    placeholder="Edad"
+                    value={this.state.age}
+                    onChange={this.handleUserInput} />
           </div>
+          <div>
+              <FormErrors formErrors={this.state.formErrorsAge} />
+          </div> 
           <div className="form-group">
             <label>Preferencias</label>
-            <textarea onChange={this.handleChange.bind(this, 'preferences')} type="text" className="form-control" placeholder="Preferencias"/>
+            <FormControl componentClass="textarea" name= "preferences" placeholder="Preferencias"
+                    value={this.state.preferences}
+                    onChange={this.handleUserInput} />
           </div>
           <div className="form-group">
             <label>Imagen</label>
@@ -88,7 +139,7 @@ class CrearBeneficiado extends Component {
               {preview}
             </div>
           </div>
-          <button type="submit" className="btn btn-success btn-block">Crear Beneficiado</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear beneficiario</button>
         </form>
       </div>
     );
