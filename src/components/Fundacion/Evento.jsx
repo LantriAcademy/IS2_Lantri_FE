@@ -55,7 +55,7 @@ class Evento extends Component {
     //console.log(this.props.user.id)
     //console.log(this.props.event.id)
     var data = {
-      'direction': '/contributor_events',
+      'direction': 'contributor_events',
       'param' : '',
       'body' : { "contributor_event": {"contributor_id": this.props.user.id, "event_id": this.props.event.id}},  
       'type' : 1,
