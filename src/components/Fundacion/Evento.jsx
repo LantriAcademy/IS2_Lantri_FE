@@ -6,6 +6,8 @@ import { Button} from "react-bootstrap";
 import {connect} from 'react-redux';
 import swal from 'sweetalert2'
 import PDFViewer from '../Helpers/PDF';
+import NewWindow from 'react-new-window';
+import PopoutWindow from 'react-popout'
 
 const mapStateToProps = state => {
   return {
@@ -25,7 +27,7 @@ class Evento extends Component {
   
   componentWillMount() {
     var data = {
-      'direction': '/foundation/events/',
+      'direction': 'events_pdf/',
       'param' : this.props.event.id,
     }
     WebApiService.GetURL(data).then(res =>{
@@ -37,13 +39,15 @@ class Evento extends Component {
 
   openPDF(urlPdf){
     console.log("la URL del evento es: " + urlPdf);
-
-    window.open("/pdf", "_blank");
-    /*{routes.map(({path,component: C})=>(
-      <Route path = {path}
-      component={(props) => <C url = "localhost:3000/events_pdf/1" />}
-      />
-    ))}*/
+    window.open('/pdf?url='+urlPdf, '_blank');
+  /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
+    <div>Popped out content!</div>
+  </PopoutWindow>*/
+      /*{routes.map(({path,component: C})=>(
+        <Route path = {path}
+        component={(props) => <C url = "localhost:3000/events_pdf/1" />}
+        />
+      ))}*/
   }
 
   handleSubmit() {
@@ -51,7 +55,7 @@ class Evento extends Component {
     //console.log(this.props.user.id)
     //console.log(this.props.event.id)
     var data = {
-      'direction': '/contributor_events',
+      'direction': 'contributor_events',
       'param' : '',
       'body' : { "contributor_event": {"contributor_id": this.props.user.id, "event_id": this.props.event.id}},  
       'type' : 1,
@@ -109,8 +113,10 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
+        {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
         <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
-        <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
+        {(this.props.user.userType === false)  &&
+          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
       </div>
     );
   }

@@ -52,7 +52,8 @@ export default class ListaBeneficiados extends Component {
       var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
         return(
           <Col key={index} xs={6} md={6}>
-            <Thumbnail src={WebApiService.baseUrl + beneficiado.avatar.url} alt="242x200">
+            <Thumbnail>
+              <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
               <h3>{beneficiado.name}</h3>
               <p>{beneficiado.preferences}</p>
               <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
