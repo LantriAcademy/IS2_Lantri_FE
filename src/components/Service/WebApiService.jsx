@@ -1,6 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "https://backend-wapiravaguens.c9users.io/";
+    static baseUrl = "http://localhost:3000/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);
