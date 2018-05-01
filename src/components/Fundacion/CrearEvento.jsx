@@ -22,9 +22,11 @@ class CrearEvento extends Component {
       dateTime: '',
       formErrorsName: {name: ''},
       formErrorsDirection: {direction: ''},
+      formErrorsDescription: {description: ''},
       formErrorsDateTime: {dateTime: ''},
       nameValid: false,
       directionValid: false,
+      descriptionValid: false,
       dateTimeValid: false,
       formValid:false,
       lat: 4.637894,
@@ -52,17 +54,19 @@ class CrearEvento extends Component {
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
     WebApiService.Post(data).then(res =>{
-      console.log(res);
+      //console.log(res);
        res.json().then(result => {
-          console.log(result);
+          //console.log(result);
         });
       if (res.status === 201) {
         //alert("Evento creado exitosamente")
+        this.props.history.push("/fundaciones/"+this.props.user.foundationId);
         swal(
           'Exito',
           'Evento creado exitosamente',
           'success'
         )
+
       } else {
         //alert("Error")
         swal(
@@ -79,9 +83,11 @@ class CrearEvento extends Component {
     let formErrorsName = this.state.formErrorsName;
     let formErrorsDirection = this.state.formErrorsDirection;
     let formErrorsDateTime = this.state.formErrorsDateTime;
+    let formErrorsDescription = this.state.formErrorsDescription;
     let nameValid = this.state.nameValid;
     let directionValid = this.state.directionValid;
     let dateTimeValid = this.state.dateTimeValid;
+    let descriptionValid = this.state.descriptionValid;
   
     switch(fieldName) {
       case 'name':
@@ -96,18 +102,23 @@ class CrearEvento extends Component {
         dateTimeValid = value.length >= 3;
         formErrorsDateTime.dateTime = dateTimeValid ? '': ' es obligatoria.';
         break;
+      case 'description':
+        descriptionValid = value.length >= 3;
+        formErrorsDescription.description = descriptionValid ? '': ' es obligatoria.';
+        break;
       default:
         break;
     }
     this.setState({ nameValid: nameValid,
                     directionValid: directionValid,
                     dateTimeValid: dateTimeValid,
+                    descriptionValid: descriptionValid,
                   }, this.validateForm);
   }
 
   validateForm() {
-    this.setState({formValid: this.state.nameValid && this.state.directionValid && this.state.dateTimeValid});
-  }  
+    this.setState({formValid: this.state.nameValid && this.state.directionValid && this.state.dateTimeValid && this.state.descriptionValid});
+  } 
 
   onDragEnd(lat, lng){
     this.setState({lat: lat, lng: lng});
@@ -140,6 +151,7 @@ class CrearEvento extends Component {
             value={this.state.description}
             onChange={this.handleUserInput} />
           </div>
+          <FormErrors formErrors={this.state.formErrorsDescription} />
           <div className="form-group">
             <label>Fecha</label>
             <input name = "dateTime" type="datetime-local" className="form-control" 

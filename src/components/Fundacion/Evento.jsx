@@ -51,11 +51,11 @@ class Evento extends Component {
   }
 
   handleSubmit() {
-    console.log("OK")
-    console.log(this.props.user.id)
-    console.log(this.props.event.id)
+    //console.log("OK")
+    //console.log(this.props.user.id)
+    //console.log(this.props.event.id)
     var data = {
-      'direction': '/contributor_events',
+      'direction': 'contributor_events',
       'param' : '',
       'body' : { "contributor_event": {"contributor_id": this.props.user.id, "event_id": this.props.event.id}},  
       'type' : 1,
@@ -99,7 +99,7 @@ class Evento extends Component {
             <h3 className="panel-title">Fecha</h3>
           </div>
           <div className="panel-body">
-           <p>{this.props.event.startDate}</p>
+           <p>{new Date(this.props.event.startDate).toUTCString()}</p>
           </div>
         </div>
         <div className="panel panel-success">
@@ -114,8 +114,9 @@ class Evento extends Component {
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
         {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
-        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block">Mostrar invitación</Button>
-        <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
+        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
+        {(this.props.user.userType === false)  &&
+          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
       </div>
     );
   }

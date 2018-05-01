@@ -1,6 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
+    static baseUrl = "https://fundaciones-is2-be.herokuapp.com/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);

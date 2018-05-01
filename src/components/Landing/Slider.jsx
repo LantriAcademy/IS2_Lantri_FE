@@ -29,7 +29,8 @@ export default class Slider extends Component {
       var route = "/fundaciones/" + fundacion.id;
           return(
             <Col key={index} xs={6} md={4}>
-              <Thumbnail src={WebApiService.baseUrl + fundacion.avatar.url} alt="242x200">
+              <Thumbnail>
+                <img src={WebApiService.baseUrl + fundacion.avatar.url} alt="Logo" height="250" width="335" />
                 <h3>{fundacion.name}</h3>
                 <p>{fundacion.direction}</p>
                 <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
