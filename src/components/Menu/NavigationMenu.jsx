@@ -63,7 +63,7 @@ class NavigationMenu extends Component {
                             }
                             
                             {this.props.user.token !== undefined && this.props.user.token !== ""? (
-                                <NavItem eventKey={7} className="btn-login" onClick={(e) => this.callLogoff(e)}>Salir</NavItem>
+                                <NavItem eventKey={7} className="btn-login" componentClass={Link} href="/" to="/" onClick={(e) => this.callLogoff(e)}>Salir</NavItem>
                             ) : (
                                 <NavItem eventKey={7} className="btn-login" onClick={(e) => this.callLogin(e)}>Inicio Sesion</NavItem>
                             )}

@@ -39,7 +39,7 @@ class Actualizar extends Component {
       password2: '',
       name: '',
       lastname: '',
-      email: this.props.user.email,
+      email: '',
       phone: '',
       text : 'Biografia (opcional)',
       formErrorsName: {name: ''},
@@ -56,7 +56,9 @@ class Actualizar extends Component {
       emailValid: false,
       passwordValid: false,
       password2Valid: false,
-      formValid: false
+      formValidInfo: false,
+      formValidcontra: false,
+      isLoading: true
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -73,7 +75,8 @@ class Actualizar extends Component {
         usuario: res,
       });
       this.props.HideLoader();
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, email: res.email });
+      console.log("name:" + this.state.name)
     });
   }
 
@@ -187,9 +190,10 @@ class Actualizar extends Component {
   }
   
   validateForm() {
-    this.setState({formValid: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid && 
-                    this.state.userValid &&this.state.emailValid && this.state.passwordValid && this.state.password2Valid});
+    this.setState({formValidInfo: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid &&this.state.emailValid});
+    this.setState({formValidcontra:this.state.passwordValid && this.state.password2Valid});
   }   
+
   
   render() {
       return (
@@ -200,7 +204,7 @@ class Actualizar extends Component {
             <FormGroup>
               <ControlLabel>Nombre</ControlLabel>
               <input type="name" className="form-control" name="name" 
-                    placeholder={"nombre - id:"+ this.state.usuario.name}
+                    placeholder="Nombre"
                     value={this.state.name}
                     onChange={this.handleUserInput} />
             </FormGroup>
@@ -244,7 +248,7 @@ class Actualizar extends Component {
                 <FormErrors formErrors={this.state.formErrorsEmail} />
             </div> 
 
-            <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Actualizar información</button>
+            <button type="submit" className="btn btn-success" disabled={!this.state.formValidInfo}>Actualizar información</button>
 
             <h1 className="title">Cambie su contrseña</h1>
             <FormGroup>
@@ -267,7 +271,7 @@ class Actualizar extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Actualizar Contraseña</button>
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValidcontra}>Actualizar Contraseña</button>
           </form>
         </div>
       );

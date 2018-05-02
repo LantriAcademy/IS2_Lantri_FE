@@ -39,7 +39,6 @@ class Perfil extends Component {
   componentWillMount() {
 
     this.props.ShowLoader();
-console.log(this.props.user.id)
     var data = {
       'direction': 'contributors/',
       'param': this.props.user.id
