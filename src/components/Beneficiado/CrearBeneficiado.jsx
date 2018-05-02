@@ -6,7 +6,6 @@ import swal from 'sweetalert2'
 import{FormControl} from "react-bootstrap"
 import {connect} from 'react-redux';
 import { FormErrors } from "../Helpers/FormErrors.js"
-import TagInput from '../TagInput/TagInput';
 
 const mapStateToProps = state => {
   return {
@@ -26,13 +25,12 @@ class CrearBeneficiado extends Component {
       formErrorsAge: {age: ''},
       nameValid: false,
       ageValid: false,
-      formValid: false,
-      tags: []
+      formValid: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getFiles = this.getFiles.bind(this);
-    this.handleTagChange = this.handleTagChange.bind(this);
+    
   }
 
   handleTagChange(tags) {
@@ -137,10 +135,9 @@ class CrearBeneficiado extends Component {
           </div> 
           <div className="form-group">
             <label>Preferencias</label>
-            <TagInput UpdateTagsParent={this.handleTagChange} />
-            {/* <FormControl componentClass="textarea" name= "preferences" placeholder="Preferencias"
+            <FormControl componentClass="textarea" name= "preferences" placeholder="Preferencias"
                     value={this.state.preferences}
-                    onChange={this.handleUserInput} /> */}
+                    onChange={this.handleUserInput} />
           </div>
           <div className="form-group">
             <label>Imagen</label>
