@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     loading : state.loading
   }
 }
@@ -26,21 +27,21 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-class SignUp extends Component {
+class Actualizar extends Component {
 
   constructor (props) {
     super(props);
     this.state = {
+      usuario:{},
       biodes: '',
       user: '',
       password: '',
       password2: '',
       name: '',
       lastname: '',
-      email: '',
+      email: this.props.user.email,
       phone: '',
       text : 'Biografia (opcional)',
-      director: true, //0 = Director o 1 = Contribuyente
       formErrorsName: {name: ''},
       formErrorsLastname: {lastname: ''},
       formErrorsPhone: {phone: ''},
@@ -60,6 +61,22 @@ class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount() {
+    this.props.ShowLoader();
+
+    var data = {
+      'direction': 'contributors/',
+      'param': this.props.user.id
+    }
+    WebApiService.Get(data).then(res => {
+      this.setState({
+        usuario: res,
+      });
+      this.props.HideLoader();
+      this.setState({ isLoading: false });
+    });
+  }
+
   handleSubmit(event) {
     this.props.ShowLoader();
     var data = {//Director
@@ -77,13 +94,13 @@ class SignUp extends Component {
      }
     
     
-    WebApiService.Post(data).then(res =>{
+    WebApiService.Patch(data).then(res =>{
       this.props.HideLoader();
       if (res.status === 201) {
         this.props.history.push("/");
-        this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
+        this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
       }else{
-        this.props.ShowAlert("Problema al crear usuario", "danger");
+        this.props.ShowAlert("Error al actualizar la información", "danger");
       }
     });
     
@@ -178,21 +195,12 @@ class SignUp extends Component {
       return (
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
-            <h1 className="title">Registrate en f<b>UN</b>daciones</h1>
-            <ControlLabel>Tipo de usuario</ControlLabel>
-            <ButtonToolbar>
-            <ToggleButtonGroup
-              type="radio" name = "director"
-              defaultValue={true}>
-              <ToggleButton onClick={this.handleSelectedChange.bind(this, true)}  value = {true}>Director de fundación</ToggleButton>
-              <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
-            </ToggleButtonGroup>
-            </ButtonToolbar>
+            <h1 className="title">Actualiza tu información</h1>
             <br/>
             <FormGroup>
               <ControlLabel>Nombre</ControlLabel>
               <input type="name" className="form-control" name="name" 
-                    placeholder="Nombre"
+                    placeholder={"nombre - id:"+ this.state.usuario.name}
                     value={this.state.name}
                     onChange={this.handleUserInput} />
             </FormGroup>
@@ -203,7 +211,7 @@ class SignUp extends Component {
               <ControlLabel>Apellidos</ControlLabel>
               <input type="name" className="form-control" name="lastname" 
                     placeholder="Apellidos"
-                    value={this.state.lastname}
+                    value= {this.state.lastname}
                     onChange={this.handleUserInput} />
             </FormGroup>
             <div>
@@ -226,16 +234,6 @@ class SignUp extends Component {
                     onChange={this.handleUserInput} />
             </FormGroup>
             <FormGroup>
-              <ControlLabel>Usuario</ControlLabel>
-              <input type="name" className="form-control" name="user"                   
-                    placeholder="Usuario"
-                    value={this.state.user}
-                    onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-                <FormErrors formErrors={this.state.formErrorsUser} />
-            </div> 
-            <FormGroup>
               <ControlLabel>Correo Electrónico</ControlLabel>
               <input type="email" className="form-control" name="email" 
                       placeholder="Correo Electrónico"
@@ -245,10 +243,14 @@ class SignUp extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsEmail} />
             </div> 
+
+            <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Actualizar información</button>
+
+            <h1 className="title">Cambie su contrseña</h1>
             <FormGroup>
-              <ControlLabel>Contraseña</ControlLabel>
+              <ControlLabel>Nueva Contraseña</ControlLabel>
               <input type="password" className="form-control" name="password" 
-                      placeholder="Contraseña"                      
+                      placeholder="Contraseña"                    
                       value={this.state.password}
                       onChange={this.handleUserInput} />
              </FormGroup>
@@ -256,20 +258,20 @@ class SignUp extends Component {
                 <FormErrors formErrors={this.state.formErrorsPassword} />
             </div> 
              <FormGroup>
-              <ControlLabel>Confirme su contraseña</ControlLabel>
+              <ControlLabel>Confirme la contraseña</ControlLabel>
               <input type="password" className="form-control" name="password2" 
-                      placeholder="Contraseña"                      
+                      placeholder="Confirme la contraseña"                    
                       value={this.state.password2}
                       onChange={this.handleUserInput} />
              </FormGroup>
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Actualizar Contraseña</button>
           </form>
         </div>
       );
     }
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+  export default connect(mapStateToProps, mapDispatchToProps)(Actualizar);

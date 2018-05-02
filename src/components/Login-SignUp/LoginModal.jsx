@@ -129,7 +129,7 @@ class LoginModal extends React.Component {
   }
 
   googleResponse = (response) => {
-    console.log(response)
+    //console.log(response)
     
     var data = {//Director
       'direction': '/signin_director/google',
@@ -146,7 +146,7 @@ class LoginModal extends React.Component {
     }
     
     WebApiService.Post(data).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.status === 201) {
         res.json().then(result => {
           console.log(result);
