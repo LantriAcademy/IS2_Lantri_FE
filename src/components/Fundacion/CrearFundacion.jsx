@@ -76,7 +76,6 @@ class CrearFundacion extends Component {
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
-    console.log(JSON.stringify(data.body));
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
         res.json().then((result) =>{

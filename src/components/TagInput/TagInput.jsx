@@ -21,7 +21,7 @@ export default class TagInput extends Component {
         this.updateTagValue('');
     }
     handleKeyPress(event) {
-        if (event.key == " " || event.key == ",") {
+        if (event.key == " ") {
             this.addTag(event.target.value);
         }
 
