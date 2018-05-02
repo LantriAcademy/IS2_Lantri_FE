@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../styles/TagInput.css';
 
 export default class TagInput extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ export default class TagInput extends Component {
             tags: []    
         } 
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.removeTag = this.removeTag.bind(this);
     }
     addTag = (tag) => {
 		if (tag == '') return;
@@ -41,7 +43,8 @@ export default class TagInput extends Component {
 		this.setState({
 			tags
 		})
-	}
+    }
+    
     render() {
         const {tagsInputValue, tags} = this.state;
         return (
@@ -50,12 +53,13 @@ export default class TagInput extends Component {
                     <input className="form-control" value={tagsInputValue} onChange={(e) => {
                         this.updateTagValue(e.target.value);
                         this.props.UpdateTagsParent(tags);
-                        }} type="text" placeholder="Tags seperated by space"
+                        }} type="text" placeholder="Escriba sus preferencias separadas por espacio"
                         onKeyPress={this.handleKeyPress} />
+                    <div>
+                        {tags && tags.map((tag, index) => <span className="tag label label-success" key={index}>{tag}  <span onClick={() =>{this.removeTag(tag)}} data-role="remove"></span></span>)}
+                    </div>
                 </div>
-                <div>
-                    {tags && tags.map((tag, index) => <p key={index}>{tag}</p>)}
-                </div>
+                
             </div>
         );
     }
