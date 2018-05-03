@@ -68,7 +68,7 @@ class Perfil extends Component {
                 <ul className="nav nav-pills  nav-stacked menu">
                   <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
                   {/*<li><a data-toggle="tab" href="#beneficiados">Apadrinados</a></li>*/}
-                  <li><a data-toggle="tab" href="#estadisticas">Apadrinados</a></li>
+                  <li><a data-toggle="tab" href="#estadisticas">Estadisticas</a></li>
                   <li><a data-toggle="tab" href="#eventos">Eventos suscrito</a></li>
                   <li><a data-toggle="tab" href="#actualizar">Actualizar Información</a></li>
                 </ul>
