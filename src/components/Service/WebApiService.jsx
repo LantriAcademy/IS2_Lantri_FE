@@ -14,12 +14,12 @@ export default class WebApiService {
     }
     static async Post(data){
        if(data.type === 1){
-           var response = await fetch(this.baseUrl + data.direction, { 
+           var response1 = await fetch(this.baseUrl + data.direction, { 
             method: 'POST',
             body:    JSON.stringify(data.body),
             headers: data.headers
         })
-        return response;
+        return response1;
        }else{
             var response = await fetch(this.baseUrl + data.direction, { 
             method: 'POST',
