@@ -20,9 +20,9 @@ class Loading extends Component {
       <div>
         {(this.props.loading.show) && 
           <div>
-            <div class="bg_load"></div>
-            <div class="wrapper">
-              <div class="inner">
+            <div className="bg_load"></div>
+            <div className="wrapper">
+              <div className="inner">
                 <span>C</span>
                 <span>a</span>
                 <span>r</span>

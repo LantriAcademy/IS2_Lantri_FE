@@ -5,6 +5,7 @@
   "dependencies": {
     "@nivo/bar": "^0.33.0",
     "@nivo/calendar": "^0.33.0",
+    "@nivo/line": "^0.33.0",
     "boostrap": "^2.0.0",
     "mgr-pdf-viewer-react": "^1.0.0",
     "node-fetch": "^2.1.2",

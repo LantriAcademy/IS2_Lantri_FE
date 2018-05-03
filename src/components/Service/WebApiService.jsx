@@ -1,12 +1,13 @@
 export default class WebApiService {
     
-    static baseUrl = "https://backend-wapiravaguens.c9users.io/";
+    static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);
         response = response.json();
         return response; 
     }
+
     static async GetURL(data) {
         var url =  this.baseUrl + data.direction + data.param;
         return url; 

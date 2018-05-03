@@ -1,52 +1,57 @@
 const data = [
   {
-    "month": "JUN",
-    "Eventos": 23,
+    "id": "2015",
+    "data": [
+      {
+        "x": "ENE",
+        "y": 49
+      },
+      {
+        "x": "FEB",
+        "y": 30
+      },
+      {
+        "x": "MAR",
+        "y": 25
+      },
+      {
+        "x": "ABR",
+        "y": 14
+      },
+      {
+        "x": "MAY",
+        "y": 6
+      },
+      {
+        "x": "JUN",
+        "y": 58
+      },
+      {
+        "x": "JUL",
+        "y": 58
+      },
+      {
+        "x": "AGO",
+        "y": 51
+      },
+      {
+        "x": "SEP",
+        "y": 40
+      },
+      {
+        "x": "OCT",
+        "y": 0
+      },
+      {
+        "x": "NOV",
+        "y": 12
+      },
+      {
+        "x": "DIC",
+        "y": 23
+      }
+    ]
   },
-  {
-    "month": "FEB",
-    "Eventos": 7,
-  },
-  {
-    "month": "MAR",
-    "Eventos": 0,
-  },
-  {
-    "month": "ABR",
-    "Eventos": 4,
-  },
-  {
-    "month": "MAY",
-    "Eventos": 10,
-  },
-  {
-    "month": "JUN",
-    "Eventos": 8,
-  },
-  {
-    "month": "JUL",
-    "Eventos": 10,
-  },
-  {
-    "month": "AGO",
-    "Eventos": 12,
-  },
-  {
-    "month": "SEP",
-    "Eventos": 30,
-  },
-  {
-    "month": "OCT",
-    "Eventos": 5,
-  }, 
-  {
-    "month": "NOV",
-    "Eventos": 2,
-  }, 
-  {
-    "month": "DIC",
-    "Eventos": 13,
-  }, 
 ]
 
 export default data
