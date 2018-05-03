@@ -100,25 +100,63 @@ class Actualizar extends Component {
     this.props.ShowLoader();
 
     var data = {
-        'direction': 'contributors/' + this.props.user.id,
-        'param': '',
-        'body' : {"contributor": {"phone": "12343"}}
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "email": this.state.email, "description": this.state.biodes}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
       }
     WebApiService.Patch(data).then(res =>{
       this.props.HideLoader();
       if (res.status === 200) {
         this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
       }else{
-        this.props.ShowAlert("Error al actualizar la información", "danger");
+        this.props.ShowAlert("Error al actualizar la información"+res.status, "danger");
       }
     });
     
     event.preventDefault();
   }
   handleSubmitPass(event) {
+        this.props.ShowLoader();
+
+    var data = {
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"password":this.state.password,"password_confirmation":this.state.password2}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
+      }
+    WebApiService.Patch(data).then(res =>{
+      this.props.HideLoader();
+      if (res.status === 200) {
+        this.props.ShowAlert("Contraseña actualizada satisfactoriamente", "success");
+      }else{
+        this.props.ShowAlert("Error al actualizar la contraseña"+res.status, "danger");
+      }
+    });
+    
+    event.preventDefault();
   }
 
   handleSubmitImage(event) {
+    this.props.ShowLoader();
+
+    var data = {
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"avatar":this.state.file.base64}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
+      }
+    WebApiService.Patch(data).then(res =>{
+      this.props.HideLoader();
+      if (res.status === 200) {
+        this.props.ShowAlert("Imagen actualizada satisfactoriamente", "success");
+      }else{
+        this.props.ShowAlert("Error al actualizar la Imagen"+res.status, "danger");
+      }
+    });
+    
+    event.preventDefault();
+    this.props.history.push();
   }
 
   handleUserInput = (e) => {

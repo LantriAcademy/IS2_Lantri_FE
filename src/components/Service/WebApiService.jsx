@@ -1,6 +1,8 @@
 export default class WebApiService {
     
-    static baseUrl = "http://localhost:3000/";
+    //static baseUrl = "http://localhost:3000/";
+   //static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
+   static baseUrl = "https://fundacionesbackend-judgarciani.c9users.io/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);
@@ -40,10 +42,11 @@ static async GetAuthenticated(data){
        }
     }
     static async Patch(data){
-    var response = await fetch(this.baseUrl + data.direction, { 
+        var response = await fetch(this.baseUrl + data.direction + data.param, { 
         method: 'PATCH',
-        body:    JSON.stringify(data.body)
+        body:    JSON.stringify(data.body),
+        headers: data.headers
     })
-         return response;
-     }
+    return response;
+    }
 }
