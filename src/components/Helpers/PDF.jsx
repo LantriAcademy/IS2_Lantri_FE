@@ -64,9 +64,9 @@ export default class PDF extends React.Component {
 //MGR-PDF-VIEWER
 
 import React, { Component } from 'react';
-import PDFSample from '../../assets/PDFSample.pdf'
+//import PDFSample from '../../assets/PDFSample.pdf'
 import PDFViewer from 'mgr-pdf-viewer-react'
-import WebApiService from '../Service/WebApiService';
+//import WebApiService from '../Service/WebApiService';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
