@@ -1,6 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "http://localhost:3000/";
+    static baseUrl = "https://rails-project-ncampuzanoa.c9users.io/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);

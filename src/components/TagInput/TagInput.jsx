@@ -32,7 +32,7 @@ export default class TagInput extends Component {
         }
         this.setState({
             tagsInputValue: value
-        })
+        });
     }
     removeTag = (removeTag) => {
         let tags = this.state.tags.filter((tag) => tag !== removeTag);
