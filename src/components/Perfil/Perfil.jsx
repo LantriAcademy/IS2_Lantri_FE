@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/Fundacion.css";
-import WebApiService from './Service/WebApiService';
-import ListaBeneficiados from './Fundacion/ListaBeneficiados'
+import "../../styles/Fundacion.css";
+import WebApiService from '../Service/WebApiService';
+import ListaBeneficiados from '../Fundacion/ListaBeneficiados'
 import { connect } from 'react-redux';
-import ListaEventos from './Fundacion/ListaEventos'
-import Actualizar from './Login-SignUp/Actualizar'
+import EventosSuscrito from './EventosSuscrito'
+import Apadrinados from './Apadrinados'
+import Actualizar from './Actualizar'
 
 const mapStateToProps = state => {
   return {
@@ -41,9 +42,11 @@ class Perfil extends Component {
     this.props.ShowLoader();
     var data = {
       'direction': 'contributors/',
-      'param': this.props.user.id
+      'param' : this.props.user.id,
+      'type' : 1,
+      'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token}
     }
-    WebApiService.Get(data).then(res => {
+    WebApiService.GetAuthenticated(data).then(res => {
       this.setState({
         usuario: res,
       });
@@ -61,7 +64,7 @@ class Perfil extends Component {
           <Grid>
             <Row className="show-grid principal">
               <Col sm={3}>
-                {/*<img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />*/}
+                <img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />
                 <div className="log">{this.state.usuario.name}</div>
                 <ul className="nav nav-pills  nav-stacked menu">
                   <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
@@ -75,12 +78,12 @@ class Perfil extends Component {
                   <div id="inicio" className="tab-pane fade in active">
                     Bienvenido contribuyente
                   </div>
-                  {/*<div id="beneficiados" className="tab-pane fade">
-                    <ListaBeneficiados fundacion_id={1}/>
+                  <div id="beneficiados" className="tab-pane fade">
+                    <Apadrinados contributor_id={this.props.user.id}/>
                   </div>
                   <div id="eventos" className="tab-pane fade">
-                  <ListaEventos fundacion_id={1}/>
-                  </div>*/}
+                  <EventosSuscrito contributor_id={this.props.user.id}/>
+                  </div>
                   <div id="actualizar" className="tab-pane fade">
                   <Actualizar/></div>
                 </div>

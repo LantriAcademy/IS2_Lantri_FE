@@ -38,7 +38,7 @@ class Evento extends Component {
   }
 
   openPDF(urlPdf){
-    console.log("la URL del evento es: " + urlPdf);
+    //console.log("la URL del evento es: " + urlPdf);
     window.open('/pdf?url='+urlPdf, '_blank');
   /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
     <div>Popped out content!</div>
@@ -51,9 +51,6 @@ class Evento extends Component {
   }
 
   handleSubmit() {
-    //console.log("OK")
-    //console.log(this.props.user.id)
-    //console.log(this.props.event.id)
     var data = {
       'direction': 'contributor_events',
       'param' : '',
@@ -115,7 +112,7 @@ class Evento extends Component {
         </div>
         {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
         <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
-        {(this.props.user.userType === false)  &&
+        {(this.props.user.userType === false && this.props.perfil === false)  &&
           <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
       </div>
     );

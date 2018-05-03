@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import "../../styles/ListaEventos.css";
 import { Row, Col} from "react-bootstrap";
-import Evento from './Evento';
+import Evento from '../Fundacion/Evento';
 
-export default class ListaEventos extends Component {
+export default class EventosSuscrito extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -15,14 +15,15 @@ export default class ListaEventos extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': '/foundation/events/',
-      'param' : this.props.fundacion_id,
+      'direction': '/contributor/events/',
+      'param' : this.props.contributor_id,
     }
     WebApiService.Get(data).then(res =>{
       this.setState({
         events: res,
       });
     });
+    
   }
 
   handleClick(i) {
@@ -30,7 +31,7 @@ export default class ListaEventos extends Component {
   }
 
   render() {
-    const {events, active} = this.state;
+    {const {events, active} = this.state;
     const allEvents = events.map((event, index) => {
         return(
           <div key={index}>
@@ -48,7 +49,7 @@ export default class ListaEventos extends Component {
     const evento = events.map((event, index) => {
       if (index === active) {
           return (
-            <Evento event={event} perfil={false}/>
+            <Evento event={event} perfil ={true}/>
           );
         }
       }
@@ -69,4 +70,4 @@ export default class ListaEventos extends Component {
       </div>
     );
   }
-}
+}}

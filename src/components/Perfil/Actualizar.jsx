@@ -68,39 +68,37 @@ class Actualizar extends Component {
 
     var data = {
       'direction': 'contributors/',
-      'param': this.props.user.id
+      'param' : this.props.user.id,
+      'type' : 1,
+      'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token}
     }
-    WebApiService.Get(data).then(res => {
+
+    WebApiService.GetAuthenticated(data).then(res => {
       this.setState({
         usuario: res,
       });
       this.props.HideLoader();
-      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, email: res.email });
-      console.log("name:" + this.state.name)
+      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, email: res.email, emailValid: true });
     });
+    this.validateField('name',this.state.name);
+    this.validateField('lastname',this.state.lastname);
+    this.validateField('phone',this.state.phone);
   }
 
   handleSubmit(event) {
     this.props.ShowLoader();
-    var data = {//Director
-      'direction': 'directors',
-      'param' : '',
-      'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.biodes}},   
-    }
 
-     if(!this.state.director){ //Contribuyente
-        data = {
-        'direction': 'contributors',
-        'param' : '',
-        'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}},   
+    var data = {
+        'direction': 'contributors/' + this.props.user.id,
+        'body' : {"id": this.props.user.id,"email": this.state.email, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes},   
+        'type' : 1,
+        'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token}
       }
-     }
     
-    
-    WebApiService.Patch(data).then(res =>{
+      console.log(data);
+    WebApiService.Put(data).then(res =>{
       this.props.HideLoader();
-      if (res.status === 201) {
-        this.props.history.push("/");
+      if (res.status === 200) {
         this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
       }else{
         this.props.ShowAlert("Error al actualizar la información", "danger");
@@ -158,7 +156,7 @@ class Actualizar extends Component {
         break;
       case 'phone':
         phoneValid = value.length === 7 || value.length === 10;
-        formErrorsPhone.phone = phoneValid ? '': ' no es valido';
+        formErrorsPhone.phone = phoneValid ? '': ' no es valido, debe tener 7 o 10 digitos';
         break;
       case 'user':
         userValid = value.length >= 1;

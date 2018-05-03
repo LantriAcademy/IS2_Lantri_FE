@@ -7,7 +7,7 @@ import Fundaciones from "./Fundacion/Fundaciones";
 import Fundacion from "./Fundacion/Fundacion";
 import QuienesSomos from "./QuienesSomos";
 import Proposito from "./Proposito";
-import Perfil from "./Perfil";
+import Perfil from "./Perfil/Perfil";
 import PDF from "./Helpers/PDF";
 import Contactenos from "./Contactenos";
 import SignUp from "./Login-SignUp/SignUp";

@@ -28,7 +28,7 @@ class NavigationMenu extends Component {
         this.callLogoff = this.callLogoff.bind(this);
     }
     callLogoff(){
-        console.log("callLogoff");
+        //console.log("callLogoff");
         this.props.logoff();
     }
     handleClose() {

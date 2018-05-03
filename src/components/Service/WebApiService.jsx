@@ -11,6 +11,17 @@ export default class WebApiService {
         var url =  this.baseUrl + data.direction + data.param;
         return url; 
     }
+
+static async GetAuthenticated(data){
+   if(data.type === 1){
+       var response = await fetch(this.baseUrl + data.direction+ data.param,{ 
+        method: 'GET',
+        headers: data.headers
+    })
+    response=response.json();
+    return response;
+   }}
+
     static async Post(data){
        if(data.type === 1){
            var response = await fetch(this.baseUrl + data.direction, { 
@@ -28,17 +39,17 @@ export default class WebApiService {
         return response;
        }
     }
-    static async Patch(data){
+    static async Put(data){
         if(data.type === 1){
             var response = await fetch(this.baseUrl + data.direction, { 
-             method: 'PATCH',
+             method: 'PUT',
              body:    JSON.stringify(data.body),
              headers: data.headers
          })
          return response;
         }else{
              var response = await fetch(this.baseUrl + data.direction, { 
-             method: 'PATCH',
+             method: 'PUT',
              body:    JSON.stringify(data.body),
              headers: { 'Content-Type': 'application/json' },
          })
