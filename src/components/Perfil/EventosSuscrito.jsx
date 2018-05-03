@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import WebApiService from '../Service/WebApiService';
 import "../../styles/ListaEventos.css";
 import { Row, Col} from "react-bootstrap";
-import Evento from './Evento';
+import Evento from '../Fundacion/Evento';
 
-export default class ListaEventos extends Component {
+export default class EventosSuscrito extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -15,14 +15,17 @@ export default class ListaEventos extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': '/foundation/events/',
-      'param' : this.props.fundacion_id,
-    }
-    WebApiService.Get(data).then(res =>{
+        'direction': '/contributor/events/',
+        'param' : this.props.contributor_id,
+        'type' : 1,
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token}
+      }
+    WebApiService.GetAuthenticated(data).then(res =>{
       this.setState({
         events: res,
       });
     });
+    
   }
 
   handleClick(i) {
@@ -30,7 +33,7 @@ export default class ListaEventos extends Component {
   }
 
   render() {
-    const {events, active} = this.state;
+    {const {events, active} = this.state;
     const allEvents = events.map((event, index) => {
         return(
           <div key={index}>
@@ -45,14 +48,17 @@ export default class ListaEventos extends Component {
       }
     );
 
-   if (events.length === 0) {
-      return <div><h1 className="text-center">No hay eventos disponibles</h1></div>
-    } else {
+    const evento = events.map((event, index) => {
+      if (index === active) {
+          return (
+            <Evento event={event} perfil ={true}/>
+          );
+        }
+      }
+    );
 
     return (
       <div>
-      <Row>
-      </Row>
       <Row>
         <Col sm={5}>
           <div className="list-group lista">
@@ -60,12 +66,10 @@ export default class ListaEventos extends Component {
           </div>
         </Col>
         <Col sm={7}>
-          <Evento event={events[active]}/>
+          {evento}
         </Col> 
       </Row>
       </div>
     );
-
-    }
   }
-}
+}}

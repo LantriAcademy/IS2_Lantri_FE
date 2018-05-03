@@ -38,7 +38,6 @@ class Fundacion extends Component {
   }
   componentWillMount() {
     this.props.ShowLoader();
-
     var data = {
       'direction': 'foundations/',
       'param': this.props.match.params.id
