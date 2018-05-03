@@ -5,9 +5,9 @@ import WebApiService from '../Service/WebApiService';
 import { Button} from "react-bootstrap";
 import {connect} from 'react-redux';
 import swal from 'sweetalert2'
-import PDFViewer from '../Helpers/PDF';
-import NewWindow from 'react-new-window';
-import PopoutWindow from 'react-popout'
+//import PDFViewer from '../Helpers/PDF';
+//import NewWindow from 'react-new-window';
+//import PopoutWindow from 'react-popout'
 
 const mapStateToProps = state => {
   return {

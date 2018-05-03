@@ -55,7 +55,7 @@ export default class ListaBeneficiados extends Component {
             <Thumbnail>
               <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
               <h3>{beneficiado.name}</h3>
-              <p>{beneficiado.preferences}</p>
+              <p>Edad: {beneficiado.age} años</p>
               <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
             </Thumbnail>
           </Col>
