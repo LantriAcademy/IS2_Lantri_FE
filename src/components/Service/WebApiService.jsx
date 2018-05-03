@@ -39,22 +39,11 @@ static async GetAuthenticated(data){
         return response;
        }
     }
-    static async Put(data){
-        if(data.type === 1){
-            var response = await fetch(this.baseUrl + data.direction, { 
-             method: 'PUT',
-             body:    JSON.stringify(data.body),
-             headers: data.headers
-         })
+    static async Patch(data){
+    var response = await fetch(this.baseUrl + data.direction, { 
+        method: 'PATCH',
+        body:    JSON.stringify(data.body)
+    })
          return response;
-        }else{
-             var response = await fetch(this.baseUrl + data.direction, { 
-             method: 'PUT',
-             body:    JSON.stringify(data.body),
-             headers: { 'Content-Type': 'application/json' },
-         })
-         return response;
-        }
      }
-
 }

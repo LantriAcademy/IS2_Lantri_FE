@@ -64,10 +64,10 @@ class LoginModal extends React.Component {
     }
 
     WebApiService.Post(data).then(res => {
-      console.log(res);
+      //console.log(res);
       if (res.status === 201) {
         res.json().then(result => {
-          console.log(result);
+          //console.log(result);
           if (!this.state.director) { //Contribuyente
             this.props.login(result.authentication_token, result.contributor_id, result.foundation_id, this.state.director, result.email);
           }else {
@@ -149,7 +149,7 @@ class LoginModal extends React.Component {
       //console.log(res)
       if (res.status === 201) {
         res.json().then(result => {
-          console.log(result);
+          //console.log(result);
           if (!this.state.director) { //Contribuyente
             this.props.login(result.authentication_token, result.contributor_id, result.foundation_id, this.state.director, result.email);
           }else {

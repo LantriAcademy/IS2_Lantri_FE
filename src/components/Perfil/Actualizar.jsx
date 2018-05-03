@@ -4,6 +4,7 @@ import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
 import swal from 'sweetalert2'
+import FileBase64 from '../Helpers/FileBase64';
 
 import {connect} from 'react-redux';
 
@@ -41,6 +42,7 @@ class Actualizar extends Component {
       lastname: '',
       email: '',
       phone: '',
+      file: "",
       text : 'Biografia (opcional)',
       formErrorsName: {name: ''},
       formErrorsLastname: {lastname: ''},
@@ -60,7 +62,7 @@ class Actualizar extends Component {
       formValidcontra: false,
       isLoading: true
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getFiles = this.getFiles.bind(this);
   }
 
   componentWillMount() {
@@ -78,25 +80,31 @@ class Actualizar extends Component {
         usuario: res,
       });
       this.props.HideLoader();
-      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, email: res.email, emailValid: true });
+      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone,
+         email: res.email, emailValid: true, nameValid:true,lastnameValid:true, phoneValid:true });
+         this.validateField("phone",this.state.phone);
     });
-    this.validateField('name',this.state.name);
-    this.validateField('lastname',this.state.lastname);
-    this.validateField('phone',this.state.phone);
   }
 
-  handleSubmit(event) {
+  fileSelectedHandler= event => {
+    console.log(event.target.files[0]);
+    this.setState({
+        selectedFile: event.target.files[0]
+    });
+}
+  getFiles(file){
+    this.setState({file: file});
+  }
+
+  handleSubmitInfo(event) {
     this.props.ShowLoader();
 
     var data = {
         'direction': 'contributors/' + this.props.user.id,
-        'body' : {"id": this.props.user.id,"email": this.state.email, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes},   
-        'type' : 1,
-        'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token}
+        'param': '',
+        'body' : {"contributor": {"phone": "12343"}}
       }
-    
-      console.log(data);
-    WebApiService.Put(data).then(res =>{
+    WebApiService.Patch(data).then(res =>{
       this.props.HideLoader();
       if (res.status === 200) {
         this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
@@ -106,6 +114,11 @@ class Actualizar extends Component {
     });
     
     event.preventDefault();
+  }
+  handleSubmitPass(event) {
+  }
+
+  handleSubmitImage(event) {
   }
 
   handleUserInput = (e) => {
@@ -194,6 +207,7 @@ class Actualizar extends Component {
 
   
   render() {
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="Preview"/> : "");
       return (
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
@@ -246,9 +260,9 @@ class Actualizar extends Component {
                 <FormErrors formErrors={this.state.formErrorsEmail} />
             </div> 
 
-            <button type="submit" className="btn btn-success" disabled={!this.state.formValidInfo}>Actualizar información</button>
+            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo}>Actualizar información</button>
 
-            <h1 className="title">Cambie su contrseña</h1>
+            <h1 className="title">Cambie su contraseña</h1>
             <FormGroup>
               <ControlLabel>Nueva Contraseña</ControlLabel>
               <input type="password" className="form-control" name="password" 
@@ -269,7 +283,18 @@ class Actualizar extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValidcontra}>Actualizar Contraseña</button>
+              <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra}>Actualizar Contraseña</button>
+
+            <h1 className="title">Cambie la imagen</h1>
+            <div className="form-group">
+            <label>Imagen</label>
+            <FileBase64 onDone={this.getFiles} />
+            <div className="preview text-center">
+              {preview}
+            </div>
+          </div>
+              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success">Actualizar imagen</button>
+  
           </form>
         </div>
       );

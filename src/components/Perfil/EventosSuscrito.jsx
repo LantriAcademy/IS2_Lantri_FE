@@ -15,10 +15,12 @@ export default class EventosSuscrito extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': '/contributor/events/',
-      'param' : this.props.contributor_id,
-    }
-    WebApiService.Get(data).then(res =>{
+        'direction': '/contributor/events/',
+        'param' : this.props.contributor_id,
+        'type' : 1,
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token}
+      }
+    WebApiService.GetAuthenticated(data).then(res =>{
       this.setState({
         events: res,
       });

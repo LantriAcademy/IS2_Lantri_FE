@@ -4,7 +4,6 @@ import FileBase64 from '../Helpers/FileBase64';
 import '../../styles/CrearFundacion.css';
 import { FormErrors } from "../Helpers/FormErrors.js"
 import DraggableMap from './DraggableMap';
-//import ImageUpload from '../Helpers/ImageUpload'
 import swal from 'sweetalert2'
 import {connect} from 'react-redux';
 
