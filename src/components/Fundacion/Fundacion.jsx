@@ -70,8 +70,7 @@ class Fundacion extends Component {
                   <li><a data-toggle="tab" href="#comoAyudarnos">Como Ayudarnos</a></li>
                   <li><a data-toggle="tab" href="#quienesSomos">Quienes Somos</a></li>
                   <li><a data-toggle="tab" href="#conctactenos">Conctactenos</a></li>
-
-                  {(this.props.user.foundationId != "" && this.props.user.foundationId == this.props.match.params.id) &&
+                  {(this.props.user.foundationId !== "" && this.props.user.foundationId === Number(this.props.match.params.id)) &&
                     <div className="text-center">
                       <Button className="btn btn-success btn-block" componentClass={Link} href="/crearEvento" to="/crearEvento">Crear Evento</Button>
                       <Button className="btn btn-success btn-block" componentClass={Link} href="/crearBeneficiado" to="/crearBeneficiado">Crear Beneficiado</Button>
