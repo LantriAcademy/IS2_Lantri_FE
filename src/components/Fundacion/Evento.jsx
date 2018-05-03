@@ -5,6 +5,9 @@ import WebApiService from '../Service/WebApiService';
 import { Button} from "react-bootstrap";
 import {connect} from 'react-redux';
 import swal from 'sweetalert2'
+//import PDFViewer from '../Helpers/PDF';
+//import NewWindow from 'react-new-window';
+//import PopoutWindow from 'react-popout'
 
 const mapStateToProps = state => {
   return {
@@ -14,17 +17,45 @@ const mapStateToProps = state => {
 
 class Evento extends Component {
   constructor(props){
-    super(props)
-    
+    super(props) 
+    this.state = {
+      pdfUrl : "1"
+    };
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
-  handleSubmit() {
-    console.log("OK")
-    console.log(this.props.user.id)
-    console.log(this.props.event.id)
+  componentWillMount() {
     var data = {
-      'direction': '/contributor_events',
+      'direction': 'events_pdf/',
+      'param' : this.props.event.id,
+    }
+    WebApiService.GetURL(data).then(res =>{
+      this.setState({
+        pdfUrl: res,
+      });
+    });
+  }
+
+  openPDF(urlPdf){
+    console.log("la URL del evento es: " + urlPdf);
+    window.open('/pdf?url='+urlPdf, '_blank');
+  /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
+    <div>Popped out content!</div>
+  </PopoutWindow>*/
+      /*{routes.map(({path,component: C})=>(
+        <Route path = {path}
+        component={(props) => <C url = "localhost:3000/events_pdf/1" />}
+        />
+      ))}*/
+  }
+
+  handleSubmit() {
+    //console.log("OK")
+    //console.log(this.props.user.id)
+    //console.log(this.props.event.id)
+    var data = {
+      'direction': 'contributor_events',
       'param' : '',
       'body' : { "contributor_event": {"contributor_id": this.props.user.id, "event_id": this.props.event.id}},  
       'type' : 1,
@@ -32,23 +63,21 @@ class Evento extends Component {
     }
     
     WebApiService.Post(data).then(res =>{
-      console.log(res);
-       res.json().then(result => {
-          console.log(result);
-        });
-      if (res.status === 201) {
-        swal(
-          'Exito',
-          'Beneficiado creado exitosamente',
-          'success'
-        )
-      } else {
-        swal(
-          'Error',
-          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
-          'error'
-        )
-      }
+      res.json().then(result => {
+        if (res.status === 201) {
+          swal(
+            'Exito',
+            'Te has suscrito al evento',
+            'success'
+          )
+        } else {
+          swal(
+            'Error',
+            result.Error,
+            'error'
+          )
+        }
+      });
     });
     
   }
@@ -70,7 +99,7 @@ class Evento extends Component {
             <h3 className="panel-title">Fecha</h3>
           </div>
           <div className="panel-body">
-           <p>{this.props.event.startDate}</p>
+           <p>{new Date(this.props.event.startDate).toUTCString()}</p>
           </div>
         </div>
         <div className="panel panel-success">
@@ -84,7 +113,10 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
-        <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>
+        {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
+        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
+        {(this.props.user.userType === false)  &&
+          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
       </div>
     );
   }

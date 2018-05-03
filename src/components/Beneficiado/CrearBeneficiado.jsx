@@ -43,7 +43,6 @@ class CrearBeneficiado extends Component {
     this.setState({[name]: value},
                   () => { this.validateField(name, value) });
   }
-
   validateField(fieldName, value) {
     let formErrorsName = this.state.formErrorsName;
     let formErrorsAge = this.state.formErrorsAge;

@@ -35,7 +35,10 @@ export const FormErrors = ({formErrors}) =>
             break;
           case "dateTime":
             fieldShow="La fecha"
-            break; 
+            break;
+          case "age":
+            fieldShow="La edad"
+            break;  
           default:
             break;
         }

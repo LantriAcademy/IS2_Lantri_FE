@@ -66,7 +66,7 @@ class CrearFundacion extends Component {
 
   handleSubmit(event) {
 
-    console.log(this.state.file.base64);
+    //console.log(this.state.file.base64);
 
     var data = {
       'direction': 'foundations',
@@ -80,7 +80,8 @@ class CrearFundacion extends Component {
       if (res.status === 201) {
         res.json().then((result) =>{
           this.props.foundation(result.id);
-          this.props.history.push("/");
+          //console.log("/fundaciones/"+result.id);
+          this.props.history.push("/fundaciones/"+result.id);
         });
         swal(
           'Exito',
@@ -167,8 +168,6 @@ class CrearFundacion extends Component {
           
           <div className="form-group">
             <label>Imagen</label>
-            {/*<ImageUpload/>
-            <input type = "file" onChange={this.fileSelectedHandler}/>*/}
             <FileBase64 onDone={this.getFiles} />
             <div className="preview text-center">
               {preview}
