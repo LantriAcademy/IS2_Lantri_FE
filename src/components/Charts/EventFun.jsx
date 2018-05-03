@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import { ResponsiveLine } from '@nivo/line'
 import WebApiService from '../Service/WebApiService';
 import {Pagination} from "react-bootstrap";
-import {connect} from 'react-redux';
 
-const mapStateToProps = state => {
-  return {
-    user : state.user
-  }
-}
-
-class EventSus extends Component {
+export default class EventFun extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -24,7 +17,7 @@ class EventSus extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': 'contributor/yearevent?id=' + this.props.user.id,
+      'direction': 'foundation/yearevent?id=' + this.props.fundacion_id,
       'param': ''
     }
     WebApiService.Get(data).then(res => {
@@ -33,7 +26,7 @@ class EventSus extends Component {
       });
 
       var data = {
-        'direction': 'contributor/yeareventdata?id=' + this.props.user.id +'&year=' + this.state.years[0],
+        'direction': 'foundation/yeareventdata?id=' + this.props.fundacion_id +'&year=' + this.state.years[0],
         'param': ''
       }
       WebApiService.Get(data).then(res => {
@@ -46,7 +39,7 @@ class EventSus extends Component {
 
   handleClick(i, year) {
     var data = {
-      'direction': 'contributor/yeareventdata?id=' + this.props.user.id +'&year=' + year,
+      'direction': 'foundation/yeareventdata?id=' + this.props.fundacion_id +'&year=' + year,
       'param': ''
     }
     WebApiService.Get(data).then(res => {
@@ -69,7 +62,7 @@ class EventSus extends Component {
     return (
       <div>
       <div style={{height:"50rem", width:"100rem", "paddingBottom":"5rem", margin:"auto"}}>
-        <h1>Suscripciones a eventos</h1>
+        <h1>Eventos por meses</h1>
         <ResponsiveLine
           data={this.state.data}
           margin={{
@@ -121,4 +114,3 @@ class EventSus extends Component {
     );
   }
 }
-export default connect(mapStateToProps)(EventSus)

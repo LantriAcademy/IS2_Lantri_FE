@@ -137,7 +137,6 @@ export default class EdadBenef extends Component {
           <select value={this.state.color} onChange={this.handleChangeColor}>
           <option value="accent">Verde</option>
           <option value="d310">Azul</option>
-          <option value="d320b">Morado</option>
           <option value="pastel1">Rosa</option>
           <option value="set1">Rojo</option>
           </select>

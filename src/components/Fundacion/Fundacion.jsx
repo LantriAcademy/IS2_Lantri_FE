@@ -8,7 +8,7 @@ import ListaBeneficiados from './ListaBeneficiados'
 import { connect } from 'react-redux';
 import ListaEventos from './ListaEventos';
 import EdadBenef from '../Charts/EdadBenef';
-import EventSus from '../Charts/EventSus';
+import EventFun from '../Charts/EventFun';
 
 const mapStateToProps = state => {
   return {
@@ -92,7 +92,7 @@ class Fundacion extends Component {
                   </div>
                   <div id="estadisticas" className="tab-pane fade text-center">
                     <EdadBenef fundacion_id={this.props.match.params.id}/>
-                    <EventSus/>
+                    <EventFun fundacion_id={this.props.match.params.id}/>
                   </div>
                   <div id="comoAyudarnos" className="tab-pane fade">comoAyudarnos</div>
                   <div id="quienesSomos" className="tab-pane fade">quienesSomos</div>
