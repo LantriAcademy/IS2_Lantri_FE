@@ -156,7 +156,7 @@ class Actualizar extends Component {
     });
     
     event.preventDefault();
-    this.props.history.push();
+    window.location.reload()
   }
 
   handleUserInput = (e) => {
