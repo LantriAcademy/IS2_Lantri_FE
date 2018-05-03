@@ -30,6 +30,11 @@ class CrearBeneficiado extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getFiles = this.getFiles.bind(this);
+    
+  }
+
+  handleTagChange(tags) {
+    this.setState({tags})
   }
 
   handleUserInput = (e) => {
@@ -38,7 +43,6 @@ class CrearBeneficiado extends Component {
     this.setState({[name]: value},
                   () => { this.validateField(name, value) });
   }
-
   validateField(fieldName, value) {
     let formErrorsName = this.state.formErrorsName;
     let formErrorsAge = this.state.formErrorsAge;
@@ -65,7 +69,8 @@ class CrearBeneficiado extends Component {
   
   validateForm() {
     this.setState({formValid: this.state.nameValid && this.state.ageValid});
-  }   
+  } 
+
   getFiles(file){
     this.setState({file: file});
   }

@@ -45,17 +45,14 @@ export default class ListaEventos extends Component {
       }
     );
 
-    const evento = events.map((event, index) => {
-      if (index === active) {
-          return (
-            <Evento event={event} perfil={false}/>
-          );
-        }
-      }
-    );
+   if (events.length === 0) {
+      return <div><h1 className="text-center">No hay eventos disponibles</h1></div>
+    } else {
 
     return (
       <div>
+      <Row>
+      </Row>
       <Row>
         <Col sm={5}>
           <div className="list-group lista">
@@ -63,10 +60,12 @@ export default class ListaEventos extends Component {
           </div>
         </Col>
         <Col sm={7}>
-          {evento}
+          <Evento event={events[active]}/>
         </Col> 
       </Row>
       </div>
     );
+
+    }
   }
 }
