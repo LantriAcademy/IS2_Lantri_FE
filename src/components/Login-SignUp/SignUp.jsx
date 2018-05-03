@@ -5,6 +5,7 @@ import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , B
 import { FormErrors } from "../Helpers/FormErrors.js"
 
 import {connect} from 'react-redux';
+import TagInput from '../TagInput/TagInput';
 
 const mapStateToProps = state => {
   return {
@@ -54,9 +55,14 @@ class SignUp extends Component {
       emailValid: false,
       passwordValid: false,
       password2Valid: false,
-      formValid: false
+      formValid: false,
+      tags: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTagChange = this.handleTagChange.bind(this);
+  }
+  handleTagChange(tags) {
+    this.setState({tags})
   }
 
   handleSubmit(event) {
@@ -71,7 +77,7 @@ class SignUp extends Component {
         data = {
         'direction': 'contributors',
         'param' : '',
-        'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}},   
+        'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}, "interest" : this.state.tags},   
       }
      }
     
@@ -224,6 +230,12 @@ class SignUp extends Component {
                     value={this.state.biodes}
                     onChange={this.handleUserInput} />
             </FormGroup>
+            {!this.state.director && 
+              <div className="form-group">
+                <label>Preferencias</label>
+                <TagInput UpdateTagsParent={this.handleTagChange} />
+              </div>
+            }
             <FormGroup>
               <ControlLabel>Usuario</ControlLabel>
               <input type="name" className="form-control" name="user"                   

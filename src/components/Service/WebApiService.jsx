@@ -13,6 +13,7 @@ export default class WebApiService {
         return url; 
     }
     static async Post(data){
+        
        if(data.type === 1){
            var response = await fetch(this.baseUrl + data.direction, { 
             method: 'POST',

@@ -7,6 +7,8 @@ import DraggableMap from './DraggableMap';
 //import ImageUpload from '../Helpers/ImageUpload'
 import swal from 'sweetalert2'
 import {connect} from 'react-redux';
+import TagInput from '../TagInput/TagInput';
+
 
 const mapStateToProps = state => {
   return {
@@ -34,11 +36,16 @@ class CrearFundacion extends Component {
       nameValid: false,
       directionValid: false,
       lat: 4.637894,
-      lng: -74.084023
+      lng: -74.084023,
+      tags: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.getFiles = this.getFiles.bind(this);
+    this.handleTagChange = this.handleTagChange.bind(this);
+  }
+  handleTagChange(tags) {
+    this.setState({tags})
   }
 
   fileSelectedHandler= event => {
@@ -64,12 +71,11 @@ class CrearFundacion extends Component {
     var data = {
       'direction': 'foundations',
       'param' : '',
-      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction, 
-      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}},
+      'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction,
+      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}, "interest" : this.state.tags},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
-
     WebApiService.Post(data).then(res =>{
       if (res.status === 201) {
         res.json().then((result) =>{
@@ -155,6 +161,11 @@ class CrearFundacion extends Component {
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
             <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
+          <div className="form-group">
+            <label>Preferencias</label>
+            <TagInput UpdateTagsParent={this.handleTagChange} />
+          </div>
+          
           <div className="form-group">
             <label>Imagen</label>
             <FileBase64 onDone={this.getFiles} />
