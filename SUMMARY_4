@@ -1,0 +1,34 @@
+# Summary Front End Iteración 4
+
+### Features Desarrollados:
+
+* *Visualización de estadísticas mediante gráficas interactivas:* Mostrar estadísticas de la aplicación.
+
+* *Intereses de un contribuyente:*  Almacenar los intereses particulares de cada contribuyente
+
+* *Perfil de contribuyente:* Componente que permite mirar a que eventos esta suscrito un contribuyente y acceder a las estadísticas.
+
+* *Actualización de datos:*  Componente que permite actualizar los datos ingresados en el registro junto con asignar una nueva contraseña.
+
+### Integrantes que desarrollaron cada feature:
+
+* *Visualización de estadísticas mediante gráficas interactivas:* Wilson Andres Piravaguen Serrano
+* *Intereses de un contribuyente:* Nicolas Campuzano Angulo
+
+* *Perfil de contribuyente:* Juan David Garcia Niño
+
+* *Actualización de datos:* Juan David Garcia Niño - Nicolas Campuzano Angulo
+
+### Lista de features por desarollar:
+
+* Añadir scroll horizontal al thumbnail que se encuentra en el landing.
+
+* Hacer pagina de Propósito y Contáctenos.
+
+* Hacer perfil de los niños.
+
+* Crear perfil de director de una fundación.
+
+### Link del FrontEnd en heroku
+
+https://fundaciones-is2-fe.herokuapp.com/
