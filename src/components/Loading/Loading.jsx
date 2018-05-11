@@ -11,8 +11,8 @@ const mapStateToProps = state => {
 class Loading extends Component {
   constructor(props) {
     super(props);
-    console.log("Loading controller");
-    console.log(props);
+    //console.log("Loading controller");
+    //console.log(props);
 
   }
   render() {

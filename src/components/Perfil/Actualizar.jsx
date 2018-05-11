@@ -3,12 +3,14 @@ import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
 import{FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton , ButtonToolbar} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
+import swal from 'sweetalert2'
+import FileBase64 from '../Helpers/FileBase64';
 
 import {connect} from 'react-redux';
-import TagInput from '../TagInput/TagInput';
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     loading : state.loading
   }
 }
@@ -26,11 +28,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-class SignUp extends Component {
+class Actualizar extends Component {
 
   constructor (props) {
     super(props);
     this.state = {
+      usuario:{},
       biodes: '',
       user: '',
       password: '',
@@ -39,8 +42,8 @@ class SignUp extends Component {
       lastname: '',
       email: '',
       phone: '',
+      file: "",
       text : 'Biografia (opcional)',
-      director: true, //0 = Director o 1 = Contribuyente
       formErrorsName: {name: ''},
       formErrorsLastname: {lastname: ''},
       formErrorsPhone: {phone: ''},
@@ -55,44 +58,105 @@ class SignUp extends Component {
       emailValid: false,
       passwordValid: false,
       password2Valid: false,
-      formValid: false,
-      tags: []
+      formValidInfo: false,
+      formValidcontra: false,
+      isLoading: true
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleTagChange = this.handleTagChange.bind(this);
-  }
-  handleTagChange(tags) {
-    this.setState({tags})
+    this.getFiles = this.getFiles.bind(this);
   }
 
-  handleSubmit(event) {
+  componentWillMount() {
     this.props.ShowLoader();
-    var data = {//Director
-      'direction': 'directors',
-      'param' : '',
-      'body' : { "director": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "bio":this.state.biodes}},   
+
+    var data = {
+      'direction': 'contributors/',
+      'param' : this.props.user.id,
+      'type' : 1,
+      'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token}
     }
 
-     if(!this.state.director){ //Contribuyente
-        data = {
-        'direction': 'contributors',
-        'param' : '',
-        'body' : { "contributor": {"email": this.state.email, "password": this.state.password, "user": this.state.user, "name":this.state.name, "lastname":this.state.lastname, "phone":this.state.phone, "description":this.state.biodes}, "interest" : this.state.tags},   
-      }
-     }
-    
-    
-    WebApiService.Post(data).then(res =>{
+    WebApiService.GetAuthenticated(data).then(res => {
+      this.setState({
+        usuario: res,
+      });
       this.props.HideLoader();
-      if (res.status === 201) {
-        this.props.history.push("/");
-        this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
+      this.setState({isLoading: false,user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone,
+         email: res.email, emailValid: true, nameValid:true,lastnameValid:true, phoneValid:true });
+         this.validateField("phone",this.state.phone);
+    });
+  }
+
+  fileSelectedHandler= event => {
+    console.log(event.target.files[0]);
+    this.setState({
+        selectedFile: event.target.files[0]
+    });
+}
+  getFiles(file){
+    this.setState({file: file});
+  }
+
+  handleSubmitInfo(event) {
+    this.props.ShowLoader();
+
+    var data = {
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "email": this.state.email, "description": this.state.biodes}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
+      }
+    WebApiService.Patch(data).then(res =>{
+      this.props.HideLoader();
+      if (res.status === 200) {
+        this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
       }else{
-        this.props.ShowAlert("Problema al crear usuario", "danger");
+        this.props.ShowAlert("Error al actualizar la información"+res.status, "danger");
       }
     });
     
     event.preventDefault();
+  }
+  handleSubmitPass(event) {
+        this.props.ShowLoader();
+
+    var data = {
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"password":this.state.password,"password_confirmation":this.state.password2}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
+      }
+    WebApiService.Patch(data).then(res =>{
+      this.props.HideLoader();
+      if (res.status === 200) {
+        this.props.ShowAlert("Contraseña actualizada satisfactoriamente", "success");
+      }else{
+        this.props.ShowAlert("Error al actualizar la contraseña"+res.status, "danger");
+      }
+    });
+    
+    event.preventDefault();
+  }
+
+  handleSubmitImage(event) {
+    this.props.ShowLoader();
+
+    var data = {
+        'direction': 'contributors/',
+        'param': this.props.contributor_id,
+        'body' : {"contributor": {"avatar":this.state.file.base64}},
+        'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
+      }
+    WebApiService.Patch(data).then(res =>{
+      this.props.HideLoader();
+      if (res.status === 200) {
+        this.props.ShowAlert("Imagen actualizada satisfactoriamente", "success");
+      }else{
+        this.props.ShowAlert("Error al actualizar la Imagen"+res.status, "danger");
+      }
+    });
+    
+    event.preventDefault();
+    window.location.reload()
   }
 
   handleUserInput = (e) => {
@@ -175,24 +239,17 @@ class SignUp extends Component {
   }
   
   validateForm() {
-    this.setState({formValid: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid && 
-                    this.state.userValid &&this.state.emailValid && this.state.passwordValid && this.state.password2Valid});
+    this.setState({formValidInfo: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid &&this.state.emailValid});
+    this.setState({formValidcontra:this.state.passwordValid && this.state.password2Valid});
   }   
+
   
   render() {
+    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="Preview"/> : "");
       return (
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
-            <h1 className="title">Registrate en f<b>UN</b>daciones</h1>
-            <ControlLabel>Tipo de usuario</ControlLabel>
-            <ButtonToolbar>
-            <ToggleButtonGroup
-              type="radio" name = "director"
-              defaultValue={true}>
-              <ToggleButton onClick={this.handleSelectedChange.bind(this, true)}  value = {true}>Director de fundación</ToggleButton>
-              <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
-            </ToggleButtonGroup>
-            </ButtonToolbar>
+            <h1 className="title">Actualiza tu información</h1>
             <br/>
             <FormGroup>
               <ControlLabel>Nombre</ControlLabel>
@@ -208,7 +265,7 @@ class SignUp extends Component {
               <ControlLabel>Apellidos</ControlLabel>
               <input type="name" className="form-control" name="lastname" 
                     placeholder="Apellidos"
-                    value={this.state.lastname}
+                    value= {this.state.lastname}
                     onChange={this.handleUserInput} />
             </FormGroup>
             <div>
@@ -230,22 +287,6 @@ class SignUp extends Component {
                     value={this.state.biodes}
                     onChange={this.handleUserInput} />
             </FormGroup>
-            {!this.state.director && 
-              <div className="form-group">
-                <label>Preferencias</label>
-                <TagInput UpdateTagsParent={this.handleTagChange} />
-              </div>
-            }
-            <FormGroup>
-              <ControlLabel>Usuario</ControlLabel>
-              <input type="name" className="form-control" name="user"                   
-                    placeholder="Usuario"
-                    value={this.state.user}
-                    onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-                <FormErrors formErrors={this.state.formErrorsUser} />
-            </div> 
             <FormGroup>
               <ControlLabel>Correo Electrónico</ControlLabel>
               <input type="email" className="form-control" name="email" 
@@ -256,10 +297,14 @@ class SignUp extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsEmail} />
             </div> 
+
+            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo}>Actualizar información</button>
+
+            <h1 className="title">Cambie su contraseña</h1>
             <FormGroup>
-              <ControlLabel>Contraseña</ControlLabel>
+              <ControlLabel>Nueva Contraseña</ControlLabel>
               <input type="password" className="form-control" name="password" 
-                      placeholder="Contraseña"                      
+                      placeholder="Contraseña"                    
                       value={this.state.password}
                       onChange={this.handleUserInput} />
              </FormGroup>
@@ -267,20 +312,31 @@ class SignUp extends Component {
                 <FormErrors formErrors={this.state.formErrorsPassword} />
             </div> 
              <FormGroup>
-              <ControlLabel>Confirme su contraseña</ControlLabel>
+              <ControlLabel>Confirme la contraseña</ControlLabel>
               <input type="password" className="form-control" name="password2" 
-                      placeholder="Contraseña"                      
+                      placeholder="Confirme la contraseña"                    
                       value={this.state.password2}
                       onChange={this.handleUserInput} />
              </FormGroup>
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
+              <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra}>Actualizar Contraseña</button>
+
+            <h1 className="title">Cambie la imagen</h1>
+            <div className="form-group">
+            <label>Imagen</label>
+            <FileBase64 onDone={this.getFiles} />
+            <div className="preview text-center">
+              {preview}
+            </div>
+          </div>
+              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success">Actualizar imagen</button>
+  
           </form>
         </div>
       );
     }
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+  export default connect(mapStateToProps, mapDispatchToProps)(Actualizar);

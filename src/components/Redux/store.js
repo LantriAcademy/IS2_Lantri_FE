@@ -6,7 +6,7 @@ import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from './Reducers'
 
-const middleware = applyMiddleware(thunk, logger)
+const middleware = applyMiddleware(thunk, )//logger)
 
 const persistConfig = {
     key: 'root',

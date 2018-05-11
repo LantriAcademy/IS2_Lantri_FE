@@ -13,8 +13,8 @@ class Alert extends Component {
     this.state = {
       timer: false
     };
-    console.log("Alert View");
-    console.log(this.props);
+    //console.log("Alert View");
+    //console.log(this.props);
   }
   componentWillReceiveProps(nextProps) {
 

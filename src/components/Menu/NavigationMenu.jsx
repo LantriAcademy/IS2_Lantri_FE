@@ -28,7 +28,7 @@ class NavigationMenu extends Component {
         this.callLogoff = this.callLogoff.bind(this);
     }
     callLogoff(){
-        console.log("callLogoff");
+        //console.log("callLogoff");
         this.props.logoff();
     }
     handleClose() {
@@ -57,10 +57,15 @@ class NavigationMenu extends Component {
                             <NavItem eventKey={3} componentClass={Link} href="/proposito" to="/proposito">Proposito</NavItem>
                             <NavItem eventKey={4} componentClass={Link} href="/quienessomos" to="/quienessomos">Quienes Somos</NavItem>
                             <NavItem eventKey={5} componentClass={Link} href="/contactenos" to="/contactenos">Contactenos</NavItem>
+                            {this.props.user.token !== undefined && this.props.user.userType === false && this.props.user.token !== ""? (
+                                <NavItem eventKey={6} componentClass={Link} href="/perfil" to="/perfil">Perfil</NavItem>
+                            ):(console.log(""))
+                            }
+                            
                             {this.props.user.token !== undefined && this.props.user.token !== ""? (
-                                <NavItem eventKey={6} className="btn-login" onClick={(e) => this.callLogoff(e)}>Salir</NavItem>
+                                <NavItem eventKey={7} className="btn-login" componentClass={Link} href="/" to="/" onClick={(e) => this.callLogoff(e)}>Salir</NavItem>
                             ) : (
-                                <NavItem eventKey={6} className="btn-login" onClick={(e) => this.callLogin(e)}>Inicio Sesion</NavItem>
+                                <NavItem eventKey={7} className="btn-login" onClick={(e) => this.callLogin(e)}>Inicio Sesion</NavItem>
                             )}
                         </Nav>
                     </Navbar.Collapse>
