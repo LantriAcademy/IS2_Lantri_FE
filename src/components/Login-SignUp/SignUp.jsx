@@ -56,7 +56,8 @@ class SignUp extends Component {
       passwordValid: false,
       password2Valid: false,
       formValid: false,
-      tags: []
+      tags: [],
+      buttonDisabled: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTagChange = this.handleTagChange.bind(this);
@@ -66,7 +67,8 @@ class SignUp extends Component {
   }
 
   handleSubmit(event) {
-    this.props.ShowLoader();
+    //this.props.ShowLoader();
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': 'directors',
       'param' : '',
@@ -83,7 +85,8 @@ class SignUp extends Component {
     
     
     WebApiService.Post(data).then(res =>{
-      this.props.HideLoader();
+      //this.props.HideLoader();
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         this.props.history.push("/");
         this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
@@ -276,7 +279,7 @@ class SignUp extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Registrarse</button>
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Registrarse</button>
           </form>
         </div>
       );

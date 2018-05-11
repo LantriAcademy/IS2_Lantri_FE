@@ -25,7 +25,8 @@ class CrearBeneficiado extends Component {
       formErrorsAge: {age: ''},
       nameValid: false,
       ageValid: false,
-      formValid: false
+      formValid: false,
+      buttonDisabled: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,6 +77,7 @@ class CrearBeneficiado extends Component {
   }
 
   handleSubmit(event) {
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': 'benefiteds',
       'param' : '',
@@ -84,6 +86,7 @@ class CrearBeneficiado extends Component {
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
     WebApiService.Post(data).then(res =>{
+      this.setState({buttonDisabled: false});
       //console.log(res);
        res.json().then(result => {
           //console.log(result);
@@ -145,7 +148,7 @@ class CrearBeneficiado extends Component {
               {preview}
             </div>
           </div>
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear beneficiario</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Crear beneficiario</button>
         </form>
       </div>
     );

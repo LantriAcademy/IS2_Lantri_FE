@@ -38,7 +38,8 @@ class LoginModal extends React.Component {
       formErrorsPassword: {user: ''},
       emailValid: false,
       passwordValid: false,
-      formValid: false
+      formValid: false,
+      buttonDisabled: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -48,7 +49,7 @@ class LoginModal extends React.Component {
     //alert('A password was submitted: ' + this.state.password);
     //alert('A email was submitted: ' + this.state.email);
     //alert('A type was submitted: ' + this.state.type);
-
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': 'signin_director',
       'param': '',
@@ -65,6 +66,7 @@ class LoginModal extends React.Component {
 
     WebApiService.Post(data).then(res => {
       //console.log(res);
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
           //console.log(result);
@@ -130,7 +132,7 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     //console.log(response)
-    
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': '/signin_director/google',
       'param': '',
@@ -147,6 +149,7 @@ class LoginModal extends React.Component {
     
     WebApiService.Post(data).then(res => {
       //console.log(res)
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
           //console.log(result);
@@ -214,7 +217,7 @@ class LoginModal extends React.Component {
                 </ToggleButtonGroup>
               </ButtonToolbar>
               <br/>
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Iniciar Sesion</button>
               <div>
                 <GoogleLogin
                   clientId={config.GOOGLE_CLIENT_ID}
@@ -222,6 +225,7 @@ class LoginModal extends React.Component {
                   onSuccess={this.googleResponse}
                   onFailure={this.onFailure}
                   className="btnGoogle"
+                  disabled={this.state.buttonDisabled}
                 > 
                   <span>Sign In with Google</span>                                                               
                 </GoogleLogin>

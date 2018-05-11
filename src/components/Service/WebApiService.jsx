@@ -1,6 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
+    static baseUrl = "https://backend-wapiravaguens.c9users.io/";
 
 
     static async Get(data) {
