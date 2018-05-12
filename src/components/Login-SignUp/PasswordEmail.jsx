@@ -22,7 +22,7 @@ export default class PasswordEmail extends Component {
         };
     }
     handleSubmit(e) {
-        var data = {//Director
+        var data = {
             'direction': 'contributor/reset_password',
             'param': '?email=' + this.state.email,
             'body': '',
