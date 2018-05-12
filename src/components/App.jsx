@@ -18,6 +18,7 @@ import Alert from "./Alert/Alert"
 import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
 import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
 import PasswordReset from './Login-SignUp/PasswordReset';
+import passwordEmail from './Login-SignUp/PasswordEmail';
 
 class App extends Component {
   
@@ -44,6 +45,7 @@ class App extends Component {
               <Route exact path = "/contactenos" component={Contactenos}/>
               <Route exact path = "/signup" component={SignUp}/>
               <Route path = "/passwordReset" component={PasswordReset}/>
+              <Route exact path = "/passwordEmail" component={passwordEmail}/>
             </div>
             <div className="footer">
               <Footer />
