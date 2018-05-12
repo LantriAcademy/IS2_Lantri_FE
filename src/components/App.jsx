@@ -17,6 +17,7 @@ import CrearEvento from "./Fundacion/CrearEvento"
 import Alert from "./Alert/Alert"
 import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
 import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
+import PasswordReset from './Login-SignUp/PasswordReset';
 
 class App extends Component {
   
@@ -42,6 +43,7 @@ class App extends Component {
               <Route exact path = "/quienessomos" component={QuienesSomos}/>
               <Route exact path = "/contactenos" component={Contactenos}/>
               <Route exact path = "/signup" component={SignUp}/>
+              <Route path = "/passwordReset" component={PasswordReset}/>
             </div>
             <div className="footer">
               <Footer />
