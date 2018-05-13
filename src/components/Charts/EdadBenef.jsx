@@ -11,7 +11,8 @@ export default class EdadBenef extends Component {
       active: 0,
       layout: 'vertical',
       color : 'accent',
-      data : []
+      data : [],
+      buttonDisabled: false,
     }
 
     this.handleChangeLayout = this.handleChangeLayout.bind(this);
@@ -21,6 +22,7 @@ export default class EdadBenef extends Component {
   }
 
   handleDownload(){
+    this.setState({buttonDisabled: true});
     var a = document.getElementById("chart").childNodes;
     var b = a[0].childNodes;
     var svg = b[0].childNodes;
@@ -43,7 +45,7 @@ export default class EdadBenef extends Component {
       loader.src = 'data:image/svg+xml,' + encodeURIComponent( svgAsXML );
     }
 
-    genPNGDataURL(mySVG, function() {
+    genPNGDataURL(mySVG, () => {
       var base64 = can.toDataURL();
       var data = {
         'direction': 'chart_pdf',
@@ -58,6 +60,7 @@ export default class EdadBenef extends Component {
           link.setAttribute('download', 'file.pdf');
           document.body.appendChild(link);
           link.click();
+          this.setState({buttonDisabled: false});
         });
       });
     });
@@ -203,7 +206,7 @@ export default class EdadBenef extends Component {
         </Pagination> 
       </div>
 
-      <button onClick={this.handleDownload} className="btn btn-success">Descargar</button>
+      <button onClick={this.handleDownload} className="btn btn-success"  disabled={this.state.buttonDisabled}>Descargar</button>
 
       </div>
     );

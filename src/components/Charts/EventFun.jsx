@@ -9,7 +9,8 @@ export default class EventFun extends Component {
     this.state = {
       active: 0,
       years: [],
-      data: []
+      data: [],
+      buttonDisabled: false,
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -17,6 +18,7 @@ export default class EventFun extends Component {
   }
 
   handleDownload(){
+    this.setState({buttonDisabled: true});
     var a = document.getElementById("chart2").childNodes;
     var b = a[0].childNodes;
     var svg = b[0].childNodes;
@@ -40,7 +42,7 @@ export default class EventFun extends Component {
     }
 
     const {years, active} = this.state;
-    genPNGDataURL(mySVG, function() {
+    genPNGDataURL(mySVG, () => {
       var base64 = can.toDataURL();
       var data = {
         'direction': 'chart_pdf',
@@ -55,6 +57,7 @@ export default class EventFun extends Component {
           link.setAttribute('download', 'file.pdf');
           document.body.appendChild(link);
           link.click();
+          this.setState({buttonDisabled: false});
         });
       });
     });
@@ -156,7 +159,7 @@ export default class EventFun extends Component {
       </Pagination> 
       </div>
 
-      <button onClick={this.handleDownload} className="btn btn-success">Descargar</button>
+      <button onClick={this.handleDownload} className="btn btn-success"  disabled={this.state.buttonDisabled}>Descargar</button>
 
       </div>
     );
