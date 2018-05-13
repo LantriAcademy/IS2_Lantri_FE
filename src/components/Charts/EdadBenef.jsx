@@ -62,7 +62,6 @@ export default class EdadBenef extends Component {
           'param': ''
       }
       WebApiService.Get(data).then(res => {
-        console.log(res)
         this.setState({
           data: res,
         });

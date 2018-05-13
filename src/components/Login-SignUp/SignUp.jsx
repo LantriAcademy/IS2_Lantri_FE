@@ -87,8 +87,8 @@ class SignUp extends Component {
       if (res.status === 201) {
         this.props.history.push("/");
         this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
-      } else {
-        this.props.ShowAlert("Problema al crear usuario, asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre y/o apellido", "danger");
+      }else{
+        this.props.ShowAlert("Problema al crear usuario", "danger");
       }
     });
 
@@ -143,7 +143,7 @@ class SignUp extends Component {
         break;
       case 'phone':
         phoneValid = value.length === 7 || value.length === 10;
-        formErrorsPhone.phone = phoneValid ? '' : ' no es valido';
+        formErrorsPhone.phone = phoneValid ? '': ' no es valido, debe tener 7 o 10 digitos';
         break;
       case 'user':
         userValid = value.length >= 1;
