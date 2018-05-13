@@ -1,46 +1,65 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Col, Thumbnail, Button, Pagination} from "react-bootstrap";
+import { Col, Thumbnail, Button, Pagination } from "react-bootstrap";
 import WebApiService from '../Service/WebApiService';
+import { connect } from 'react-redux';
 
-export default class ListaBeneficiados extends Component {
-  constructor(props){
+const mapStateToProps = state => {
+  return {
+    user : state.user
+  }
+}
+
+class ListaBeneficiados extends Component {
+  constructor(props) {
     super(props)
     this.state = {
-      beneficiados : [],
+      beneficiados: [],
       active: 1,
       pages: null,
       change: true,
     }
 
     this.handleClick = this.handleClick.bind(this);
+    this.downloadPdf = this.downloadPdf.bind(this);
   }
-
+  downloadPdf(id){
+    var data = {
+      'direction': 'benefiteds_pdf',
+      'param' : '/'+id,
+    }
+    if(this.props.user.id >= 0){
+      data.param += '/'+this.props.user.id;
+    }
+    WebApiService.GetURL(data).then( url => {
+      window.open(url+'.pdf', '_blank');
+    });
+  }
   componentDidMount() {
     var data = {
       'direction': '/foundation/benefited/size/',
-      'param' : this.props.fundacion_id,
+      'param': this.props.fundacion_id,
     }
-    WebApiService.Get(data).then(res =>{
+    WebApiService.Get(data).then(res => {
       this.setState({
-        pages: Math.ceil(res/6),
+        pages: Math.ceil(res / 6),
       });
     });
   }
 
   handleClick(i) {
-    this.setState({active : i, change: true});
+    this.setState({ active: i, change: true });
   }
 
   render() {
-    const {beneficiados, change, active, pages} = this.state;
+    const { beneficiados, change, active, pages } = this.state;
 
     if (change) {
       var data = {
         'direction': '/foundation/benefiteds/page/' + this.props.fundacion_id + '/',
-        'param' : this.state.active,
+        'param': this.state.active,
       }
-      WebApiService.Get(data).then(res =>{
+      WebApiService.Get(data).then(res => {
         this.setState({
           beneficiados: res,
           change: false
@@ -50,17 +69,18 @@ export default class ListaBeneficiados extends Component {
 
     const todoBeneficiados = beneficiados.map((beneficiado, index) => {
       var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
-        return(
-          <Col key={index} xs={6} md={6}>
-            <Thumbnail>
-              <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
-              <h3>{beneficiado.name}</h3>
-              <p>Edad: {beneficiado.age} años</p>
-              <p><Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button></p>
-            </Thumbnail>
-          </Col>
-        );
-      }
+      return (
+        <Col key={index} xs={6} md={6}>
+          <Thumbnail>
+            <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
+            <h3>{beneficiado.name}</h3>
+            <p>Edad: {beneficiado.age} años</p>
+            <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button>
+            <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)}>Resumen</Button>
+          </Thumbnail>
+        </Col>
+      );
+    }
     )
 
     let items = [];
@@ -83,3 +103,4 @@ export default class ListaBeneficiados extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(ListaBeneficiados)
