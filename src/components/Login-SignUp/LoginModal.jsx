@@ -158,7 +158,6 @@ class LoginModal extends React.Component {
             this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);  
           }
           this.props.hide();
-          this.props.history.push("/");
         });
       } else {
         swal(
