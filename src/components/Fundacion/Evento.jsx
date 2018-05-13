@@ -25,8 +25,8 @@ class Evento extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
-  componentWillMount() {
+
+  openPDF(urlPdf){
     var data = {
       'direction': 'events_pdf/',
       'param' : this.props.event.id,
@@ -35,12 +35,9 @@ class Evento extends Component {
       this.setState({
         pdfUrl: res,
       });
+      window.open('/pdf?url='+this.state.pdfUrl, '_blank');
     });
-  }
-
-  openPDF(urlPdf){
     //console.log("la URL del evento es: " + urlPdf);
-    window.open('/pdf?url='+urlPdf, '_blank');
   /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
     <div>Popped out content!</div>
   </PopoutWindow>*/

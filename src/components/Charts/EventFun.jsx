@@ -61,8 +61,8 @@ export default class EventFun extends Component {
 
     return (
       <div>
-      <div style={{height:"50rem", width:"100rem", "paddingBottom":"5rem", margin:"auto"}}>
-        <h1>Eventos por meses</h1>
+      <h1>Eventos por meses</h1>
+      <div id="chart2" style={{height:"50rem", width:"100rem", margin:"auto"}}>
         <ResponsiveLine
           data={this.state.data}
           margin={{
