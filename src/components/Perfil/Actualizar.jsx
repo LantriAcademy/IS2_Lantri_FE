@@ -60,7 +60,10 @@ class Actualizar extends Component {
       password2Valid: false,
       formValidInfo: false,
       formValidcontra: false,
-      isLoading: true
+      isLoading: true,
+      buttonDisabledInfo: false,
+      buttonDisabledPass: false,
+      buttonDisabledImg: false,
     }
     this.getFiles = this.getFiles.bind(this);
   }
@@ -97,8 +100,8 @@ class Actualizar extends Component {
   }
 
   handleSubmitInfo(event) {
-    this.props.ShowLoader();
-
+    //this.props.ShowLoader();
+    this.setState({buttonDisabledInfo: true});
     var data = {
         'direction': 'contributors/',
         'param': this.props.contributor_id,
@@ -106,7 +109,8 @@ class Actualizar extends Component {
         'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
       }
     WebApiService.Patch(data).then(res =>{
-      this.props.HideLoader();
+      //this.props.HideLoader();
+      this.setState({buttonDisabledInfo: false});
       if (res.status === 200) {
         this.props.ShowAlert("Información actualizada satisfactoriamente", "success");
       }else{
@@ -117,8 +121,8 @@ class Actualizar extends Component {
     event.preventDefault();
   }
   handleSubmitPass(event) {
-        this.props.ShowLoader();
-
+    //this.props.ShowLoader();
+    this.setState({buttonDisabledPass: true});
     var data = {
         'direction': 'contributors/',
         'param': this.props.contributor_id,
@@ -126,7 +130,8 @@ class Actualizar extends Component {
         'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
       }
     WebApiService.Patch(data).then(res =>{
-      this.props.HideLoader();
+      //this.props.HideLoader();
+      this.setState({buttonDisabledPass: false});
       if (res.status === 200) {
         this.props.ShowAlert("Contraseña actualizada satisfactoriamente", "success");
       }else{
@@ -138,8 +143,8 @@ class Actualizar extends Component {
   }
 
   handleSubmitImage(event) {
-    this.props.ShowLoader();
-
+    //this.props.ShowLoader();
+    this.setState({buttonDisabledImg: true});
     var data = {
         'direction': 'contributors/',
         'param': this.props.contributor_id,
@@ -147,7 +152,8 @@ class Actualizar extends Component {
         'headers': {'X-Contributor-Email': this.props.contributor_email, 'X-Contributor-Token': this.props.contributor_token, 'Content-Type': 'application/json'}
       }
     WebApiService.Patch(data).then(res =>{
-      this.props.HideLoader();
+      //this.props.HideLoader();
+      this.setState({buttonDisabledImg: false});
       if (res.status === 200) {
         this.props.ShowAlert("Imagen actualizada satisfactoriamente", "success");
       }else{
@@ -298,7 +304,7 @@ class Actualizar extends Component {
                 <FormErrors formErrors={this.state.formErrorsEmail} />
             </div> 
 
-            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo}>Actualizar información</button>
+            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo || this.state.buttonDisabledInfo}>Actualizar información</button>
 
             <h1 className="title">Cambie su contraseña</h1>
             <FormGroup>
@@ -321,7 +327,7 @@ class Actualizar extends Component {
             <div>
                 <FormErrors formErrors={this.state.formErrorsPassword2} />
             </div> 
-              <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra}>Actualizar Contraseña</button>
+              <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra || this.state.buttonDisabledPass}>Actualizar Contraseña</button>
 
             <h1 className="title">Cambie la imagen</h1>
             <div className="form-group">
@@ -331,7 +337,7 @@ class Actualizar extends Component {
               {preview}
             </div>
           </div>
-              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success">Actualizar imagen</button>
+              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
   
           </form>
         </div>

@@ -30,7 +30,8 @@ class CrearEvento extends Component {
       dateTimeValid: false,
       formValid:false,
       lat: 4.637894,
-      lng: -74.084023
+      lng: -74.084023,
+      buttonDisabled: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,6 +47,7 @@ class CrearEvento extends Component {
 
 
   handleSubmit(event) {
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': 'events',
       'param' : '',
@@ -54,6 +56,7 @@ class CrearEvento extends Component {
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
     WebApiService.Post(data).then(res =>{
+      this.setState({buttonDisabled: false});
        res.json().then(result => {
         });
       if (res.status === 201) {
@@ -159,7 +162,7 @@ class CrearEvento extends Component {
             <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
             <DraggableMap defaultCenter={{lat: this.state.lat, lng: this.state.lng}} onDragEnd={this.onDragEnd}/>
           </div>
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Evento</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Crear Evento</button>
         </form>
       </div>
     );

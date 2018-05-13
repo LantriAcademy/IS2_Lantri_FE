@@ -38,7 +38,8 @@ class LoginModal extends React.Component {
       formErrorsPassword: {user: ''},
       emailValid: false,
       passwordValid: false,
-      formValid: false
+      formValid: false,
+      buttonDisabled: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -48,7 +49,7 @@ class LoginModal extends React.Component {
     //alert('A password was submitted: ' + this.state.password);
     //alert('A email was submitted: ' + this.state.email);
     //alert('A type was submitted: ' + this.state.type);
-
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': 'signin_director',
       'param': '',
@@ -65,6 +66,7 @@ class LoginModal extends React.Component {
 
     WebApiService.Post(data).then(res => {
       //console.log(res);
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
           //console.log(result);
@@ -130,7 +132,7 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     //console.log(response)
-    
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': '/signin_director/google',
       'param': '',
@@ -146,6 +148,8 @@ class LoginModal extends React.Component {
     }
     
     WebApiService.Post(data).then(res => {
+      //console.log(res)
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
           if (!this.state.director) {
@@ -154,7 +158,6 @@ class LoginModal extends React.Component {
             this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);  
           }
           this.props.hide();
-          this.props.history.push("/");
         });
       } else {
         swal(
@@ -213,12 +216,13 @@ class LoginModal extends React.Component {
               <div>
                 <FormErrors formErrors={this.state.formErrorsPassword} />
               </div>
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Iniciar Sesion</button>
               <GoogleLogin
                   clientId={config.GOOGLE_CLIENT_ID}
                   buttonText="Login"
                   onSuccess={this.googleResponse}
                   onFailure={this.onFailure}
+                  disabled={this.state.buttonDisabled}
                   className="btn btnGoogle"
                 > 
                   <span>Sign In with Google</span>                                                               

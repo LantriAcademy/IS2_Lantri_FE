@@ -1,6 +1,7 @@
 export default class WebApiService {
     
-    static baseUrl = "http://127.0.0.1:3000/";
+    static baseUrl = "https://backend-wapiravaguens.c9users.io/";
+
 
 
     static async Get(data) {

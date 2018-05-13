@@ -14,7 +14,7 @@ const MyMapComponent = compose(
 )((props) =>
   <GoogleMap
     defaultZoom={13}
-    defaultCenter={props.defaultCenter}
+    center={props.defaultCenter}
   > 
     <Marker position={props.defaultCenter}/>
   </GoogleMap>
