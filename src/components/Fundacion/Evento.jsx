@@ -19,13 +19,14 @@ class Evento extends Component {
   constructor(props){
     super(props) 
     this.state = {
-      pdfUrl : "1"
+      pdfUrl : "1",
+      buttonDisabled: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
-  componentWillMount() {
+
+  openPDF(urlPdf){
     var data = {
       'direction': 'events_pdf/',
       'param' : this.props.event.id,
@@ -34,12 +35,9 @@ class Evento extends Component {
       this.setState({
         pdfUrl: res,
       });
+      window.open('/pdf?url='+this.state.pdfUrl, '_blank');
     });
-  }
-
-  openPDF(urlPdf){
     //console.log("la URL del evento es: " + urlPdf);
-    window.open('/pdf?url='+urlPdf, '_blank');
   /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
     <div>Popped out content!</div>
   </PopoutWindow>*/
@@ -51,6 +49,7 @@ class Evento extends Component {
   }
 
   handleSubmit() {
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': 'contributor_events',
       'param' : '',
@@ -60,6 +59,7 @@ class Evento extends Component {
     }
     
     WebApiService.Post(data).then(res =>{
+      this.setState({buttonDisabled: false});
       res.json().then(result => {
         if (res.status === 201) {
           swal(
@@ -113,7 +113,7 @@ class Evento extends Component {
         {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
         <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
         {(this.props.user.userType === false && this.props.perfil === false)  &&
-          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse">Suscribirse</Button>}
+          <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse" disabled={this.state.buttonDisabled}>Suscribirse</Button>}
       </div>
     );
   }

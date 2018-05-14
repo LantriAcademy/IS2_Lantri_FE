@@ -36,7 +36,11 @@ class CrearFundacion extends Component {
       directionValid: false,
       lat: 4.637894,
       lng: -74.084023,
-      tags: []
+      tags: [],
+      buttonDisabled: false,
+      description: '',
+      howToHelp: '',
+      contactUs: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
@@ -66,16 +70,17 @@ class CrearFundacion extends Component {
   handleSubmit(event) {
 
     //console.log(this.state.file.base64);
-
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': 'foundations',
       'param' : '',
       'body' : {"foundation": {"name": this.state.name, "direction": this.state.direction,
-      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64}, "interest" : this.state.tags},
+      "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.file.base64, "description": this.state.description, "howToHelp": this.state.howToHelp, "contactUs": this.state.contactUs}, "interest" : this.state.tags},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }    
     }
     WebApiService.Post(data).then(res =>{
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then((result) =>{
           this.props.foundation(result.id);
@@ -164,7 +169,24 @@ class CrearFundacion extends Component {
             <label>Preferencias</label>
             <TagInput UpdateTagsParent={this.handleTagChange} />
           </div>
-          
+          <div className="form-group">
+            <label>Descripción</label>
+            <textarea name= "description" type="text" className="form-control" placeholder="Descripción"
+            value={this.state.description}
+            onChange={this.handleUserInput} />
+          </div>
+          <div className="form-group">
+            <label>Formas de ayuda</label>
+            <textarea name= "howToHelp" type="text" className="form-control" placeholder="Escriba las diferentes formas de ayudar a la fundación"
+            value={this.state.howToHelp}
+            onChange={this.handleUserInput} />
+          </div>
+          <div className="form-group">
+            <label>Informacion de conctacto</label>
+            <textarea name= "contactUs" type="text" className="form-control" placeholder="Escriba la informacion de contacto de la fundación"
+            value={this.state.contactUs}
+            onChange={this.handleUserInput} />
+          </div>
           <div className="form-group">
             <label>Imagen</label>
             <FileBase64 onDone={this.getFiles} />
@@ -172,7 +194,7 @@ class CrearFundacion extends Component {
               {preview}
             </div>
           </div>
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Crear Fundación</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Crear Fundación</button>
         </form>
       </div>
     );

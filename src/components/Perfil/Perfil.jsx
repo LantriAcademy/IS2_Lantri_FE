@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import EventosSuscrito from './EventosSuscrito'
 import Apadrinados from './Apadrinados'
 import Actualizar from './Actualizar'
+import EventSus from '../Charts/EventSus';
 
 const mapStateToProps = state => {
   return {
@@ -81,7 +82,8 @@ class Perfil extends Component {
                   <div id="beneficiados" className="tab-pane fade">
                     {/*<Apadrinados contributor_id={this.props.user.id}/>*/}
                   </div>
-                  <div id="estadisticas" className="tab-pane fade">
+                  <div id="estadisticas" className="tab-pane fade text-center">
+                    <EventSus />
                   </div>
                   <div id="eventos" className="tab-pane fade">
                   <EventosSuscrito contributor_id={this.props.user.id} contributor_email={this.props.user.email} contributor_token={this.props.user.token}/>

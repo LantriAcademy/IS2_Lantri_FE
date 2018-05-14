@@ -9,10 +9,58 @@ export default class EventFun extends Component {
     this.state = {
       active: 0,
       years: [],
-      data: []
+      data: [],
+      buttonDisabled: false,
     }
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
+  }
+
+  handleDownload(){
+    this.setState({buttonDisabled: true});
+    var a = document.getElementById("chart2").childNodes;
+    var b = a[0].childNodes;
+    var svg = b[0].childNodes;
+    var mySVG = svg[0];
+
+    var can = document.createElement('canvas'),
+    ctx = can.getContext('2d'),
+    loader = new Image();
+
+    function genPNGDataURL(mySVG, callback) {
+      var svgAsXML = (new XMLSerializer()).serializeToString( mySVG );
+    
+      loader.width  = can.width  = mySVG.clientWidth;
+      loader.height = can.height = mySVG.clientHeight;
+    
+      loader.onload = function() {
+        ctx.drawImage( loader, 0, 0, loader.width, loader.height );
+        callback(can.toDataURL());
+      };
+      loader.src = 'data:image/svg+xml,' + encodeURIComponent( svgAsXML );
+    }
+
+    const {years, active} = this.state;
+    genPNGDataURL(mySVG, () => {
+      var base64 = can.toDataURL();
+      var data = {
+        'direction': 'chart_pdf',
+        'param' : '',
+        'body': {'title': 'Eventos ' + years[active] + '', 'chart': base64}
+      }
+      WebApiService.Post(data).then(response => {
+        response.blob().then(res =>{
+          var url = URL.createObjectURL(res);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'file.pdf');
+          document.body.appendChild(link);
+          link.click();
+          this.setState({buttonDisabled: false});
+        });
+      });
+    });
   }
 
   componentWillMount() {
@@ -61,8 +109,8 @@ export default class EventFun extends Component {
 
     return (
       <div>
-      <div style={{height:"50rem", width:"100rem", "paddingBottom":"5rem", margin:"auto"}}>
-        <h1>Eventos por meses</h1>
+      <h1>Eventos por meses</h1>
+      <div id="chart2" style={{height:"50rem", width:"100rem", margin:"auto"}}>
         <ResponsiveLine
           data={this.state.data}
           margin={{
@@ -105,10 +153,13 @@ export default class EventFun extends Component {
       />
       </div>
 
-
+      <div>
       <Pagination bsSize="medium">
         {allYears}
       </Pagination> 
+      </div>
+
+      <button onClick={this.handleDownload} className="btn btn-success"  disabled={this.state.buttonDisabled}>Descargar</button>
 
       </div>
     );

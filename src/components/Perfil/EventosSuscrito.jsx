@@ -33,7 +33,7 @@ export default class EventosSuscrito extends Component {
   }
 
   render() {
-    {const {events, active} = this.state;
+    const {events, active} = this.state;
     const allEvents = events.map((event, index) => {
         return(
           <div key={index}>
@@ -48,28 +48,25 @@ export default class EventosSuscrito extends Component {
       }
     );
 
-    const evento = events.map((event, index) => {
-      if (index === active) {
-          return (
-            <Evento event={event} perfil ={true}/>
-          );
-        }
-      }
-    );
-
-    return (
-      <div>
-      <Row>
-        <Col sm={5}>
-          <div className="list-group lista">
-            {allEvents}
-          </div>
-        </Col>
-        <Col sm={7}>
-          {evento}
-        </Col> 
-      </Row>
-      </div>
-    );
+    if (events.length === 0) {
+      return <div><h1 className="text-center">No hay eventos disponibles</h1></div>
+    } else {
+      return (
+        <div>
+        <Row>
+        </Row>
+        <Row>
+          <Col sm={5}>
+            <div className="list-group lista">
+              {allEvents}
+            </div>
+          </Col>
+          <Col sm={7}>
+            <Evento event={events[active]}/>
+          </Col> 
+        </Row>
+        </div>
+      );
+    }
   }
-}}
+}

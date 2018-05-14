@@ -11,53 +11,101 @@ export default class EdadBenef extends Component {
       active: 0,
       layout: 'vertical',
       color : 'accent',
-      data : []
+      data : [],
+      buttonDisabled: false,
     }
 
     this.handleChangeLayout = this.handleChangeLayout.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
   }
 
-    componentWillMount() {
+  handleDownload(){
+    this.setState({buttonDisabled: true});
+    var a = document.getElementById("chart").childNodes;
+    var b = a[0].childNodes;
+    var svg = b[0].childNodes;
+    var mySVG = svg[0];
+
+    var can = document.createElement('canvas'),
+    ctx = can.getContext('2d'),
+    loader = new Image();
+
+    function genPNGDataURL(mySVG, callback) {
+      var svgAsXML = (new XMLSerializer()).serializeToString( mySVG );
+    
+      loader.width  = can.width  = mySVG.clientWidth;
+      loader.height = can.height = mySVG.clientHeight;
+    
+      loader.onload = function() {
+        ctx.drawImage( loader, 0, 0, loader.width, loader.height );
+        callback(can.toDataURL());
+      };
+      loader.src = 'data:image/svg+xml,' + encodeURIComponent( svgAsXML );
+    }
+
+    genPNGDataURL(mySVG, () => {
+      var base64 = can.toDataURL();
       var data = {
-        'direction': 'foundation/stats/benefiteds?id=' + this.props.fundacion_id + '&max=10&min=1',
-        'param': ''
+        'direction': 'chart_pdf',
+        'param' : '',
+        'body': {'title': 'Edades de los beneficiados', 'chart': base64}
       }
-      WebApiService.Get(data).then(res => {
-        this.setState({
-          data: res,
+      WebApiService.Post(data).then(response => {
+        response.blob().then(res =>{
+          var url = URL.createObjectURL(res);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'file.pdf');
+          document.body.appendChild(link);
+          link.click();
+          this.setState({buttonDisabled: false});
         });
       });
-    }
+    });
+  }
 
-    handleChangeLayout(event){
-      this.setState({layout: event.target.value});
+  componentWillMount() {
+    var data = {
+      'direction': 'foundation/stats/benefiteds?id=' + this.props.fundacion_id + '&max=10&min=1',
+      'param': ''
     }
+    WebApiService.Get(data).then(res => {
+      this.setState({
+        data: res,
+      });
+    });
+  }
 
-    handleChangeColor(event){
-      this.setState({color: event.target.value});
-    }
+  handleChangeLayout(event){
+    this.setState({layout: event.target.value});
+  }
 
-    handleClick(i, min, max) {
-      var data = {
+  handleChangeColor(event){
+    this.setState({color: event.target.value});
+  }
+
+  handleClick(i, min, max) {
+    var data = {
         'direction': 'foundation/stats/benefiteds?id=' + this.props.fundacion_id + '&max='+ max +'&min=' + min,
         'param': ''
-      }
-      WebApiService.Get(data).then(res => {
-        this.setState({
-          data: res,
-        });
-      });
-
-      this.setState({active : i});
     }
+    WebApiService.Get(data).then(res => {
+      this.setState({
+        data: res,
+      });
+    });
+
+    this.setState({active : i});
+  }
 
   render() {
     return (
       <div>
-      <div style={{height:"45rem", width:"100rem", "paddingBottom":"3rem", margin:"auto"}}>
-        <h1>Edades de los beneficiados</h1>
+      <h1>Edades de los beneficiados</h1>
+      <div id="chart" style={{height:"45rem", width:"100rem", margin:"auto"}}>
+
         <ResponsiveBar
           data={this.state.data}
           keys={[
@@ -157,6 +205,8 @@ export default class EdadBenef extends Component {
           <Pagination.Item onClick={this.handleClick.bind(this, 9, 91, 100)} key={9} active={9 === this.state.active}>91-100</Pagination.Item>
         </Pagination> 
       </div>
+
+      <button onClick={this.handleDownload} className="btn btn-success"  disabled={this.state.buttonDisabled}>Descargar</button>
 
       </div>
     );

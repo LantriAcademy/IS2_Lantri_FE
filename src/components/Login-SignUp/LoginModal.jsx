@@ -38,7 +38,8 @@ class LoginModal extends React.Component {
       formErrorsPassword: {user: ''},
       emailValid: false,
       passwordValid: false,
-      formValid: false
+      formValid: false,
+      buttonDisabled: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -48,7 +49,7 @@ class LoginModal extends React.Component {
     //alert('A password was submitted: ' + this.state.password);
     //alert('A email was submitted: ' + this.state.email);
     //alert('A type was submitted: ' + this.state.type);
-
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': 'signin_director',
       'param': '',
@@ -65,6 +66,7 @@ class LoginModal extends React.Component {
 
     WebApiService.Post(data).then(res => {
       //console.log(res);
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
           //console.log(result);
@@ -130,7 +132,7 @@ class LoginModal extends React.Component {
 
   googleResponse = (response) => {
     //console.log(response)
-    
+    this.setState({buttonDisabled: true});
     var data = {//Director
       'direction': '/signin_director/google',
       'param': '',
@@ -147,10 +149,10 @@ class LoginModal extends React.Component {
     
     WebApiService.Post(data).then(res => {
       //console.log(res)
+      this.setState({buttonDisabled: false});
       if (res.status === 201) {
         res.json().then(result => {
-          //console.log(result);
-          if (!this.state.director) { //Contribuyente
+          if (!this.state.director) {
             this.props.login(result.authentication_token, result.contributor_id, result.foundation_id, this.state.director, result.email);
           }else {
             this.props.login(result.authentication_token, result.id, result.foundation_id, this.state.director, result.email);  
@@ -158,7 +160,6 @@ class LoginModal extends React.Component {
           this.props.hide();
         });
       } else {
-        //alert("Revisa tu contraseña e intentalo de nuevo!");
         swal(
           'Error',
           'Something went wrong',
@@ -183,6 +184,16 @@ class LoginModal extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <form className="login" onSubmit={this.handleSubmit}>
+              <ControlLabel>Tipo de usuario</ControlLabel>
+              <ButtonToolbar>
+                <ToggleButtonGroup
+                  type="radio" name="director"
+                  defaultValue={true}>
+                  <ToggleButton onClick={this.handleSelectedChange.bind(this, true)} value={true}>Director de fundación</ToggleButton>
+                  <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
+                </ToggleButtonGroup>
+              </ButtonToolbar>
+              <br/>
               <FormGroup>
                 <ControlLabel>Correo Electronico</ControlLabel>
                 <input type="email" className="form-control" name="email"
@@ -200,33 +211,23 @@ class LoginModal extends React.Component {
                   placeholder="Contraseña"
                   value={this.state.password}
                   onChange={this.handleUserInput} />
+                <Link to="/passwordEmail" onClick={this.props.hide}>¿Olvidaste tu contraseña?</Link>
               </FormGroup>
               <div>
                 <FormErrors formErrors={this.state.formErrorsPassword} />
               </div>
-              <ControlLabel>Tipo de usuario</ControlLabel>
-              <ButtonToolbar>
-                <ToggleButtonGroup
-                  type="radio" name="director"
-                  defaultValue={true}>
-                  <ToggleButton onClick={this.handleSelectedChange.bind(this, true)} value={true}>Director de fundación</ToggleButton>
-                  <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
-                </ToggleButtonGroup>
-              </ButtonToolbar>
-              <br/>
-              <button type="submit" className="btn btn-success" disabled={!this.state.formValid}>Iniciar Sesion</button>
-              <div>
-                <GoogleLogin
+              <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Iniciar Sesion</button>
+              <GoogleLogin
                   clientId={config.GOOGLE_CLIENT_ID}
                   buttonText="Login"
                   onSuccess={this.googleResponse}
                   onFailure={this.onFailure}
-                  className="btnGoogle"
+                  disabled={this.state.buttonDisabled}
+                  className="btn btnGoogle"
                 > 
                   <span>Sign In with Google</span>                                                               
                 </GoogleLogin>
-              </div>
-              <p>¿No tienes cuenta?  <Link to="/signup" onClick={this.props.hide}>Registrarse</Link></p>
+              <p>¿No tienes cuenta?  <Link to="/signup" style={{fontWeight: "700"}} onClick={this.props.hide}>Registrarse</Link></p>
             </form>
           </Modal.Body>
         </Modal>

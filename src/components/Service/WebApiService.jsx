@@ -1,6 +1,7 @@
 export default class WebApiService {
     
-    static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
+    static baseUrl = "https://backend-wapiravaguens.c9users.io/";
+
 
 
     static async Get(data) {
@@ -8,7 +9,6 @@ export default class WebApiService {
         response = response.json();
         return response; 
     }
-
     static async GetURL(data) {
         var url =  this.baseUrl + data.direction + data.param;
         return url; 
@@ -42,6 +42,14 @@ static async GetAuthenticated(data){
         return response;
        }
     }
+    static async PostParamURL(data){
+        var response = await fetch(this.baseUrl + data.direction + data.param, { 
+            method: 'POST',
+            body:    JSON.stringify(data.body),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        return response;
+     }
     static async Patch(data){
         var response = await fetch(this.baseUrl + data.direction + data.param, { 
         method: 'PATCH',

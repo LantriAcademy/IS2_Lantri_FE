@@ -60,7 +60,7 @@ export default class ListaEventos extends Component {
           </div>
         </Col>
         <Col sm={7}>
-          <Evento event={events[active]}/>
+          <Evento event={events[active]} perfil={false}/>
         </Col> 
       </Row>
       </div>
