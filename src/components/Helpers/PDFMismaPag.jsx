@@ -17,24 +17,19 @@ const mapDispatchToProps = dispatch => {
     }),
   }
 }
-class PDF extends Component {
+class PDFMismaPag extends Component {
     constructor(props){
       super(props);
-      const urlParams = new URLSearchParams(this.props.location.search)
-      const key = urlParams.get('url');
-      this.state = {
-        url: key
-      }
-      this.props.ShowLoader();
-      setTimeout(() => {this.props.HideLoader()},  1000);
     }
     render() {
     return (
         <PDFViewer document={{
-            url: this.state.url
+          url:this.props.url,
+          base64:this.props.base64,
+          file: this.props.file
         }} />
     );
 
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PDF)
+export default connect(mapStateToProps, mapDispatchToProps)(PDFMismaPag)

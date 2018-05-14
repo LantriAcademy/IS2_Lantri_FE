@@ -6,10 +6,8 @@ import Landing from "./Landing/Landing";
 import Fundaciones from "./Fundacion/Fundaciones";
 import Fundacion from "./Fundacion/Fundacion";
 import QuienesSomos from "./QuienesSomos";
-import Proposito from "./Proposito";
 import Perfil from "./Perfil/Perfil";
 import PDF from "./Helpers/PDF";
-import Contactenos from "./Contactenos";
 import SignUp from "./Login-SignUp/SignUp";
 import NavigationMenu from "./Menu/NavigationMenu";
 import Footer from "./Landing/Footer"
@@ -42,9 +40,7 @@ class App extends Component {
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/fundaciones/:id/:kid" component={PerfilBeneficiado}/>
               <Route exact path = "/perfil" component={Perfil}/>
-              <Route exact path = "/proposito" component={Proposito}/>
               <Route exact path = "/quienessomos" component={QuienesSomos}/>
-              <Route exact path = "/contactenos" component={Contactenos}/>
               <Route exact path = "/signup" component={SignUp}/>
               <Route path = "/passwordReset" component={PasswordReset}/>
               <Route exact path = "/passwordEmail" component={passwordEmail}/>

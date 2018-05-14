@@ -37,15 +37,6 @@ class Evento extends Component {
       });
       window.open('/pdf?url='+this.state.pdfUrl, '_blank');
     });
-    //console.log("la URL del evento es: " + urlPdf);
-  /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
-    <div>Popped out content!</div>
-  </PopoutWindow>*/
-      /*{routes.map(({path,component: C})=>(
-        <Route path = {path}
-        component={(props) => <C url = "localhost:3000/events_pdf/1" />}
-        />
-      ))}*/
   }
 
   handleSubmit() {

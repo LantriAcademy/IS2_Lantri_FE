@@ -27,7 +27,7 @@ export default class Inicio extends Component {
           </div>
           <div className="panel panel-success">
             <div className="panel-heading">
-              <h3 className="panel-title">Conctactenos</h3>
+              <h3 className="panel-title">Contactenos</h3>
             </div>
             <div className="panel-body">
               <p>{fundacion.contactUs}</p>
