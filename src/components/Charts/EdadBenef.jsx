@@ -68,7 +68,7 @@ export default class EdadBenef extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': 'foundation/stats/benefiteds?id=' + this.props.fundacion_id + '&max=10&min=1',
+      'direction': 'foundations/stats/benefiteds?id=' + this.props.fundacion_id + '&max=10&min=1',
       'param': ''
     }
     WebApiService.Get(data).then(res => {
@@ -88,7 +88,7 @@ export default class EdadBenef extends Component {
 
   handleClick(i, min, max) {
     var data = {
-        'direction': 'foundation/stats/benefiteds?id=' + this.props.fundacion_id + '&max='+ max +'&min=' + min,
+        'direction': 'foundations/stats/benefiteds?id=' + this.props.fundacion_id + '&max='+ max +'&min=' + min,
         'param': ''
     }
     WebApiService.Get(data).then(res => {

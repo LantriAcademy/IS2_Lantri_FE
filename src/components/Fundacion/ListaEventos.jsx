@@ -15,7 +15,7 @@ export default class ListaEventos extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': '/foundation/events/',
+      'direction': '/foundations/events/',
       'param' : this.props.fundacion_id,
     }
     WebApiService.Get(data).then(res =>{

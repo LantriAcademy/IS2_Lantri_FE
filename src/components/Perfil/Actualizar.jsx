@@ -88,7 +88,7 @@ class Actualizar extends Component {
 
   componentWillMount() {
     this.props.ShowLoader();
-    if (this.props.fundacion === true) {
+    if (this.props.fundacion === true && this.props.foundation_id !==null) {
       var data = {
         'direction': 'foundations/',
         'param': this.props.foundation_id,
@@ -124,10 +124,19 @@ class Actualizar extends Component {
       this.setState({
         usuario: res
       });
+      if (this.props.fundacion === false && this.props.director === true) {
+      this.setState({
+        biodes: res.bio
+      });
+      }else{
+      this.setState({
+        biodes: res.description
+      });
+      }
       this.props.HideLoader();
       this.setState({
         direction: res.direction, lat: res.latitude, lng: res.longitude, description: res.description, howToHelp: res.howToHelp, contactUs: res.contactUs,
-        isLoading: false, user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, file: res.avatar.url,
+        isLoading: false, user: res.user, name: res.name, lastname: res.lastname, phone: res.phone, file: res.avatar.url,
         email: res.email, emailValid: true, nameValid: true, lastnameValid: true, phoneValid: true
       });
       if (this.props.fundacion !== true) {
@@ -165,7 +174,7 @@ class Actualizar extends Component {
       var data = {
         'direction': 'directors/',
         'param': this.props.id,
-        'body': { "director": { "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "email": this.state.email, "description": this.state.biodes } },
+        'body': { "director": { "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "email": this.state.email, "bio": this.state.biodes } },
         'headers': { 'X-Director-Email': this.props.email, 'X-Director-Token': this.props.token, 'Content-Type': 'application/json' }
       }
     }
@@ -214,9 +223,9 @@ class Actualizar extends Component {
   }
 
   handleSubmitImage(event) {
-    //this.props.ShowLoader();
     this.setState({ buttonDisabledImg: true });
     if (this.props.fundacion === true) {
+      console.log("Fundacion")
       var data = {
         'direction': 'foundations/',
         'param': this.props.foundation_id,
@@ -265,7 +274,7 @@ class Actualizar extends Component {
     if (e) { //Director
       texto = "Biografia (opcional)"
     } else { //Contribuyente
-      texto = "Descripcion (opcional)"
+      texto = "Descripción (opcional)"
     }
     this.setState({
       director: e,
@@ -371,7 +380,7 @@ class Actualizar extends Component {
   render() {
     const preview = (this.state.Newfile !== "" ? <img src={this.state.Newfile.base64} height="180" width="210" alt="Preview" /> : "");
     if (this.props.fundacion === false) {
-      return (
+  return (
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
             <h1 className="title">Actualiza tu información</h1>
@@ -455,7 +464,7 @@ class Actualizar extends Component {
             </div>
             <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra || this.state.buttonDisabledPass}>Actualizar Contraseña</button>
 
-            <h1 className="title">Cambie la imagen</h1>
+            <h1 className="title">Cambie su foto de perfil</h1>
             <div className="form-group">
               <label>Imagen</label>
               <FileBase64 onDone={this.getFiles} />
@@ -525,7 +534,7 @@ class Actualizar extends Component {
               </div>
             </div>
             <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
-          </form>
+         </form>
         </div>
       );
     }

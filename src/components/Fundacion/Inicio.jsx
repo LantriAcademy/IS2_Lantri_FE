@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
 import Mapa from './Mapa';
+import {Button} from "react-bootstrap";
+import WebApiService from '../Service/WebApiService';
 
 export default class Inicio extends Component {
+    constructor(props) {
+    super(props)
+    this.state = {
+      pdfUrl : "1"
+    }
+  }
+
+  downloadPDF(urlPdf){
+    var data = {
+      'direction': this.props.fundacion.pdf.url,
+      'param' : '',
+    }
+    WebApiService.GetURL(data).then(res =>{
+      this.setState({
+        pdfUrl: res,
+      });
+      window.open(this.state.pdfUrl, '_blank');
+    });
+  }
+  
+  
     render() {
       const {fundacion} = this.props;
 
@@ -33,6 +56,7 @@ export default class Inicio extends Component {
               <p>{fundacion.contactUs}</p>
             </div>
           </div>
+          <Button onClick={() => { this.downloadPDF(this.state.pdfUrl)}} className="btn btn-success">Certificado de existencia de la fundacion</Button>
         </div>
       );
     }

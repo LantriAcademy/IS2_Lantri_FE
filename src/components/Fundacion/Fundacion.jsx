@@ -34,6 +34,7 @@ class Fundacion extends Component {
 
     this.state = {
       fundacion: {},
+      pdfUrl : "1",
       isLoading: true
     }
   }
@@ -50,7 +51,9 @@ class Fundacion extends Component {
       this.props.HideLoader();
       this.setState({ isLoading: false });
     });
+
   }
+
 
   render() {
     if (this.state.isLoading) {

@@ -65,7 +65,7 @@ export default class EventFun extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': 'foundation/yearevent?id=' + this.props.fundacion_id,
+      'direction': 'foundations/yearevent?id=' + this.props.fundacion_id,
       'param': ''
     }
     WebApiService.Get(data).then(res => {
@@ -74,7 +74,7 @@ export default class EventFun extends Component {
       });
 
       var data = {
-        'direction': 'foundation/yeareventdata?id=' + this.props.fundacion_id +'&year=' + this.state.years[0],
+        'direction': 'foundations/yeareventdata?id=' + this.props.fundacion_id +'&year=' + this.state.years[0],
         'param': ''
       }
       WebApiService.Get(data).then(res => {
@@ -87,7 +87,7 @@ export default class EventFun extends Component {
 
   handleClick(i, year) {
     var data = {
-      'direction': 'foundation/yeareventdata?id=' + this.props.fundacion_id +'&year=' + year,
+      'direction': 'foundations/yeareventdata?id=' + this.props.fundacion_id +'&year=' + year,
       'param': ''
     }
     WebApiService.Get(data).then(res => {

@@ -1,6 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "http://localhost:3000/";
+    static baseUrl = "https://fundacionesbackend-judgarciani.c9users.io/";
 
 
 

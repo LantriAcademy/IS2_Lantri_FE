@@ -85,7 +85,8 @@ class CrearFundacion extends Component {
       'body': {
         "foundation": {
           "name": this.state.name, "direction": this.state.direction,
-          "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.imageFile.base64, "description": this.state.description, "howToHelp": this.state.howToHelp, "contactUs": this.state.contactUs
+          "latitude": this.state.lat, "longitude": this.state.lng, "director_id": this.props.user.id, "avatar": this.state.imageFile.base64, "description": this.state.description, 
+          "howToHelp": this.state.howToHelp, "contactUs": this.state.contactUs, "pdf": this.state.pdfFile.base64
         }, "interest": this.state.tags
       },
       'type': 1,

@@ -9,6 +9,7 @@ import EventosSuscrito from './EventosSuscrito'
 import Apadrinados from './Apadrinados'
 import Actualizar from './Actualizar'
 import EventSus from '../Charts/EventSus';
+import Inicio from './Inicio';
 
 const mapStateToProps = state => {
   return {
@@ -35,11 +36,33 @@ class Perfil extends Component {
 
     this.state = {
       usuario: {},
+      biodes: "",
       isLoading: true
     }
   }
   irFundacion(){
     window.open('/fundaciones/'+this.state.usuario.foundation_id);
+  }
+    crearFundacion(){
+    window.location = "/crearFundacion";
+  }
+  
+  menuFundacion(selection){
+    if(selection ===1){
+               if(this.state.usuario.foundation_id !== null){
+    return <button type="submit" onClick={(e) => this.irFundacion()} className="btn btn-success" >Ir a mi fundación</button>
+    } 
+    }else if (selection === 2){
+         if(this.state.usuario.foundation_id === null){
+      return <li><a data-toggle="tab" href=" " onClick={(e) => this.crearFundacion()}>Crear una fundación</a></li>
+    }else{
+      return <li><a data-toggle="tab" href="#fundacion">Actualizar informacion de mi fundación</a></li>
+    }
+    }else if(selection ===3){
+        if(this.state.usuario.foundation_id !== null){
+      return <Actualizar foundation_id={this.state.usuario.foundation_id} fundacion={true} director={true} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} />
+    }}
+
   }
   componentWillMount() {
     this.props.ShowLoader();
@@ -81,25 +104,23 @@ class Perfil extends Component {
                   <img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />
                   <ul className="nav nav-pills  nav-stacked menu">
                     <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
-                    {/*<li><a data-toggle="tab" href="#beneficiados">Apadrinados</a></li>*/}
-                    <li><a data-toggle="tab" href="#estadisticas">Estadísticas</a></li>
                     <li><a data-toggle="tab" href="#actualizar">Actualizar información Personal</a></li>
-                    <li><a data-toggle="tab" href="#fundacion">Actualizar informacion de mi fundación</a></li>
+                    {this.menuFundacion(2)}
                   </ul>
                 </Col>
                 <Col sm={9}>
                   <div className="tab-content">
                     <div id="inicio" className="tab-pane fade in active">
-                      Bienvenido director
+                    <Inicio  biodes = {this.state.usuario.bio}  usuario={this.state.usuario} />
                       <br/>
-                      <button type="submit" onClick={(e) => this.irFundacion()} className="btn btn-success" >Ir a mi fundación</button>
+{this.menuFundacion(1)}
                   </div>
                     <div id="beneficiados" className="tab-pane fade">
                     </div>
                     <div id="estadisticas" className="tab-pane fade text-center">
                     </div>
                     <div id="fundacion" className="tab-pane fade">
-                      <Actualizar foundation_id={this.state.usuario.foundation_id} fundacion={true} director={true} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} />
+                    {this.menuFundacion(3)}
                     </div>
                     <div id="actualizar" className="tab-pane fade">
                       <Actualizar fundacion={false} director={true} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} />
@@ -128,7 +149,7 @@ class Perfil extends Component {
                 <Col sm={9}>
                   <div className="tab-content">
                     <div id="inicio" className="tab-pane fade in active">
-                      Bienvenido contribuyente
+                    <Inicio  biodes = {this.state.usuario.description} usuario={this.state.usuario} />
                   </div>
                     <div id="beneficiados" className="tab-pane fade">
                       {/*<Apadrinados contributor_id={this.props.user.id}/>*/}
@@ -140,7 +161,7 @@ class Perfil extends Component {
                       <EventosSuscrito contributor_id={this.props.user.id} contributor_email={this.props.user.email} contributor_token={this.props.user.token} />
                     </div>
                     <div id="actualizar" className="tab-pane fade">
-                      <Actualizar director={false} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} /></div>
+                      <Actualizar director={false} fundacion = {false} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} /></div>
                   </div>
                 </Col>
               </Row>

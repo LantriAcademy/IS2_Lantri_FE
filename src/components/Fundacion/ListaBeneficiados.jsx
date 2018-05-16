@@ -25,11 +25,11 @@ class ListaBeneficiados extends Component {
   }
   downloadPdf(id){
     var data = {
-      'direction': 'benefiteds_pdf',
-      'param' : '/'+id,
+      'direction': 'benefiteds/pdf',
+      'param' : '/'+this.props.user.id,
     }
     if(this.props.user.id >= 0){
-      data.param += '/'+this.props.user.id;
+      data.param += '/'+id;
     }
     WebApiService.GetURL(data).then( url => {
       window.open(url+'.pdf', '_blank');
@@ -37,7 +37,7 @@ class ListaBeneficiados extends Component {
   }
   componentDidMount() {
     var data = {
-      'direction': '/foundation/benefited/size/',
+      'direction': '/foundations/benefiteds/size/',
       'param': this.props.fundacion_id,
     }
     WebApiService.Get(data).then(res => {
@@ -56,7 +56,7 @@ class ListaBeneficiados extends Component {
 
     if (change) {
       var data = {
-        'direction': '/foundation/benefiteds/page/' + this.props.fundacion_id + '/',
+        'direction': '/foundations/benefiteds/page/' + this.props.fundacion_id + '/',
         'param': this.state.active,
       }
       WebApiService.Get(data).then(res => {
