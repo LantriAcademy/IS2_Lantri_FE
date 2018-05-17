@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { Col, Thumbnail, Button, Pagination } from "react-bootstrap";
 import WebApiService from '../Service/WebApiService';
 import { connect } from 'react-redux';
+import EditarBeneficiado from '../Beneficiado/EditarBeneficiado'
 
 const mapStateToProps = state => {
   return {
-    user : state.user
+    user: state.user
   }
 }
 
@@ -18,28 +19,42 @@ class ListaBeneficiados extends Component {
       active: 1,
       pages: null,
       change: true,
+      texto: "Lista de beneficiados"
     }
 
     this.handleClick = this.handleClick.bind(this);
     this.downloadPdf = this.downloadPdf.bind(this);
   }
-  downloadPdf(id){
+
+
+  downloadPdf(id) {
     var data = {
-      'direction': 'benefiteds_pdf',
-      'param' : '/'+id,
+      'direction': 'benefiteds/pdf',
+      'param': '/' + id,
     }
-    if(this.props.user.id >= 0){
-      data.param += '/'+this.props.user.id;
+    if (this.id >= 0) {
+      data.param += '/' + this.props.user.id;
     }
-    WebApiService.GetURL(data).then( url => {
-      window.open(url+'.pdf', '_blank');
+    WebApiService.GetURL(data).then(url => {
+      window.open(url + '.pdf', '_blank');
     });
   }
   componentDidMount() {
-    var data = {
-      'direction': '/foundation/benefited/size/',
-      'param': this.props.fundacion_id,
+    if(this.props.fundacion_id === null){//LISTA PEDIDA POR UN CONTRIBUYENTE
+      var data = {
+        'direction': '/foundations/benefiteds/size/',//NOSE EL COSO
+        'param': 1,
+      }
+      this.setState({
+        texto: "Personas apadrinadas"
+      })
+    }else{
+      var data = {
+        'direction': '/foundations/benefiteds/size/',
+        'param': this.props.fundacion_id,
+      }
     }
+
     WebApiService.Get(data).then(res => {
       this.setState({
         pages: Math.ceil(res / 6),
@@ -51,14 +66,27 @@ class ListaBeneficiados extends Component {
     this.setState({ active: i, change: true });
   }
 
+  mostrarBotonEditar(id){
+    if(this.props.editar===true){
+      return <Button bsStyle="primary" style={{ marginLeft: '10px', marginBottom: '10px' }} href={"/editarBeneficiado?Benid="+id} to={"/editarBeneficiado/"+id}>Editar</Button>
+    }
+  }
+
   render() {
     const { beneficiados, change, active, pages } = this.state;
 
     if (change) {
+      if(this.props.fundacion_id === null){ //SI LO PIDE EL CONTRIBUYENTE
+        var data = {
+          'direction': '/foundations/benefiteds/page/' + 1 + '/',
+          'param': this.state.active,
+        }
+      }else{
       var data = {
-        'direction': '/foundation/benefiteds/page/' + this.props.fundacion_id + '/',
+        'direction': '/foundations/benefiteds/page/' + this.props.fundacion_id + '/',
         'param': this.state.active,
       }
+    }
       WebApiService.Get(data).then(res => {
         this.setState({
           beneficiados: res,
@@ -68,15 +96,16 @@ class ListaBeneficiados extends Component {
     }
 
     const todoBeneficiados = beneficiados.map((beneficiado, index) => {
-      var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
+      var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id + "?Benid=" + beneficiado.id;
       return (
         <Col key={index} xs={6} md={6}>
           <Thumbnail>
             <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
             <h3>{beneficiado.name}</h3>
             <p>Edad: {beneficiado.age} años</p>
-            <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button>
+            <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver más</Button>
             <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)}>Resumen</Button>
+            {this.mostrarBotonEditar(beneficiado.id)}
           </Thumbnail>
         </Col>
       );
@@ -92,7 +121,7 @@ class ListaBeneficiados extends Component {
 
     return (
       <div>
-        <h1 className="text-center">Lista de beneficiados</h1>
+        <h1 className="text-center">{this.state.texto}</h1>
         <div className="row">
           {todoBeneficiados}
         </div>

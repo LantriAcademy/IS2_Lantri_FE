@@ -39,7 +39,7 @@ class Fundaciones extends Component {
   }
   componentWillMount() {
     var data = {
-      'direction': '/foundation/size',
+      'direction': '/foundations/size',
       'param' : '',
     }
     WebApiService.Get(data).then(res =>{
