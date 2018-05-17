@@ -26,10 +26,10 @@ class ListaBeneficiados extends Component {
   downloadPdf(id){
     var data = {
       'direction': 'benefiteds/pdf',
-      'param' : '/'+this.props.user.id,
+      'param' : '/'+ id,
     }
-    if(this.props.user.id >= 0){
-      data.param += '/'+id;
+    if(this.id >= 0){
+      data.param += '/'+this.props.user.id;
     }
     WebApiService.GetURL(data).then( url => {
       window.open(url+'.pdf', '_blank');

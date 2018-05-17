@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
-import { FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton, ButtonToolbar } from "react-bootstrap"
+import { FormControl, FormGroup, ControlLabel} from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
-import swal from 'sweetalert2'
 import FileBase64 from '../Helpers/FileBase64';
-import TagInput from '../TagInput/TagInput';
+//import TagInput from '../TagInput/TagInput';
 import DraggableMap from '../Fundacion/DraggableMap';
 import { connect } from 'react-redux';
 
@@ -52,7 +51,7 @@ class Actualizar extends Component {
       Newfile:'',
       phone: '',
       file: "",
-      text: "",
+      text: "Biografía (opcional)",
       formErrorsName: { name: '' },
       formErrorsLastname: { lastname: '' },
       formErrorsPhone: { phone: '' },
@@ -68,6 +67,7 @@ class Actualizar extends Component {
       passwordValid: false,
       password2Valid: false,
       formValidInfo: false,
+      formValidInfoFund: false,
       formValidcontra: false,
       isLoading: true,
       buttonDisabledInfo: false,
@@ -85,19 +85,15 @@ class Actualizar extends Component {
     this.getFiles = this.getFiles.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
-
   componentWillMount() {
     this.props.ShowLoader();
-    if (this.props.fundacion === true && this.props.foundation_id !==null) {
+    if (this.props.fundacion === true) {
       var data = {
         'direction': 'foundations/',
         'param': this.props.foundation_id,
         'type': 1,
         'headers': { 'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token }
       }
-      this.setState({
-        text: "Biografía (opcional)"
-      });
     } else if (this.props.fundacion === false && this.props.director === true) {
       var data = {
         'direction': 'directors/',
@@ -105,9 +101,6 @@ class Actualizar extends Component {
         'type': 1,
         'headers': { 'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token }
       }
-      this.setState({
-        text: "Biografía (opcional)"
-      });
     } else {
       var data = {
         'direction': 'contributors/',
@@ -124,27 +117,25 @@ class Actualizar extends Component {
       this.setState({
         usuario: res
       });
-      if (this.props.fundacion === false && this.props.director === true) {
-      this.setState({
-        biodes: res.bio
-      });
-      }else{
-      this.setState({
-        biodes: res.description
-      });
-      }
       this.props.HideLoader();
       this.setState({
         direction: res.direction, lat: res.latitude, lng: res.longitude, description: res.description, howToHelp: res.howToHelp, contactUs: res.contactUs,
-        isLoading: false, user: res.user, name: res.name, lastname: res.lastname, phone: res.phone, file: res.avatar.url,
-        email: res.email, emailValid: true, nameValid: true, lastnameValid: true, phoneValid: true
+        isLoading: false, user: res.user, name: res.name, lastname: res.lastname, biodes: res.description, phone: res.phone, file: res.avatar.url,
+        email: res.email, emailValid: true, nameValid: true, lastnameValid: true, phoneValid: true, directionValid: true, descriptionValid: true, howToHelpValid: true,
+        contactUsValid: true
       });
+      if(this.props.director === true){
+        this.setState({
+          biodes: res.bio
+      })
+        
+      }
       if (this.props.fundacion !== true) {
         this.validateField("phone", this.state.phone);
       }
+      this.validateForm();
     });
   }
-
   fileSelectedHandler = event => {
     console.log(event.target.files[0]);
     this.setState({
@@ -158,7 +149,6 @@ class Actualizar extends Component {
     this.setState({ lat: lat, lng: lng });
   }
   handleSubmitInfo(event) {
-    //this.props.ShowLoader();
     this.setState({ buttonDisabledInfo: true });
     if (this.props.fundacion === true) {
       var data = {
@@ -223,15 +213,16 @@ class Actualizar extends Component {
   }
 
   handleSubmitImage(event) {
+    //this.props.ShowLoader();
     this.setState({ buttonDisabledImg: true });
     if (this.props.fundacion === true) {
-      console.log("Fundacion")
       var data = {
         'direction': 'foundations/',
         'param': this.props.foundation_id,
         'body': { "foundation": { "avatar": this.state.Newfile.base64 } },
         'headers': { 'X-Director-Email': this.props.email, 'X-Director-Token': this.props.token, 'Content-Type': 'application/json' }
       }
+      console.log(data)
     } else if (this.props.fundacion === false && this.props.director === true) {
       var data = {
         'direction': 'directors/',
@@ -261,7 +252,6 @@ class Actualizar extends Component {
     event.preventDefault();
     window.location.reload()
   }
-
   handleUserInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -378,8 +368,11 @@ class Actualizar extends Component {
 
 
   render() {
-    const preview = (this.state.Newfile !== "" ? <img src={this.state.Newfile.base64} height="180" width="210" alt="Preview" /> : "");
-    if (this.props.fundacion === false) {
+    const preview = (this.state.Newfile !== "" ? <img src={this.state.Newfile.base64} height="180" width="210" alt="Preview" /> : "")
+        if (this.state.isLoading) {
+      return <div></div>
+    } else {
+      if (this.props.fundacion === false) {
   return (
         <div className="caja" >
           <form className="signUp" onSubmit={this.handleSubmit}>
@@ -524,7 +517,7 @@ class Actualizar extends Component {
                 onChange={this.handleUserInput} />
             </div>
             <FormErrors formErrors={this.state.formErrorscontactUs} />
-            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo || this.state.buttonDisabledInfo}>Actualizar información</button>
+            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfoFund || this.state.buttonDisabledInfo}>Actualizar información</button>
             <h1 className="title">Cambie la imagen</h1>
             <div className="form-group">
               <label>Imagen</label>
@@ -538,7 +531,7 @@ class Actualizar extends Component {
         </div>
       );
     }
-  }
+  }}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actualizar);

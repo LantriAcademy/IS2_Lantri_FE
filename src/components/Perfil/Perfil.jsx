@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Grid, Row, Col } from "react-bootstrap";
 import "../../styles/Fundacion.css";
 import WebApiService from '../Service/WebApiService';
 import ListaBeneficiados from '../Fundacion/ListaBeneficiados'
@@ -46,7 +45,7 @@ class Perfil extends Component {
     crearFundacion(){
     window.location = "/crearFundacion";
   }
-  
+
   menuFundacion(selection){
     if(selection ===1){
                if(this.state.usuario.foundation_id !== null){
@@ -83,19 +82,19 @@ class Perfil extends Component {
     }
     WebApiService.GetAuthenticated(data).then(res => {
       this.setState({
-        usuario: res,
+        usuario: res
       });
+    //console.log(res)
       this.props.HideLoader();
       this.setState({ isLoading: false });
     });
-
   }
 
   render() {
     if (this.state.isLoading) {
       return <div></div>
     } else {
-      if (this.props.user.userType === true) {
+      if (this.props.user.userType === true) { //Director
         return (
           <div>
             <Grid>
@@ -104,27 +103,29 @@ class Perfil extends Component {
                   <img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />
                   <ul className="nav nav-pills  nav-stacked menu">
                     <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
-                    <li><a data-toggle="tab" href="#actualizar">Actualizar información Personal</a></li>
                     {this.menuFundacion(2)}
+                    <li><a data-toggle="tab" href="#actualizar">Actualizar información Personal</a></li>
+
                   </ul>
                 </Col>
                 <Col sm={9}>
                   <div className="tab-content">
                     <div id="inicio" className="tab-pane fade in active">
-                    <Inicio  biodes = {this.state.usuario.bio}  usuario={this.state.usuario} />
+                    <Inicio director ={true} biodes = {this.state.usuario.bio}  usuario={this.state.usuario} />
                       <br/>
-{this.menuFundacion(1)}
+                  {this.menuFundacion(1)}
                   </div>
                     <div id="beneficiados" className="tab-pane fade">
                     </div>
                     <div id="estadisticas" className="tab-pane fade text-center">
                     </div>
-                    <div id="fundacion" className="tab-pane fade">
-                    {this.menuFundacion(3)}
-                    </div>
                     <div id="actualizar" className="tab-pane fade">
                       <Actualizar fundacion={false} director={true} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} />
                     </div>
+                    <div id="fundacion" className="tab-pane fade">
+                    {this.menuFundacion(3)}
+                    </div>
+
                   </div>
                 </Col>
               </Row>
@@ -149,7 +150,7 @@ class Perfil extends Component {
                 <Col sm={9}>
                   <div className="tab-content">
                     <div id="inicio" className="tab-pane fade in active">
-                    <Inicio  biodes = {this.state.usuario.description} usuario={this.state.usuario} />
+                    <Inicio  director ={false}  biodes = {this.state.usuario.description} usuario={this.state.usuario} />
                   </div>
                     <div id="beneficiados" className="tab-pane fade">
                       {/*<Apadrinados contributor_id={this.props.user.id}/>*/}

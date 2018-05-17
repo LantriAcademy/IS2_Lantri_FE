@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, FormControl, ControlLabel, FormGroup } from 'react-bootstrap'
+import { Panel, ControlLabel, FormGroup } from 'react-bootstrap'
 import '../../styles/resetPassword.css'
 import { FormErrors } from "../Helpers/FormErrors.js"
 import WebApiService from '../Service/WebApiService'

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Mapa from './Mapa';
 import {Button} from "react-bootstrap";
 import WebApiService from '../Service/WebApiService';
 

@@ -46,7 +46,7 @@ class EventSus extends Component {
 
   handleClick(i, year) {
     var data = {
-      'direction': 'contributor/yeareventdata?id=' + this.props.user.id +'&year=' + year,
+      'direction': 'contributors/yeareventdata?id=' + this.props.user.id +'&year=' + year,
       'param': ''
     }
     WebApiService.Get(data).then(res => {
