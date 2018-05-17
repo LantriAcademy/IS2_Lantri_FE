@@ -15,6 +15,7 @@ import CrearFundacion from "./Fundacion/CrearFundacion"
 import CrearEvento from "./Fundacion/CrearEvento"
 import Alert from "./Alert/Alert"
 import CrearBeneficiado from "./Beneficiado/CrearBeneficiado"
+import EditarBeneficiado from "./Beneficiado/EditarBeneficiado"
 import PerfilBeneficiado from "./Beneficiado/PerfilBeneficiado";
 import PasswordReset from './Login-SignUp/PasswordReset';
 import passwordEmail from './Login-SignUp/PasswordEmail';
@@ -39,6 +40,7 @@ class App extends Component {
               <Route exact path = "/crearBeneficiado" component={CrearBeneficiado}/>
               <Route exact path = "/fundaciones/:id" component={Fundacion}/>
               <Route exact path = "/fundaciones/:id/:kid" component={PerfilBeneficiado}/>
+              <Route exact path = "/editarBeneficiado" component={EditarBeneficiado}/>
               <Route exact path = "/perfil" component={Perfil}/>
               <Route exact path = "/quienessomos" component={QuienesSomos}/>
               <Route exact path = "/signup" component={SignUp}/>

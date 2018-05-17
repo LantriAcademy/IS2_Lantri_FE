@@ -55,11 +55,16 @@ class Perfil extends Component {
       if (this.state.usuario.foundation_id === null) {
         return <li><a data-toggle="tab" href=" " onClick={(e) => this.crearFundacion()}>Crear una fundación</a></li>
       } else {
-        return <li><a data-toggle="tab" href="#fundacion">Actualizar informacion de mi fundación</a></li>
+        return<li><a data-toggle="tab" href="#fundacion">Actualizar informacion de mi fundación</a></li>
       }
     } else if (selection === 3) {
       if (this.state.usuario.foundation_id !== null) {
         return <Actualizar foundation_id={this.state.usuario.foundation_id} fundacion={true} director={true} id={this.props.user.id} email={this.props.user.email} token={this.props.user.token} />
+      }
+    }
+    else if (selection === 4) {
+      if (this.state.usuario.foundation_id !== null) {
+        return <li><a data-toggle="tab" href="#beneficiados">Ver beneficiados de mi fundación</a></li>
       }
     }
 
@@ -104,8 +109,9 @@ class Perfil extends Component {
                   <img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />
                   <ul className="nav nav-pills  nav-stacked menu">
                     <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
-                    {this.menuFundacion(2)}
                     <li><a data-toggle="tab" href="#actualizar">Actualizar información Personal</a></li>
+                    {this.menuFundacion(2)}
+                    {this.menuFundacion(4)}
 
                   </ul>
                 </Col>
@@ -117,6 +123,7 @@ class Perfil extends Component {
                       {this.menuFundacion(1)}
                     </div>
                     <div id="beneficiados" className="tab-pane fade">
+                    <ListaBeneficiados editar={true} fundacion_id={this.state.usuario.foundation_id} />
                     </div>
                     <div id="estadisticas" className="tab-pane fade text-center">
                     </div>

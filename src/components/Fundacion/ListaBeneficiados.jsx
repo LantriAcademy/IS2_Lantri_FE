@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Col, Thumbnail, Button, Pagination } from "react-bootstrap";
 import WebApiService from '../Service/WebApiService';
 import { connect } from 'react-redux';
+import EditarBeneficiado from '../Beneficiado/EditarBeneficiado'
 
 const mapStateToProps = state => {
   return {
@@ -51,6 +52,12 @@ class ListaBeneficiados extends Component {
     this.setState({ active: i, change: true });
   }
 
+  mostrarBotonEditar(id){
+    if(this.props.editar===true){
+      return <Button bsStyle="primary" style={{ marginLeft: '10px', marginBottom: '10px' }} href={"/editarBeneficiado?Benid="+id} to={"/editarBeneficiado/"+id}>Editar</Button>
+    }
+  }
+
   render() {
     const { beneficiados, change, active, pages } = this.state;
 
@@ -77,6 +84,7 @@ class ListaBeneficiados extends Component {
             <p>Edad: {beneficiado.age} años</p>
             <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver más</Button>
             <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)}>Resumen</Button>
+            {this.mostrarBotonEditar(beneficiado.id)}
           </Thumbnail>
         </Col>
       );

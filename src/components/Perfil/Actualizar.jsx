@@ -136,6 +136,7 @@ class Actualizar extends Component {
       this.validateForm();
     });
   }
+  
   fileSelectedHandler = event => {
     console.log(event.target.files[0]);
     this.setState({
@@ -189,6 +190,7 @@ class Actualizar extends Component {
     event.preventDefault();
     window.location.reload()
   }
+
   handleSubmitPass(event) {
     //this.props.ShowLoader();
     this.setState({ buttonDisabledPass: true });
@@ -252,6 +254,7 @@ class Actualizar extends Component {
     event.preventDefault();
     window.location.reload()
   }
+
   handleUserInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -374,8 +377,7 @@ class Actualizar extends Component {
     } else {
       if (this.props.fundacion === false) {
         return (
-          <div className="caja" >
-            <form className="signUp" onSubmit={this.handleSubmit}>
+          <div>
               <h1 className="title">Actualiza tu información</h1>
               <br />
               <FormGroup>
@@ -466,13 +468,11 @@ class Actualizar extends Component {
                 </div>
               </div>
               <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
-            </form>
           </div>
         );
       } else {
         return (
           <div>
-            <form className="caja" onSubmit={this.handleSubmit}>
               <h1 className="title">Actualizar mi fundación</h1>
               <img src={WebApiService.baseUrl + this.state.file} alt="Logo" height="220" width="260" />
               <div className="form-group">
@@ -527,7 +527,6 @@ class Actualizar extends Component {
                 </div>
               </div>
               <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
-            </form>
           </div>
         );
       }
