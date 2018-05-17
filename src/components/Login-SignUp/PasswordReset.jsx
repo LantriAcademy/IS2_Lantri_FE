@@ -71,7 +71,7 @@ export default class PasswordReset extends Component {
         const urlParams = new URLSearchParams(this.props.location.search)
         const key = urlParams.get('token');
         var data = {
-            'direction': 'contributor/change_password',
+            'direction': 'contributors/change_password',
             'param': '',
             'body': {'reset_token': key , 'email': this.state.email, "contributor": {'password': this.state.password, 'password_confirmation': this.state.password2}},
         }
