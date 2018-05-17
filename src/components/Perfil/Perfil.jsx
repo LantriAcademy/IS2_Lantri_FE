@@ -123,7 +123,7 @@ class Perfil extends Component {
                       {this.menuFundacion(1)}
                     </div>
                     <div id="beneficiados" className="tab-pane fade">
-                    <ListaBeneficiados editar={true} fundacion_id={this.state.usuario.foundation_id} />
+                    <ListaBeneficiados idContribuyente={null} editar={true} fundacion_id={this.state.usuario.foundation_id} />
                     </div>
                     <div id="estadisticas" className="tab-pane fade text-center">
                     </div>
@@ -149,7 +149,7 @@ class Perfil extends Component {
                   <img src={WebApiService.baseUrl + this.state.usuario.avatar.url} alt="Logo" height="220" width="260" />
                   <ul className="nav nav-pills  nav-stacked menu">
                     <li className="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>
-                    {/*<li><a data-toggle="tab" href="#beneficiados">Apadrinados</a></li>*/}
+                    <li><a data-toggle="tab" href="#beneficiados">Apadrinados</a></li>
                     <li><a data-toggle="tab" href="#estadisticas">Estadísticas</a></li>
                     <li><a data-toggle="tab" href="#eventos">Eventos suscrito</a></li>
                     <li><a data-toggle="tab" href="#actualizar">Actualizar información</a></li>
@@ -161,7 +161,7 @@ class Perfil extends Component {
                       <Inicio director={false} biodes={this.state.usuario.description} usuario={this.state.usuario} />
                     </div>
                     <div id="beneficiados" className="tab-pane fade">
-                      {/*<Apadrinados contributor_id={this.props.user.id}/>*/}
+                    <ListaBeneficiados idContribuyente={this.state.usuario.id} editar={false} fundacion_id={null}/>
                     </div>
                     <div id="estadisticas" className="tab-pane fade text-center">
                       <EventSus />

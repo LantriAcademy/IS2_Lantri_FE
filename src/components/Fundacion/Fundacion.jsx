@@ -85,7 +85,7 @@ class Fundacion extends Component {
                     <Inicio fundacion={this.state.fundacion} />
                   </div>
                   <div id="beneficiados" className="tab-pane fade">
-                    <ListaBeneficiados fundacion_id={this.props.match.params.id} />
+                    <ListaBeneficiados  editar={false} fundacion_id={this.props.match.params.id} />
                   </div>
                   <div id="eventos" className="tab-pane fade">
                     <ListaEventos fundacion_id={this.props.match.params.id} />

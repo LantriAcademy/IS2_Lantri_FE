@@ -19,11 +19,14 @@ class ListaBeneficiados extends Component {
       active: 1,
       pages: null,
       change: true,
+      texto: "Lista de beneficiados"
     }
 
     this.handleClick = this.handleClick.bind(this);
     this.downloadPdf = this.downloadPdf.bind(this);
   }
+
+
   downloadPdf(id) {
     var data = {
       'direction': 'benefiteds/pdf',
@@ -37,10 +40,21 @@ class ListaBeneficiados extends Component {
     });
   }
   componentDidMount() {
-    var data = {
-      'direction': '/foundations/benefiteds/size/',
-      'param': this.props.fundacion_id,
+    if(this.props.fundacion_id === null){//LISTA PEDIDA POR UN CONTRIBUYENTE
+      var data = {
+        'direction': '/foundations/benefiteds/size/',//NOSE EL COSO
+        'param': 1,
+      }
+      this.setState({
+        texto: "Personas apadrinadas"
+      })
+    }else{
+      var data = {
+        'direction': '/foundations/benefiteds/size/',
+        'param': this.props.fundacion_id,
+      }
     }
+
     WebApiService.Get(data).then(res => {
       this.setState({
         pages: Math.ceil(res / 6),
@@ -62,10 +76,17 @@ class ListaBeneficiados extends Component {
     const { beneficiados, change, active, pages } = this.state;
 
     if (change) {
+      if(this.props.fundacion_id === null){ //SI LO PIDE EL CONTRIBUYENTE
+        var data = {
+          'direction': '/foundations/benefiteds/page/' + 1 + '/',
+          'param': this.state.active,
+        }
+      }else{
       var data = {
         'direction': '/foundations/benefiteds/page/' + this.props.fundacion_id + '/',
         'param': this.state.active,
       }
+    }
       WebApiService.Get(data).then(res => {
         this.setState({
           beneficiados: res,
@@ -100,7 +121,7 @@ class ListaBeneficiados extends Component {
 
     return (
       <div>
-        <h1 className="text-center">Lista de beneficiados</h1>
+        <h1 className="text-center">{this.state.texto}</h1>
         <div className="row">
           {todoBeneficiados}
         </div>
