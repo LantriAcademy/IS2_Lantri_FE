@@ -18,21 +18,21 @@ const mapDispatchToProps = dispatch => {
   }
 }
 class PDF extends Component {
-    constructor(props){
-      super(props);
-      const urlParams = new URLSearchParams(this.props.location.search)
-      const key = urlParams.get('url');
-      this.state = {
-        url: key
-      }
-      this.props.ShowLoader();
-      setTimeout(() => {this.props.HideLoader()},  1000);
+  constructor(props) {
+    super(props);
+    const urlParams = new URLSearchParams(this.props.location.search)
+    const key = urlParams.get('url');
+    this.state = {
+      url: key
     }
-    render() {
+    this.props.ShowLoader();
+    setTimeout(() => { this.props.HideLoader() }, 1000);
+  }
+  render() {
     return (
-        <PDFViewer document={{
-            url: this.state.url
-        }} />
+      <PDFViewer document={{
+        url: this.state.url
+      }} />
     );
 
   }

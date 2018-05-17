@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/SignUp.css';
 import WebApiService from '../Service/WebApiService';
-import { FormControl, FormGroup, ControlLabel} from "react-bootstrap"
+import { FormControl, FormGroup, ControlLabel } from "react-bootstrap"
 import { FormErrors } from "../Helpers/FormErrors.js"
 import FileBase64 from '../Helpers/FileBase64';
 //import TagInput from '../TagInput/TagInput';
@@ -48,7 +48,7 @@ class Actualizar extends Component {
       name: '',
       lastname: '',
       email: '',
-      Newfile:'',
+      Newfile: '',
       phone: '',
       file: "",
       text: "Biografía (opcional)",
@@ -124,11 +124,11 @@ class Actualizar extends Component {
         email: res.email, emailValid: true, nameValid: true, lastnameValid: true, phoneValid: true, directionValid: true, descriptionValid: true, howToHelpValid: true,
         contactUsValid: true
       });
-      if(this.props.director === true){
+      if (this.props.director === true) {
         this.setState({
           biodes: res.bio
-      })
-        
+        })
+
       }
       if (this.props.fundacion !== true) {
         this.validateField("phone", this.state.phone);
@@ -369,169 +369,170 @@ class Actualizar extends Component {
 
   render() {
     const preview = (this.state.Newfile !== "" ? <img src={this.state.Newfile.base64} height="180" width="210" alt="Preview" /> : "")
-        if (this.state.isLoading) {
+    if (this.state.isLoading) {
       return <div></div>
     } else {
       if (this.props.fundacion === false) {
-  return (
-        <div className="caja" >
-          <form className="signUp" onSubmit={this.handleSubmit}>
-            <h1 className="title">Actualiza tu información</h1>
-            <br />
-            <FormGroup>
-              <ControlLabel>Nombre</ControlLabel>
-              <input type="name" className="form-control" name="name"
-                placeholder="Nombre"
-                value={this.state.name}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
+        return (
+          <div className="caja" >
+            <form className="signUp" onSubmit={this.handleSubmit}>
+              <h1 className="title">Actualiza tu información</h1>
+              <br />
+              <FormGroup>
+                <ControlLabel>Nombre</ControlLabel>
+                <input type="name" className="form-control" name="name"
+                  placeholder="Nombre"
+                  value={this.state.name}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsName} />
+              </div>
+              <FormGroup>
+                <ControlLabel>Apellidos</ControlLabel>
+                <input type="name" className="form-control" name="lastname"
+                  placeholder="Apellidos"
+                  value={this.state.lastname}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsLastname} />
+              </div>
+              <FormGroup>
+                <ControlLabel>Número de teléfono</ControlLabel>
+                <input type="name" className="form-control" name="phone"
+                  placeholder="Número de teléfono"
+                  value={this.state.phone}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsPhone} />
+              </div>
+              <FormGroup controlId="formControlsTextarea">
+                <ControlLabel >{this.state.text} </ControlLabel>
+                <FormControl componentClass="textarea" name="biodes" placeholder="Cuentanos mas sobre ti"
+                  value={this.state.biodes}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Correo Electrónico</ControlLabel>
+                <input type="email" className="form-control" name="email"
+                  placeholder="Correo Electrónico"
+                  value={this.state.email}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsEmail} />
+              </div>
+
+              <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo || this.state.buttonDisabledInfo}>Actualizar información</button>
+
+              <h1 className="title">Cambie su contraseña</h1>
+              <FormGroup>
+                <ControlLabel>Contraseña actual</ControlLabel>
+                <input type="password" className="form-control" name="actualpassword"
+                  placeholder="Contraseña actual"
+                  value={this.state.actualpassword}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Nueva Contraseña</ControlLabel>
+                <input type="password" className="form-control" name="password"
+                  placeholder="Contraseña"
+                  value={this.state.password}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsPassword} />
+              </div>
+              <FormGroup>
+                <ControlLabel>Confirme la contraseña</ControlLabel>
+                <input type="password" className="form-control" name="password2"
+                  placeholder="Confirme la contraseña"
+                  value={this.state.password2}
+                  onChange={this.handleUserInput} />
+              </FormGroup>
+              <div>
+                <FormErrors formErrors={this.state.formErrorsPassword2} />
+              </div>
+              <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra || this.state.buttonDisabledPass}>Actualizar Contraseña</button>
+
+              <h1 className="title">Cambie su foto de perfil</h1>
+              <div className="form-group">
+                <label>Imagen</label>
+                <FileBase64 onDone={this.getFiles} />
+                <div className="preview text-center">
+                  {preview}
+                </div>
+              </div>
+              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
+            </form>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <form className="caja" onSubmit={this.handleSubmit}>
+              <h1 className="title">Actualizar mi fundación</h1>
+              <img src={WebApiService.baseUrl + this.state.file} alt="Logo" height="220" width="260" />
+              <div className="form-group">
+                <label>Nombre</label>
+                <input type="text" className="form-control" name="name"
+                  placeholder="Nombre"
+                  value={this.state.name}
+                  onChange={this.handleUserInput} />
+              </div>
               <FormErrors formErrors={this.state.formErrorsName} />
-            </div>
-            <FormGroup>
-              <ControlLabel>Apellidos</ControlLabel>
-              <input type="name" className="form-control" name="lastname"
-                placeholder="Apellidos"
-                value={this.state.lastname}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-              <FormErrors formErrors={this.state.formErrorsLastname} />
-            </div>
-            <FormGroup>
-              <ControlLabel>Número de teléfono</ControlLabel>
-              <input type="name" className="form-control" name="phone"
-                placeholder="Número de teléfono"
-                value={this.state.phone}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-              <FormErrors formErrors={this.state.formErrorsPhone} />
-            </div>
-            <FormGroup controlId="formControlsTextarea">
-              <ControlLabel >{this.state.text} </ControlLabel>
-              <FormControl componentClass="textarea" name="biodes" placeholder="Cuentanos mas sobre ti"
-                value={this.state.biodes}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Correo Electrónico</ControlLabel>
-              <input type="email" className="form-control" name="email"
-                placeholder="Correo Electrónico"
-                value={this.state.email}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-              <FormErrors formErrors={this.state.formErrorsEmail} />
-            </div>
-
-            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfo || this.state.buttonDisabledInfo}>Actualizar información</button>
-
-            <h1 className="title">Cambie su contraseña</h1>
-            <FormGroup>
-              <ControlLabel>Contraseña actual</ControlLabel>
-              <input type="password" className="form-control" name="actualpassword"
-                placeholder="Contraseña actual"
-                value={this.state.actualpassword}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Nueva Contraseña</ControlLabel>
-              <input type="password" className="form-control" name="password"
-                placeholder="Contraseña"
-                value={this.state.password}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-              <FormErrors formErrors={this.state.formErrorsPassword} />
-            </div>
-            <FormGroup>
-              <ControlLabel>Confirme la contraseña</ControlLabel>
-              <input type="password" className="form-control" name="password2"
-                placeholder="Confirme la contraseña"
-                value={this.state.password2}
-                onChange={this.handleUserInput} />
-            </FormGroup>
-            <div>
-              <FormErrors formErrors={this.state.formErrorsPassword2} />
-            </div>
-            <button type="submit" onClick={(e) => this.handleSubmitPass(e)} className="btn btn-success" disabled={!this.state.formValidcontra || this.state.buttonDisabledPass}>Actualizar Contraseña</button>
-
-            <h1 className="title">Cambie su foto de perfil</h1>
-            <div className="form-group">
-              <label>Imagen</label>
-              <FileBase64 onDone={this.getFiles} />
-              <div className="preview text-center">
-                {preview}
+              <div className="form-group">
+                <label>Dirección</label>
+                <input type="text" className="form-control" name="direction"
+                  placeholder="Dirección"
+                  value={this.state.direction}
+                  onChange={this.handleUserInput} />
               </div>
-            </div>
-            <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
-          </form>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <form className="caja" onSubmit={this.handleSubmit}>
-            <h1 className="title">Actualizar mi fundación</h1>
-            <img src={WebApiService.baseUrl + this.state.file} alt="Logo" height="220" width="260" />
-            <div className="form-group">
-              <label>Nombre</label>
-              <input type="text" className="form-control" name="name"
-                placeholder="Nombre"
-                value={this.state.name}
-                onChange={this.handleUserInput} />
-            </div>
-            <FormErrors formErrors={this.state.formErrorsName} />
-            <div className="form-group">
-              <label>Dirección</label>
-              <input type="text" className="form-control" name="direction"
-                placeholder="Dirección"
-                value={this.state.direction}
-                onChange={this.handleUserInput} />
-            </div>
-            <FormErrors formErrors={this.state.formErrorsDirection} />
-            <div className="form-group">
-              <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
+              <FormErrors formErrors={this.state.formErrorsDirection} />
+              <div className="form-group">
+                <p><strong>Ubicación: </strong>Arrastre el marcardor a la ubicación deseada.</p>
 
-              <DraggableMap defaultCenter={{ lat: this.state.lat, lng: this.state.lng }} onDragEnd={this.onDragEnd} />
-            </div>
-            <div className="form-group">
-              <label>Descripción</label>
-              <textarea name="description" type="text" className="form-control" placeholder="Descripción"
-                value={this.state.description}
-                onChange={this.handleUserInput} />
-            </div>
-            <FormErrors formErrors={this.state.formErrorsdescription} />
-            <div className="form-group">
-              <label>Formas de ayuda</label>
-              <textarea name="howToHelp" type="text" className="form-control" placeholder="Escriba las diferentes formas de ayudar a la fundación"
-                value={this.state.howToHelp}
-                onChange={this.handleUserInput} />
-            </div>
-            <FormErrors formErrors={this.state.formErrorshowToHelp} />
-            <div className="form-group">
-              <label>Informacion de contacto</label>
-              <textarea name="contactUs" type="text" className="form-control" placeholder="Escriba la informacion de contacto de la fundación"
-                value={this.state.contactUs}
-                onChange={this.handleUserInput} />
-            </div>
-            <FormErrors formErrors={this.state.formErrorscontactUs} />
-            <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfoFund || this.state.buttonDisabledInfo}>Actualizar información</button>
-            <h1 className="title">Cambie la imagen</h1>
-            <div className="form-group">
-              <label>Imagen</label>
-              <FileBase64 onDone={this.getFiles} />
-              <div className="preview text-center">
-                {preview}
+                <DraggableMap defaultCenter={{ lat: this.state.lat, lng: this.state.lng }} onDragEnd={this.onDragEnd} />
               </div>
-            </div>
-            <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
-         </form>
-        </div>
-      );
+              <div className="form-group">
+                <label>Descripción</label>
+                <textarea name="description" type="text" className="form-control" placeholder="Descripción"
+                  value={this.state.description}
+                  onChange={this.handleUserInput} />
+              </div>
+              <FormErrors formErrors={this.state.formErrorsdescription} />
+              <div className="form-group">
+                <label>Formas de ayuda</label>
+                <textarea name="howToHelp" type="text" className="form-control" placeholder="Escriba las diferentes formas de ayudar a la fundación"
+                  value={this.state.howToHelp}
+                  onChange={this.handleUserInput} />
+              </div>
+              <FormErrors formErrors={this.state.formErrorshowToHelp} />
+              <div className="form-group">
+                <label>Informacion de contacto</label>
+                <textarea name="contactUs" type="text" className="form-control" placeholder="Escriba la informacion de contacto de la fundación"
+                  value={this.state.contactUs}
+                  onChange={this.handleUserInput} />
+              </div>
+              <FormErrors formErrors={this.state.formErrorscontactUs} />
+              <button onClick={(e) => this.handleSubmitInfo(e)} className="btn btn-success" disabled={!this.state.formValidInfoFund || this.state.buttonDisabledInfo}>Actualizar información</button>
+              <h1 className="title">Cambie la imagen</h1>
+              <div className="form-group">
+                <label>Imagen</label>
+                <FileBase64 onDone={this.getFiles} />
+                <div className="preview text-center">
+                  {preview}
+                </div>
+              </div>
+              <button type="submit" onClick={(e) => this.handleSubmitImage(e)} className="btn btn-success" disabled={this.state.buttonDisabledImg}>Actualizar imagen</button>
+            </form>
+          </div>
+        );
+      }
     }
-  }}
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actualizar);

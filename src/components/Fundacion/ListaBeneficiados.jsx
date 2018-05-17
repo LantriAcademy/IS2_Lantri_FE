@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
-    user : state.user
+    user: state.user
   }
 }
 
@@ -23,16 +23,16 @@ class ListaBeneficiados extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.downloadPdf = this.downloadPdf.bind(this);
   }
-  downloadPdf(id){
+  downloadPdf(id) {
     var data = {
       'direction': 'benefiteds/pdf',
-      'param' : '/'+ id,
+      'param': '/' + id,
     }
-    if(this.id >= 0){
-      data.param += '/'+this.props.user.id;
+    if (this.id >= 0) {
+      data.param += '/' + this.props.user.id;
     }
-    WebApiService.GetURL(data).then( url => {
-      window.open(url+'.pdf', '_blank');
+    WebApiService.GetURL(data).then(url => {
+      window.open(url + '.pdf', '_blank');
     });
   }
   componentDidMount() {
@@ -68,14 +68,14 @@ class ListaBeneficiados extends Component {
     }
 
     const todoBeneficiados = beneficiados.map((beneficiado, index) => {
-      var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id;
+      var route = "/fundaciones/" + this.props.fundacion_id + "/" + beneficiado.id + "?Benid=" + beneficiado.id;
       return (
         <Col key={index} xs={6} md={6}>
           <Thumbnail>
             <img src={WebApiService.baseUrl + beneficiado.avatar.url} alt="Logo" height="270" width="380" />
             <h3>{beneficiado.name}</h3>
             <p>Edad: {beneficiado.age} años</p>
-            <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver mas</Button>
+            <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver más</Button>
             <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)}>Resumen</Button>
           </Thumbnail>
         </Col>

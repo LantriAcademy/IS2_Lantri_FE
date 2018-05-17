@@ -34,7 +34,7 @@ class Fundacion extends Component {
 
     this.state = {
       fundacion: {},
-      pdfUrl : "1",
+      pdfUrl: "1",
       isLoading: true
     }
   }
@@ -91,8 +91,8 @@ class Fundacion extends Component {
                     <ListaEventos fundacion_id={this.props.match.params.id} />
                   </div>
                   <div id="estadisticas" className="tab-pane fade text-center">
-                    <EdadBenef fundacion_id={this.props.match.params.id}/>
-                    <EventFun fundacion_id={this.props.match.params.id}/>
+                    <EdadBenef fundacion_id={this.props.match.params.id} />
+                    <EventFun fundacion_id={this.props.match.params.id} />
                   </div>
                   <div id="comoLlegar" className="tab-pane fade">
                     <ComoLlegar fundacion={this.state.fundacion} />
@@ -106,4 +106,4 @@ class Fundacion extends Component {
     }
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Fundacion)
+export default connect(mapStateToProps, mapDispatchToProps)(Fundacion)
