@@ -19,7 +19,8 @@ class ListaBeneficiados extends Component {
       active: 1,
       pages: null,
       change: true,
-      texto: "Lista de beneficiados"
+      texto: "Lista de beneficiados",
+      buttonDisabled: false,
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -28,6 +29,7 @@ class ListaBeneficiados extends Component {
 
 
   downloadPdf(id) {
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': 'benefiteds/pdf',
       'param': '/' + id,
@@ -37,6 +39,7 @@ class ListaBeneficiados extends Component {
     }
     WebApiService.GetURL(data).then(url => {
       window.open(url + '.pdf', '_blank');
+      this.setState({buttonDisabled: false});
     });
   }
   componentDidMount() {
@@ -104,7 +107,7 @@ class ListaBeneficiados extends Component {
             <h3>{beneficiado.name}</h3>
             <p>Edad: {beneficiado.age} años</p>
             <Button bsStyle="success" componentClass={Link} href={route} to={route}>Ver más</Button>
-            <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)}>Resumen</Button>
+            <Button bsStyle="danger" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={this.downloadPdf.bind(this, beneficiado.id)} disabled={this.state.buttonDisabled}>Resumen</Button>
             {this.mostrarBotonEditar(beneficiado.id)}
           </Thumbnail>
         </Col>

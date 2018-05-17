@@ -6,11 +6,13 @@ export default class Inicio extends Component {
     constructor(props) {
     super(props)
     this.state = {
-      pdfUrl : "1"
+      pdfUrl : "1",
+      buttonDisabled: false,
     }
   }
 
   downloadPDF(urlPdf){
+    this.setState({buttonDisabled: true});
     var data = {
       'direction': this.props.fundacion.pdf.url,
       'param' : '',
@@ -20,6 +22,7 @@ export default class Inicio extends Component {
         pdfUrl: res,
       });
       window.open(this.state.pdfUrl, '_blank');
+      this.setState({buttonDisabled: false});
     });
   }
   
