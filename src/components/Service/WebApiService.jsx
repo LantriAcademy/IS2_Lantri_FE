@@ -1,8 +1,6 @@
 export default class WebApiService {
     
-    static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
-
-
+    static baseUrl = "http://127.0.0.1:3000/";
 
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);

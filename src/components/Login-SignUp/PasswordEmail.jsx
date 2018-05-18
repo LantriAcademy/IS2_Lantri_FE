@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, ControlLabel, FormGroup } from 'react-bootstrap'
+import { ToggleButton, Panel, ControlLabel, FormGroup, ButtonToolbar, ToggleButtonGroup } from 'react-bootstrap'
 import '../../styles/resetPassword.css'
 import { FormErrors } from "../Helpers/FormErrors.js"
 import swal from 'sweetalert2'
@@ -19,16 +19,26 @@ export default class PasswordEmail extends Component {
             email: '',
             formErrorsEmail: { email: '' },
             formValid: false,
+            director: true
         };
     }
     handleSubmit(e) {
-        var data = {
-            'direction': 'contributors/reset_password',
-            'param': '?email=' + this.state.email,
-            'body': '',
+        var data;
+        if (this.state.director) {
+            data = {
+                'direction': 'directors/reset_password',
+                'param': '?email=' + this.state.email,
+                'body': '',
+            }
+        } else {
+            data = {
+                'direction': 'contributors/reset_password',
+                'param': '?email=' + this.state.email,
+                'body': '',
+            }
         }
         this.setState({ email: '', formValid: false });
-        WebApiService.PostParamURL(data).then(res => {  
+        WebApiService.PostParamURL(data).then(res => {
             if (res.status === 200) {
                 res.json().then((result) => {
                     this.props.history.push("/");
@@ -59,6 +69,11 @@ export default class PasswordEmail extends Component {
             formErrorsEmail.email = 'escriba un correo electrónico válido';
         }
     }
+    handleSelectedChange(e) {
+        this.setState({
+            director: e,
+        });
+    }
     render() {
         return <div className="container resetPassword">
             <Panel bsStyle="success" className="panelReset">
@@ -66,8 +81,18 @@ export default class PasswordEmail extends Component {
                     <Panel.Title componentClass="h3">¿Olvidaste tu contraseña?</Panel.Title>
                 </Panel.Heading>
                 <Panel.Body>
-                    <p style={{textAlign: "center", fontSize:"12px"}}>Te enviaremos un correo para que puedas hacer el cambio de la contraseña</p>
-                    <br/>
+                    <p style={{ textAlign: "center", fontSize: "12px" }}>Te enviaremos un correo para que puedas hacer el cambio de la contraseña</p>
+                    <br />
+                    <ControlLabel>Tipo de usuario</ControlLabel>
+                    <ButtonToolbar>
+                        <ToggleButtonGroup
+                            type="radio" name="director"
+                            defaultValue={true}>
+                            <ToggleButton onClick={this.handleSelectedChange.bind(this, true)} value={true}>Director de fundación</ToggleButton>
+                            <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
+                        </ToggleButtonGroup>
+                    </ButtonToolbar>
+                    <br />
                     <FormGroup>
                         <ControlLabel>Correo Electrónico</ControlLabel>
                         <input type="email" className="form-control" name="email"
