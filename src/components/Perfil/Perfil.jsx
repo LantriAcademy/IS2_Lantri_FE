@@ -140,7 +140,7 @@ class Perfil extends Component {
             </Grid>
           </div>
         );
-      } else {
+      } else { //Contribuyente
         return (
           <div>
             <Grid>

@@ -79,6 +79,7 @@ class CrearEvento extends Component {
   }
 
   validateField(fieldName, value) {
+    var er1 = new RegExp("[></'" + '"]');
     let formErrorsName = this.state.formErrorsName;
     let formErrorsDirection = this.state.formErrorsDirection;
     let formErrorsDateTime = this.state.formErrorsDateTime;
@@ -90,20 +91,32 @@ class CrearEvento extends Component {
   
     switch(fieldName) {
       case 'name':
+      if (value.match(er1)) {
+        nameValid = false;
+      } else {
         nameValid = value.length >= 3;
-        formErrorsName.name = nameValid ? '': ' es obligatorio.';
+      }
+        formErrorsName.name = nameValid ? '': ' es vacío o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'direction':
-        directionValid = value.length >= 3;
-        formErrorsDirection.direction = directionValid ? '': ' es obligatoria.';
+      if (value.match(er1)) {
+        directionValid = false;
+      } else {
+        directionValid = value.length >= 4;
+      }
+        formErrorsDirection.direction = directionValid ? '': ' es vacía o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'dateTime':
         dateTimeValid = value.length >= 3;
         formErrorsDateTime.dateTime = dateTimeValid ? '': ' es obligatoria.';
         break;
       case 'description':
-        descriptionValid = value.length >= 3;
-        formErrorsDescription.description = descriptionValid ? '': ' es obligatoria.';
+        if (value.match(er1)) {
+          descriptionValid = false;
+        } else {
+          descriptionValid = value.length >= 2;
+        }
+        formErrorsDescription.description = descriptionValid ? '' : ' es vacía o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       default:
         break;

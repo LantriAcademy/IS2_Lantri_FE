@@ -79,7 +79,7 @@ class ListaBeneficiados extends Component {
     const { beneficiados, change, active, pages } = this.state;
 
     if (change) {
-      if(this.props.fundacion_id === null){ //SI LO PIDE EL CONTRIBUYENTE
+      if(this.props.fundacion_id === null){ //SI LO PIDE EL CONTRIBUYENTE DESDE SU PERFIL
         var data = {
           'direction': '/foundations/benefiteds/page/' + 1 + '/',
           'param': this.state.active,

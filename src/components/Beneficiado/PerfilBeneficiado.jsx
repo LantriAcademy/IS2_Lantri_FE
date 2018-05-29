@@ -46,14 +46,14 @@ class PerfilBeneficiado extends Component {
       });
     });
   }
+
   apadrinar(){
-    var data = {//Director
+    var data = {
       'direction': 'directors',
       'param': '',
       'body': { "director": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "bio": this.state.biodes } },
     }
     WebApiService.Post(data).then(res => {
-      //this.props.HideLoader();
       this.setState({ buttonDisabled: false });
 
       if (res.status === 201) {
