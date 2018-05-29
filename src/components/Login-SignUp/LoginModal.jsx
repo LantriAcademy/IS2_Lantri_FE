@@ -83,7 +83,8 @@ class LoginModal extends React.Component {
           'Error',
           'Revisa tu contraseña e intentalo de nuevo!',
           'error'
-        )
+        );
+        
       }
     });
     event.preventDefault();

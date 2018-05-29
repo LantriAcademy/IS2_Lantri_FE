@@ -7,6 +7,9 @@ import { FormErrors } from "../Helpers/FormErrors.js"
 import { connect } from 'react-redux';
 import TagInput from '../TagInput/TagInput';
 
+import SecurePassword from '../Helpers/SecurePassword';
+import swal from 'sweetalert2'
+
 const mapStateToProps = state => {
   return {
     loading: state.loading
@@ -61,42 +64,66 @@ class SignUp extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTagChange = this.handleTagChange.bind(this);
+
   }
   handleTagChange(tags) {
     this.setState({ tags })
   }
 
   handleSubmit(event) {
-    //this.props.ShowLoader();
-    this.setState({ buttonDisabled: true });
-    var data = {//Director
-      'direction': 'directors',
-      'param': '',
-      'body': { "director": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "bio": this.state.biodes } },
-    }
-
-    if (!this.state.director) { //Contribuyente
-      data = {
-        'direction': 'contributors',
-        'param': '',
-        'body': { "contributor": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "description": this.state.biodes }, "interest": this.state.tags },
-      }
-    }
-
-
-    WebApiService.Post(data).then(res => {
-      //this.props.HideLoader();
-      this.setState({ buttonDisabled: false });
-
-      if (res.status === 201) {
-        this.props.history.push("/");
-        this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
-      } else {
-        this.props.ShowAlert("Problema al crear usuario", "danger");
-      }
-    });
-
     event.preventDefault();
+    var patt = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/gm;
+    var test = patt.test(this.state.password);
+    if (!test) {
+      swal(
+        'Error',
+        'Recuerda: 1 letra y 1 número al menos',
+        'error'
+      );
+      return;
+    }
+    SecurePassword.GetPasswordFile().then(rawFile => {
+      rawFile.text().then(allText => {
+        var textSplited = allText.split("\n");
+        for (var i = 0; i < textSplited.length; i++) {
+          if (this.state.password.trim() == textSplited[i].trim()) {
+            swal(
+              'Error',
+              'Esta contraseña ya es conocida por el mundo, prueba con otra',
+              'error'
+            );
+            return;
+          }
+        }
+        this.setState({ buttonDisabled: true });
+        var data = {//Director
+          'direction': 'directors',
+          'param': '',
+          'body': { "director": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "bio": this.state.biodes } },
+        }
+
+        if (!this.state.director) { //Contribuyente
+          data = {
+            'direction': 'contributors',
+            'param': '',
+            'body': { "contributor": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "description": this.state.biodes }, "interest": this.state.tags },
+          }
+        }
+
+
+        WebApiService.Post(data).then(res => {
+          //this.props.HideLoader();
+          this.setState({ buttonDisabled: false });
+
+          if (res.status === 201) {
+            this.props.history.push("/");
+            this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
+          } else {
+            this.props.ShowAlert("Problema al crear usuario", "danger");
+          }
+        });
+      });
+    });
   }
 
   handleUserInput = (e) => {
@@ -158,8 +185,8 @@ class SignUp extends Component {
         formErrorsEmail.email = emailValid ? '' : ' no es valido';
         break;
       case 'password':
-        passwordValid = value.length >= 6;
-        formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 6 caracteres';
+        passwordValid = value.length >= 8;
+        formErrorsPassword.password = passwordValid ? '' : ' debe tener almenos 8 caracteres';
         break;
       case 'password2':
         password2Valid = value === this.state.password;
@@ -177,6 +204,8 @@ class SignUp extends Component {
       phoneValid: phoneValid,
       userValid: userValid
     }, this.validateForm);
+
+
   }
 
   validateForm() {
