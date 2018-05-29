@@ -3,7 +3,14 @@ import { Link } from "react-router-dom"
 import { Navbar, Nav, NavItem } from "react-bootstrap"
 import "../../styles/navigationMenu.css"
 import LoginModal from "../Login-SignUp/LoginModal"
+import WebApiService from '../Service/WebApiService';
 import {connect} from 'react-redux'
+
+const mapStateToProps = state => {
+    return {
+      user: state.user
+    }
+  }
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -28,7 +35,31 @@ class NavigationMenu extends Component {
         this.callLogoff = this.callLogoff.bind(this);
     }
     callLogoff(){
-        //console.log("callLogoff");
+
+        var data = {
+            'direction': '',
+            'param' : '',
+            'body' : {"email": this.props.user.email},  
+            'type' : 1,
+            'headers': {}
+        }
+
+        if (this.props.user.userType === false) { //Contribuyente
+            data.direction = 'signin_contributor/signout';
+            data.headers = {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token,'Content-Type': 'application/json' }
+        } else { //Director
+            data.direction = 'signin_director/signout';
+            data.headers = {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
+        }
+        
+        WebApiService.Post(data).then(res =>{
+            res.json().then(result => {
+                if (result.Status === "OK") {
+                    console.log(result.Status + ": El token de JWT fue invalidado")
+                }
+            });
+        });
+
         this.props.logoff();
     }
     handleClose() {
@@ -72,9 +103,5 @@ class NavigationMenu extends Component {
       )
     }
 }
-// start of code change
-const mapStateToProps = (state) => { 
-    return { user: state.user };
-  };
   
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationMenu)
