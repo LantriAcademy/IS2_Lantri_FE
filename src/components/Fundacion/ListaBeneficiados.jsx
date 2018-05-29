@@ -45,8 +45,9 @@ class ListaBeneficiados extends Component {
   componentDidMount() {
     if(this.props.fundacion_id === null){//LISTA PEDIDA POR UN CONTRIBUYENTE
       var data = {
-        'direction': '/foundations/benefiteds/size/',//NOSE EL COSO
-        'param': 1,
+        'direction': 'contributors/benefiteds/size/',//NOSE EL COSO
+        //'direction': '/foundations/benefiteds/size/',
+        'param': this.props.user.id,
       }
       this.setState({
         texto: "Personas apadrinadas"
@@ -81,7 +82,8 @@ class ListaBeneficiados extends Component {
     if (change) {
       if(this.props.fundacion_id === null){ //SI LO PIDE EL CONTRIBUYENTE
         var data = {
-          'direction': '/foundations/benefiteds/page/' + 1 + '/',
+          'direction': 'contributors/benefiteds/page/' + this.props.user.id + '/',
+          //'direction': '/foundations/benefiteds/page/' + this.props.fundacion_id + '/',
           'param': this.state.active,
         }
       }else{
