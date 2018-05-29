@@ -48,7 +48,21 @@ class PerfilBeneficiado extends Component {
       });
     });
   }
+
   apadrinar(){
+   /* var data = {
+      'direction': 'directors',
+      'param': '',
+      'body': { "director": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "bio": this.state.biodes } },
+    }
+    WebApiService.Post(data).then(res => {
+      this.setState({ buttonDisabled: false });
+
+      if (res.status === 201) {
+        this.props.ShowAlert("Vinculo creado satisfactoriamente", "success");
+      } else {
+        this.props.ShowAlert("Problema al apadrinar", "danger");
+      }*/
     this.setState({buttonDisabled: true});
     var data = {
       'direction': 'helps',

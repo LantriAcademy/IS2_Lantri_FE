@@ -45,6 +45,7 @@ class SignUp extends Component {
       text: 'Biografia (opcional)',
       director: true, //0 = Director o 1 = Contribuyente
       formErrorsName: { name: '' },
+      formErrorsBiodes: { biodes: '' },
       formErrorsLastname: { lastname: '' },
       formErrorsPhone: { phone: '' },
       formErrorsUser: { user: '' },
@@ -58,6 +59,7 @@ class SignUp extends Component {
       emailValid: false,
       passwordValid: false,
       password2Valid: false,
+      biodesValid: false,
       formValid: false,
       tags: [],
       buttonDisabled: false,
@@ -148,6 +150,9 @@ class SignUp extends Component {
   }
 
   validateField(fieldName, value) {
+    var er1 = new RegExp("[></'" + '"]');
+    let formErrorsBiodes = this.state.formErrorsBiodes;
+    let biodesValid = this.state.biodesValid;
     let formErrorsName = this.state.formErrorsName;
     let formErrorsLastname = this.state.formErrorsLastname;
     let formErrorsPhone = this.state.formErrorsPhone;
@@ -165,20 +170,36 @@ class SignUp extends Component {
 
     switch (fieldName) {
       case 'name':
-        nameValid = value.length >= 1;
-        formErrorsName.name = nameValid ? '' : ' es obligatorio';
+        if (value.match(er1)) {
+          nameValid = false;
+        } else {
+          nameValid = value.length >= 1;
+        }
+        formErrorsName.name = nameValid ? '' : ' es vacío o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'lastname':
-        lastnameValid = value.length >= 1;
-        formErrorsLastname.lastname = lastnameValid ? '' : ' es obligatorio';
+        if (value.match(er1)) {
+          lastnameValid = false;
+        } else {
+          lastnameValid = value.length >= 1;
+        }
+        formErrorsLastname.lastname = lastnameValid ? '' : ' es vacío o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'phone':
-        phoneValid = value.length === 7 || value.length === 10;
+        if (value.match(er1)) {
+          phoneValid = false;
+        } else {
+          phoneValid = value.length === 7 || value.length === 10;
+        }
         formErrorsPhone.phone = phoneValid ? '' : ' no es valido, debe tener 7 o 10 digitos';
         break;
       case 'user':
-        userValid = value.length >= 1;
-        formErrorsUser.user = userValid ? '' : ' es obligatorio';
+        if (value.match(er1)) {
+          userValid = false;
+        } else {
+          userValid = value.length >= 1;
+        }
+        formErrorsUser.user = userValid ? '' : ' es vacío o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
@@ -192,10 +213,19 @@ class SignUp extends Component {
         password2Valid = value === this.state.password;
         formErrorsPassword2.password2 = password2Valid ? '' : ' no son iguales';
         break;
+      case 'biodes':
+        if (value.match(er1)) {
+          biodesValid = false;
+        } else {
+          biodesValid = true;
+        }
+        formErrorsBiodes.biodes = biodesValid ? '' : " Contiene un caracter invalido (< > ' " + ' " /)';
+        break;
       default:
         break;
     }
     this.setState({
+      biodesValid: biodesValid,
       emailValid: emailValid,
       passwordValid: passwordValid,
       password2Valid: password2Valid,
@@ -211,7 +241,7 @@ class SignUp extends Component {
   validateForm() {
     this.setState({
       formValid: this.state.nameValid && this.state.lastnameValid && this.state.phoneValid &&
-        this.state.userValid && this.state.emailValid && this.state.passwordValid && this.state.password2Valid
+        this.state.userValid && this.state.emailValid && this.state.passwordValid && this.state.password2Valid && this.state.biodesValid
     });
   }
 
@@ -266,6 +296,9 @@ class SignUp extends Component {
               value={this.state.biodes}
               onChange={this.handleUserInput} />
           </FormGroup>
+          <div>
+            <FormErrors formErrors={this.state.formErrorsBiodes} />
+          </div>
           {!this.state.director &&
             <div className="form-group">
               <label>Preferencias</label>

@@ -138,6 +138,7 @@ class CrearFundacion extends Component {
   }
 
   validateField(fieldName, value) {
+    var er1 = new RegExp("[></'" + '"]');
     let formErrorsName = this.state.formErrorsName;
     let formErrorsDirection = this.state.formErrorsDirection;
     let formErrorshowToHelp = this.state.formErrorshowToHelp;
@@ -151,24 +152,44 @@ class CrearFundacion extends Component {
 
     switch (fieldName) {
       case 'name':
-        nameValid = value.length >= 2;
-        formErrorsName.name = nameValid ? '' : ' es obligatorio.';
+      if (value.match(er1)) {
+        nameValid = false;
+      } else {
+        nameValid = value.length >= 1;
+      }
+        formErrorsName.name = nameValid ? '' : ' es vacío o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       case 'direction':
+      if (value.match(er1)) {
+        directionValid = false;
+      } else {
         directionValid = value.length >= 4;
-        formErrorsDirection.direction = directionValid ? '' : ' no es valida.';
+      }
+        formErrorsDirection.direction = directionValid ? '' : ' es vacía o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
-      case 'description':
-        descriptionValid = value.length >= 2;
-        formErrorsdescription.description = descriptionValid ? '' : ' es obligatoria.';
+        case 'description':
+        if (value.match(er1)) {
+          descriptionValid = false;
+        } else {
+          descriptionValid = value.length >= 2;
+        }
+        formErrorsdescription.description = descriptionValid ? '' : ' es vacía o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
-      case 'howToHelp':
-        howToHelpValid = value.length >= 4;
-        formErrorshowToHelp.howToHelp = howToHelpValid ? '' : ' son obligatorias';
+        case 'howToHelp':
+        if (value.match(er1)) {
+          howToHelpValid = false;
+        } else {
+          howToHelpValid = value.length >= 4;
+        }
+        formErrorshowToHelp.howToHelp = howToHelpValid ? '' : ' son vacías o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
-      case 'contactUs':
-        contactUsValid = value.length >= 2;
-        formErrorscontactUs.contactUs = contactUsValid ? '' : ' es obligatoria.';
+        case 'contactUs':
+        if (value.match(er1)) {
+          contactUsValid = false;
+        } else {
+          contactUsValid = value.length >= 2;
+        }
+        formErrorscontactUs.contactUs = contactUsValid ? '' : ' es vacía o' + " Contiene un caracter invalido (< > ' " + ' " /)';
         break;
       default:
         break;
