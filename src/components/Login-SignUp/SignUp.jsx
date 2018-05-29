@@ -68,7 +68,7 @@ class SignUp extends Component {
 
   handleSubmit(event) {
     //this.props.ShowLoader();
-    this.setState({buttonDisabled: true});
+    this.setState({ buttonDisabled: true });
     var data = {//Director
       'direction': 'directors',
       'param': '',
@@ -81,17 +81,17 @@ class SignUp extends Component {
         'param': '',
         'body': { "contributor": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "description": this.state.biodes }, "interest": this.state.tags },
       }
-     }
-    
-    
-    WebApiService.Post(data).then(res =>{
+    }
+
+
+    WebApiService.Post(data).then(res => {
       //this.props.HideLoader();
-      this.setState({buttonDisabled: false});
+      this.setState({ buttonDisabled: false });
 
       if (res.status === 201) {
         this.props.history.push("/");
         this.props.ShowAlert("Usuario creado satisfactoriamente", "success");
-      }else{
+      } else {
         this.props.ShowAlert("Problema al crear usuario", "danger");
       }
     });
@@ -147,7 +147,7 @@ class SignUp extends Component {
         break;
       case 'phone':
         phoneValid = value.length === 7 || value.length === 10;
-        formErrorsPhone.phone = phoneValid ? '': ' no es valido, debe tener 7 o 10 digitos';
+        formErrorsPhone.phone = phoneValid ? '' : ' no es valido, debe tener 7 o 10 digitos';
         break;
       case 'user':
         userValid = value.length >= 1;

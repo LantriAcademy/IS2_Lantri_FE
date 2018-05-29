@@ -54,10 +54,8 @@ class NavigationMenu extends Component {
                         <Nav pullRight>
                             <NavItem eventKey={1} componentClass={Link} href="/" to="/">Inicio</NavItem>
                             <NavItem eventKey={2} componentClass={Link} href="/fundaciones" to="/fundaciones">Fundaciones</NavItem>
-                            <NavItem eventKey={3} componentClass={Link} href="/proposito" to="/proposito">Proposito</NavItem>
                             <NavItem eventKey={4} componentClass={Link} href="/quienessomos" to="/quienessomos">Quienes Somos</NavItem>
-                            <NavItem eventKey={5} componentClass={Link} href="/contactenos" to="/contactenos">Contactenos</NavItem>
-                            {this.props.user.token !== undefined && this.props.user.userType === false && this.props.user.token !== ""? (
+                            {this.props.user.token !== undefined && this.props.user.token !== ""? (
                                 <NavItem eventKey={6} componentClass={Link} href="/perfil" to="/perfil">Perfil</NavItem>
                             ):(console.log(""))
                             }

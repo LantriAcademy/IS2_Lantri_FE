@@ -12,7 +12,7 @@ export default class TagInput extends Component {
         this.removeTag = this.removeTag.bind(this);
     }
     addTag = (tag) => {
-        if (tag == '') return;
+        if (tag === '') return;
         tag = tag.trim();
         if (!(this.state.tags.indexOf(tag) > -1)) {
             let tags = this.state.tags.concat([tag]);
@@ -21,13 +21,13 @@ export default class TagInput extends Component {
         this.updateTagValue('');
     }
     handleKeyPress(event) {
-        if (event.key == " ") {
+        if (event.key === " ") {
             this.addTag(event.target.value);
         }
 
     }
     updateTagValue = (value) => {
-        if (value == ' ') {
+        if (value === ' ') {
             return;
         }
         this.setState({

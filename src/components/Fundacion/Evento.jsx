@@ -21,14 +21,17 @@ class Evento extends Component {
     this.state = {
       pdfUrl : "1",
       buttonDisabled: false,
+      buttonDisabledPDF: false,
+      buttonDisabledInv: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   openPDF(urlPdf){
+    this.setState({buttonDisabledInv: true});
     var data = {
-      'direction': 'events_pdf/',
+      'direction': 'events/pdf/',
       'param' : this.props.event.id,
     }
     WebApiService.GetURL(data).then(res =>{
@@ -36,16 +39,22 @@ class Evento extends Component {
         pdfUrl: res,
       });
       window.open('/pdf?url='+this.state.pdfUrl, '_blank');
+      this.setState({buttonDisabledInv: false});
     });
-    //console.log("la URL del evento es: " + urlPdf);
-  /*<PopoutWindow url='popout.html' title='Window title' onClosing={this.popupClosed}>
-    <div>Popped out content!</div>
-  </PopoutWindow>*/
-      /*{routes.map(({path,component: C})=>(
-        <Route path = {path}
-        component={(props) => <C url = "localhost:3000/events_pdf/1" />}
-        />
-      ))}*/
+  }
+  downloadPDF(urlPdf){
+    this.setState({buttonDisabledPDF: true});
+    var data = {
+      'direction': 'events/pdf/',
+      'param' : this.props.event.id,
+    }
+    WebApiService.GetURL(data).then(res =>{
+      this.setState({
+        pdfUrl: res,
+      });
+      window.open(this.state.pdfUrl +'.pdf', '_blank');
+      this.setState({buttonDisabledPDF: false});
+    });
   }
 
   handleSubmit() {
@@ -110,8 +119,8 @@ class Evento extends Component {
         <div className="text-center">
           <Mapa defaultCenter={{lat: parseFloat(this.props.event.latitude) , lng: parseFloat(this.props.event.longitude)}}/>
         </div>
-        {/*<PDFViewer url={this.state.pdfUrl}/>//PARA PROBAR*/}
-        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse">Mostrar invitación</Button>
+        <Button onClick={() => { this.openPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse"  disabled={this.state.buttonDisabledInv}>Mostrar invitación</Button>
+        <Button onClick={() => { this.downloadPDF(this.state.pdfUrl)}} className="btn btn-success btn-block suscribirse"  disabled={this.state.buttonDisabledPDF}>Descargar invitación</Button>
         {(this.props.user.userType === false && this.props.perfil === false)  &&
           <Button onClick={this.handleSubmit} className="btn btn-success btn-block suscribirse" disabled={this.state.buttonDisabled}>Suscribirse</Button>}
       </div>
