@@ -40,6 +40,7 @@ class LoginModal extends React.Component {
       passwordValid: false,
       formValid: false,
       buttonDisabled: false,
+      passwordSubmit: {}
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -79,12 +80,28 @@ class LoginModal extends React.Component {
         });
       } else {
         //alert("Revisa tu contraseña e intentalo de nuevo!");
-        swal(
-          'Error',
-          'Revisa tu contraseña e intentalo de nuevo!',
-          'error'
-        );
-        
+        const passwordSubmit = this.state.passwordSubmit;
+        if(this.state.passwordSubmit[this.state.email] != undefined){ 
+          passwordSubmit[this.state.email] = passwordSubmit[this.state.email] + 1;
+        }else{
+          passwordSubmit[this.state.email] = 1;
+        }
+        this.setState({
+          passwordSubmit,
+        });
+        if(this.state.passwordSubmit[this.state.email] > 5){
+          swal(
+            'Error',
+            'Hemos notado un comportamiento raro, y te hemos enviado un correo.',
+            'error'
+          );
+        }else{
+          swal(
+            'Error',
+            'Revisa tu contraseña e intentalo de nuevo!',
+            'error'
+          );
+        }
       }
     });
     event.preventDefault();
