@@ -8,6 +8,9 @@ import FileBase64 from '../Helpers/FileBase64';
 import DraggableMap from '../Fundacion/DraggableMap';
 import { connect } from 'react-redux';
 
+import SecurePassword from '../Helpers/SecurePassword';
+import swal from 'sweetalert2'
+
 const mapStateToProps = state => {
   return {
     user: state.user,
@@ -194,26 +197,50 @@ class Actualizar extends Component {
   }
 
   handleSubmitPass(event) {
-    //this.props.ShowLoader();
-    this.setState({ buttonDisabledPass: true });
-    var data = {
-      'direction': 'contributors/',
-      'param': this.props.id,
-      'body': { "contributor": { "password": this.state.password, "password_confirmation": this.state.password2 } },
-      'headers': { 'X-Contributor-Email': this.props.email, 'X-Contributor-Token': this.props.token, 'Content-Type': 'application/json' }
-    }
-    WebApiService.Patch(data).then(res => {
-      //this.props.HideLoader();
-      this.setState({ buttonDisabledPass: false });
-      if (res.status === 200) {
-        this.props.ShowAlert("Contraseña actualizada satisfactoriamente", "success");
-      } else {
-        this.props.ShowAlert("Error al actualizar la contraseña" + res.status, "danger");
-      }
-    });
-
     event.preventDefault();
-    window.location.reload()
+    var patt = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/gm;
+    var test = patt.test(this.state.password);
+    if (!test) {
+      swal(
+        'Error',
+        'Recuerda: 1 letra y 1 número al menos',
+        'error'
+      );
+      return;
+    }
+    SecurePassword.GetPasswordFile().then(rawFile => {
+      rawFile.text().then(allText => {
+        var textSplited = allText.split("\n");
+        for (var i = 0; i < textSplited.length; i++) {
+          if (this.state.password.trim() == textSplited[i].trim()) {
+            swal(
+              'Error',
+              'Esta contraseña ya es conocida por el mundo, prueba con otra',
+              'error'
+            );
+            return;
+          }
+        }
+        this.setState({ buttonDisabledPass: true });
+        var data = {
+          'direction': 'contributors/',
+          'param': this.props.id,
+          'body': { "contributor": { "password": this.state.password, "password_confirmation": this.state.password2 } },
+          'headers': { 'X-Contributor-Email': this.props.email, 'X-Contributor-Token': this.props.token, 'Content-Type': 'application/json' }
+        }
+        WebApiService.Patch(data).then(res => {
+          //this.props.HideLoader();
+          this.setState({ buttonDisabledPass: false });
+          if (res.status === 200) {
+            this.props.ShowAlert("Contraseña actualizada satisfactoriamente", "success");
+          } else {
+            this.props.ShowAlert("Error al actualizar la contraseña" + res.status, "danger");
+          }
+        });
+        window.location.reload();
+      });
+    });
+    
   }
 
   handleSubmitImage(event) {

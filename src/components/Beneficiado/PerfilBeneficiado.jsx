@@ -3,6 +3,7 @@ import WebApiService from '../Service/WebApiService';
 import "../../styles/perfilBeneficiado.css";
 import {Button } from "react-bootstrap";
 import { connect } from 'react-redux';
+import swal from 'sweetalert2'
 
 const mapStateToProps = state => {
   return {
@@ -28,7 +29,8 @@ class PerfilBeneficiado extends Component {
     this.state = {
       beneficiado: {},
       Benid: benid,
-      isLoading: true
+      isLoading: true,
+      buttonDisabled: false,
     }
   }
 
@@ -48,7 +50,7 @@ class PerfilBeneficiado extends Component {
   }
 
   apadrinar(){
-    var data = {
+   /* var data = {
       'direction': 'directors',
       'param': '',
       'body': { "director": { "email": this.state.email, "password": this.state.password, "user": this.state.user, "name": this.state.name, "lastname": this.state.lastname, "phone": this.state.phone, "bio": this.state.biodes } },
@@ -60,12 +62,38 @@ class PerfilBeneficiado extends Component {
         this.props.ShowAlert("Vinculo creado satisfactoriamente", "success");
       } else {
         this.props.ShowAlert("Problema al apadrinar", "danger");
-      }
+      }*/
+    this.setState({buttonDisabled: true});
+    var data = {
+      'direction': 'helps',
+      'param' : '',
+      'body' : { "help": {"contributor_id": this.props.user.id, "benefited_id": Number(this.state.Benid)} },  
+      'type' : 1,
+      'headers': {'X-Contributor-Email': this.props.user.email, 'X-Contributor-Token': this.props.user.token,'Content-Type': 'application/json' }
+    }
+    
+    WebApiService.Post(data).then(res =>{
+      this.setState({buttonDisabled: false});
+      res.json().then(result => {
+        if (res.status === 201) {
+          swal(
+            'Exito',
+            'Gracias por tu ayudo',
+            'success'
+          )
+        } else {
+          swal(
+            'Error',
+             result.Error,
+            'error'
+          )
+        }
+      });
     });
   }
   mostrarBoton(){
     if(this.props.user.userType===false){
-      return<Button className = "center" bsStyle="success" /*onClick={(e) => this.apadrinar()}*/>Apadrinar</Button>
+      return<Button className = "center" bsStyle="success" disabled={this.state.buttonDisabled} onClick={(e) => this.apadrinar()}>Apadrinar</Button>
     }else{
 
     }
