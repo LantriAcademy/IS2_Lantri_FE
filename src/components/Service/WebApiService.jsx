@@ -2,7 +2,6 @@ export default class WebApiService {
     
     static baseUrl = "http://127.0.0.1:3000/";
 
-
     static async Get(data) {
         var response =  await fetch(this.baseUrl + data.direction + data.param);
         response = response.json();

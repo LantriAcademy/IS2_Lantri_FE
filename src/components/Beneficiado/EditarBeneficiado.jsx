@@ -13,25 +13,45 @@ const mapStateToProps = state => {
   }
 }
 
-class CrearBeneficiado extends Component {
+class EditarBenefidiado extends Component {
   constructor(props) {
     super(props);
+    const urlParams = new URLSearchParams(this.props.location.search)
+    const benid = urlParams.get('Benid');
     this.state = {
+      id: benid,
       name: "",
       age: "",
       preferences: "",
       file: "",
+      newFile: "",
       formErrorsName: {name: ''},
       formErrorsAge: {age: ''},
       nameValid: false,
       ageValid: false,
       formValid: false,
       buttonDisabled: false,
+      isLoading: true
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getFiles = this.getFiles.bind(this);
     
+  }
+  componentWillMount() {
+    var data = {
+      'direction': '/benefiteds/',
+      'param': this.state.id,
+    }
+    WebApiService.Get(data).then(res => {
+      this.setState({
+        name: res.name , age: res.age, preferences: res.preferences, file: res.avatar.url, nameValid: true, ageValid: true, formValid: true
+      });
+      this.setState({
+        isLoading: false
+      });
+    });
+    this.validateForm()
   }
 
   handleTagChange(tags) {
@@ -73,35 +93,35 @@ class CrearBeneficiado extends Component {
   } 
 
   getFiles(file){
-    this.setState({file: file});
+    this.setState({newFile: file});
   }
 
   handleSubmit(event) {
     this.setState({buttonDisabled: true});
     var data = {
-      'direction': 'benefiteds',
-      'param' : '',
-      'body' : {"benefited": {"foundation_id": this.props.user.foundationId, "name": this.state.name, "age": this.state.age, "preferences": this.state.preferences, "avatar": this.state.file.base64}},
+      'direction': 'benefiteds/',
+      'param' : this.state.id,
+      'body' : {"benefited": {"name": this.state.name, "age": this.state.age, "preferences": this.state.preferences, "avatar": this.state.newFile.base64}},
       'type' : 1,
       'headers': {'X-Director-Email': this.props.user.email, 'X-Director-Token': this.props.user.token,'Content-Type': 'application/json' }
     }
-    WebApiService.Post(data).then(res =>{
+    WebApiService.Patch(data).then(res =>{
       this.setState({buttonDisabled: false});
       //console.log(res);
        res.json().then(result => {
           //console.log(result);
         });
-      if (res.status === 201) {
-        this.props.history.push("/fundaciones/"+this.props.user.foundationId);
+      if (res.status === 200) {
+        this.props.history.push("/perfil");
         swal(
           'Exito',
-          'Beneficiado creado exitosamente',
+          'Beneficiado modificado exitosamente',
           'success'
         )
       } else {
         swal(
           'Error',
-          'Asegurese de no haber usado caracteres especiales como ñ o espacios en el nombre',
+          'Problema al actualizar',
           'error'
         )
       }
@@ -110,11 +130,12 @@ class CrearBeneficiado extends Component {
   }
 
   render() {
-    const preview = (this.state.file !== "" ? <img src={this.state.file.base64} height="180" width="210" alt="preview"/> : "");
+    const preview = (this.state.newFile !== "" ? <img src={this.state.newFile.base64} height="180" width="210" alt="preview"/> : "");
     return (
       <div>
         <form className="caja" onSubmit={this.handleSubmit}>
-          <h1 className="title">Crear Beneficiado</h1>
+          <h1 className="title">Editar Beneficiado</h1>
+          <img src={WebApiService.baseUrl + this.state.file} alt="Logo" height="220" width="260" />
           <div className="form-group">
             <label>Nombre</label>
               <input type="name" className="form-control" name="name" 
@@ -148,11 +169,11 @@ class CrearBeneficiado extends Component {
               {preview}
             </div>
           </div>
-          <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Crear beneficiario</button>
+          <button type="submit" className="btn btn-success" disabled={!this.state.formValid || this.state.buttonDisabled}>Actualizar beneficiario</button>
         </form>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(CrearBeneficiado)
+export default connect(mapStateToProps)(EditarBenefidiado)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, FormControl, ControlLabel, FormGroup } from 'react-bootstrap'
+import { ToggleButton, Panel, ControlLabel, FormGroup, ButtonToolbar, ToggleButtonGroup} from 'react-bootstrap'
 import '../../styles/resetPassword.css'
 import { FormErrors } from "../Helpers/FormErrors.js"
 import WebApiService from '../Service/WebApiService'
@@ -21,6 +21,7 @@ export default class PasswordReset extends Component {
             passwordValid: false,
             password2Valid: false,
             formValid: false,
+            director: true
         }
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,51 +33,65 @@ export default class PasswordReset extends Component {
         switch (e.target.name) {
             case 'email':
                 var emailValid = e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                if(emailValid){
+                if (emailValid) {
                     formErrorsEmail.email = '';
-                    this.setState({email: e.target.value, emailValid: true}, this.validForm);
-                }else{
+                    this.setState({ email: e.target.value, emailValid: true }, this.validForm);
+                } else {
                     formErrorsEmail.email = ' no valido';
-                    this.setState({email: e.target.value, emailValid: false}, this.validForm);
+                    this.setState({ email: e.target.value, emailValid: false }, this.validForm);
                 }
                 break;
             case 'password':
                 var passwordValid = e.target.value.length >= 6;
-                if(passwordValid){
+                if (passwordValid) {
                     formErrorsPassword.password = '';
-                    this.setState({password: e.target.value, passwordValid: true}, this.validForm);
-                }else{
+                    this.setState({ password: e.target.value, passwordValid: true }, this.validForm);
+                } else {
                     formErrorsPassword.password = ' debe tener almenos 6 caracteres';
-                    this.setState({password: e.target.value, passwordValid: false}, this.validForm);
+                    this.setState({ password: e.target.value, passwordValid: false }, this.validForm);
                 }
                 break;
             case 'password2':
                 var password2Valid = e.target.value === this.state.password;
-                if(password2Valid){
+                if (password2Valid) {
                     formErrorsPassword2.password2 = '';
-                    this.setState({password2: e.target.value, password2Valid: true}, this.validForm);
-                }else{
+                    this.setState({ password2: e.target.value, password2Valid: true }, this.validForm);
+                } else {
                     formErrorsPassword2.password2 = ' deben coincidir';
-                    this.setState({password2: e.target.value, password2Valid: false}, this.validForm);
+                    this.setState({ password2: e.target.value, password2Valid: false }, this.validForm);
                 }
                 break;
             default:
                 break;
         }
     }
-    validForm(){
-        this.setState({formValid: this.state.password2Valid && this.state.passwordValid  && this.state.emailValid});
+    validForm() {
+        this.setState({ formValid: this.state.password2Valid && this.state.passwordValid && this.state.emailValid });
+    }
+    handleSelectedChange(e) {
+        this.setState({
+            director: e,
+        });
     }
     handleSubmit() {
         const urlParams = new URLSearchParams(this.props.location.search)
         const key = urlParams.get('token');
-        var data = {
-            'direction': 'contributor/change_password',
-            'param': '',
-            'body': {'reset_token': key , 'email': this.state.email, "contributor": {'password': this.state.password, 'password_confirmation': this.state.password2}},
+        var data;
+        if(this.state.director){
+            data = {
+                'direction': 'directors/change_password',
+                'param': '',
+                'body': { 'reset_token': key, 'email': this.state.email, "director": { 'password': this.state.password, 'password_confirmation': this.state.password2 } },
+            }
+        }else{
+            data = {
+                'direction': 'contributors/change_password',
+                'param': '',
+                'body': { 'reset_token': key, 'email': this.state.email, "contributor": { 'password': this.state.password, 'password_confirmation': this.state.password2 } },
+            }
         }
-        this.setState({ email: '', password: '', password2:'', formValid: false });
-        WebApiService.Post(data).then(res =>{
+        this.setState({ email: '', password: '', password2: '', formValid: false });
+        WebApiService.Post(data).then(res => {
             if (res.status === 200) {
                 res.json().then((result) => {
                     this.props.history.push("/");
@@ -102,6 +117,16 @@ export default class PasswordReset extends Component {
                     <Panel.Title componentClass="h3">Escribe tu nueva contraseña</Panel.Title>
                 </Panel.Heading>
                 <Panel.Body>
+                    <ControlLabel>Tipo de usuario</ControlLabel>
+                    <ButtonToolbar>
+                        <ToggleButtonGroup
+                            type="radio" name="director"
+                            defaultValue={true}>
+                            <ToggleButton onClick={this.handleSelectedChange.bind(this, true)} value={true}>Director de fundación</ToggleButton>
+                            <ToggleButton onClick={this.handleSelectedChange.bind(this, false)} value={false}>Contribuyente</ToggleButton>
+                        </ToggleButtonGroup>
+                    </ButtonToolbar>
+                    <br />
                     <FormGroup>
                         <ControlLabel>Correo Electrónico</ControlLabel>
                         <input type="email" className="form-control" name="email"

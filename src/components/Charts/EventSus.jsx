@@ -24,7 +24,7 @@ class EventSus extends Component {
 
   componentWillMount() {
     var data = {
-      'direction': 'contributor/yearevent?id=' + this.props.user.id,
+      'direction': 'contributors/yearevent?id=' + this.props.user.id,
       'param': ''
     }
     WebApiService.Get(data).then(res => {
@@ -33,7 +33,7 @@ class EventSus extends Component {
       });
 
       var data = {
-        'direction': 'contributor/yeareventdata?id=' + this.props.user.id +'&year=' + this.state.years[0],
+        'direction': 'contributors/yeareventdata?id=' + this.props.user.id +'&year=' + this.state.years[0],
         'param': ''
       }
       WebApiService.Get(data).then(res => {
@@ -46,7 +46,7 @@ class EventSus extends Component {
 
   handleClick(i, year) {
     var data = {
-      'direction': 'contributor/yeareventdata?id=' + this.props.user.id +'&year=' + year,
+      'direction': 'contributors/yeareventdata?id=' + this.props.user.id +'&year=' + year,
       'param': ''
     }
     WebApiService.Get(data).then(res => {

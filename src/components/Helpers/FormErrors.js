@@ -1,51 +1,57 @@
 import React from 'react';
 
-export const FormErrors = ({formErrors}) =>
+export const FormErrors = ({ formErrors }) =>
   <div className='formErrors'>
     {Object.keys(formErrors).map((fieldName, i) => {
       var fieldShow = ''
-      if(formErrors[fieldName].length > 0){
-        switch(fieldName){
+      if (formErrors[fieldName].length > 0) {
+        switch (fieldName) {
           case 'name':
-            fieldShow="El nombre"
+            fieldShow = "El nombre"
             break;
           case 'lastname':
-            fieldShow="El apellido"
+            fieldShow = "El apellido"
             break;
           case 'phone':
-            fieldShow="El numero de teléfono"
+            fieldShow = "El numero de teléfono"
             break;
-          case 'user':  
-            fieldShow="El nombre de usuario"
+          case 'user':
+            fieldShow = "El nombre de usuario"
             break;
           case "email":
-            fieldShow="El correo electronico"
+            fieldShow = "El correo electronico"
             break;
           case "password":
-            fieldShow="La contraseña"
+            fieldShow = "La contraseña"
             break;
           case "password2":
-            fieldShow="Las contraseñas"
+            fieldShow = "Las contraseñas"
             break;
           case "direction":
-            fieldShow="La dirección"
+            fieldShow = "La dirección"
             break;
           case "description":
-            fieldShow="La descripción"
+            fieldShow = "La descripción"
+            break;
+          case "howToHelp":
+            fieldShow = "Las formas de ayuda"
+            break;
+          case "contactUs":
+            fieldShow = "La información de contacto"
             break;
           case "dateTime":
-            fieldShow="La fecha"
+            fieldShow = "La fecha"
             break;
           case "age":
-            fieldShow="La edad"
-            break;  
+            fieldShow = "La edad"
+            break;
           default:
             break;
         }
-            
+
         return (
-            <p key={i} style={{color: "red"}}>{fieldShow} {formErrors[fieldName]}</p>
-        )        
+          <p key={i} style={{ color: "red" }}>{fieldShow} {formErrors[fieldName]}</p>
+        )
       } else {
         return '';
       }
