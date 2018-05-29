@@ -54,7 +54,9 @@ class NavigationMenu extends Component {
         
         WebApiService.Post(data).then(res =>{
             res.json().then(result => {
-                console.log(result)
+                if (result.Status === "OK") {
+                    console.log(result.Status + ": El token de JWT fue invalidado")
+                }
             });
         });
 
