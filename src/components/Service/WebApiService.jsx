@@ -1,8 +1,8 @@
 export default class WebApiService {
   
-    static baseUrl = "http://127.0.0.1:3000/";
+    //static baseUrl = "http://127.0.0.1:3000/";
     //static baseUrl = "https://proyectoback-lfcastrop.c9users.io/";
-
+    static baseUrl  = "https://fundaciones-is2-be.herokuapp.com/";
     static async Get(data) {
         var response = await fetch(this.baseUrl + data.direction + data.param);
         response = response.json();
