@@ -60,7 +60,7 @@ class Evento extends Component {
   handleSubmit() {
     this.setState({buttonDisabled: true});
     var data = {
-      'direction': 'contributor_events',
+      'direction': 'contributors/events',
       'param' : '',
       'body' : { "contributor_event": {"contributor_id": this.props.user.id, "event_id": this.props.event.id}},  
       'type' : 1,
