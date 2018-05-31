@@ -79,7 +79,7 @@ class CrearEvento extends Component {
   }
 
   validateField(fieldName, value) {
-    var er1 = new RegExp("[></'" + '"]');
+    var er1 = new RegExp("[></'+" + '"]');
     let formErrorsName = this.state.formErrorsName;
     let formErrorsDirection = this.state.formErrorsDirection;
     let formErrorsDateTime = this.state.formErrorsDateTime;

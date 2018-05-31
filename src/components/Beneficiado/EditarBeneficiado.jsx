@@ -67,7 +67,7 @@ class EditarBenefidiado extends Component {
       () => { this.validateField(name, value) });
   }
   validateField(fieldName, value) {
-    var er1 = new RegExp("[></'" + '"]');
+    var er1 = new RegExp("[></'+" + '"]');
     let formErrorsName = this.state.formErrorsName;
     let formErrorsPreferences = this.state.formErrorsPreferences;
     let formErrorsAge = this.state.formErrorsAge;

@@ -150,7 +150,7 @@ class SignUp extends Component {
   }
 
   validateField(fieldName, value) {
-    var er1 = new RegExp("[></'" + '"]');
+    var er1 = new RegExp("[></'+" + '"]');
     let formErrorsBiodes = this.state.formErrorsBiodes;
     let biodesValid = this.state.biodesValid;
     let formErrorsName = this.state.formErrorsName;
