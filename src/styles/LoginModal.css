@@ -1,0 +1,30 @@
+.modal-container {
+	position: relative !important;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+	position: absolute !important;
+}
+h1, h2, h3, h4{
+	font-weight: 700;
+}
+.login {
+	padding: 20px;
+}
+.modal-sm{
+	width: 450px;
+}
+.btnGoogle { 
+  margin: 0px 0px 10px 15px;
+  width: 165px;
+  height:35px;
+  border-radius: 4px;
+  background: #db3236;
+  color:white;
+  border:0px transparent;
+  text-align: center;
+}
+
+.btnGoogle:hover {
+  background: #db3236;
+  opacity: 0.6;
+}
